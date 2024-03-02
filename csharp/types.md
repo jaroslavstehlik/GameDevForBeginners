@@ -21,21 +21,18 @@ int negativeNumber = -126;
 ```
 		
 float | float | floating point number
-
 ```csharp
 float positiveFloatingNumber = 3.14f;
 float negativeFloatingNumber = -126.0f;
 ```
 
 double | double | double precision floating point number
-
 ```csharp
 double positiveFloatingNumber = 3.14;
 double negativeFloatingNumber = -126.0;
 ```
 
 enum | enumeration | list of options represented by a whole number
-
 ```csharp
 enum myEnum {
 	firstEnum,
@@ -46,7 +43,6 @@ enum myEnum {
 		
 ### composite types
 [] | array | multiple elements
-
 ```csharp
 bool[] arrayOfBooleans;
 char[] arrayOfCharacters;
@@ -56,14 +52,11 @@ double[] arrayOfDoubles;
 ```
 
 string | string | array of characters, text
-
-
 ```csharp
 string myString = "this is my first string";
 ```
 
 class | class | container containing multiple variables and functions
-
 ```csharp
 class MyClass {
 	// body of MyClass
@@ -80,7 +73,6 @@ class MyClass {
 ```
 
 struct | structure | container containing multiple variables
-
 ```csharp
 struct MyStruct {
 	// body of MyStruct

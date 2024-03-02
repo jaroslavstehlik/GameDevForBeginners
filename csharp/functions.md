@@ -1,13 +1,12 @@
 ## Functions
 
-Action which can take in input and return and output
+Action which can take in input and return an output
 
 ```csharp
 // takes an int as an input value
 // outputs an int as an output value
 int OurFunction(int value)
 {
-	// body of a function
 	return 5;
 }
 
@@ -15,7 +14,6 @@ int OurFunction(int value)
 // outputs an int
 int OurFunction()
 {
-	// body of a function
 	return 5;
 }
 
@@ -26,7 +24,33 @@ void OurFunction()
 	// body of a function
 }
 ```
-	
+
+```csharp
+// Previous function would be useles to call.
+// Lets make it do something.
+
+// We can modify for example variables which were defined in parent scope.
+int myNumber;
+void OurFunction()
+{
+	myNumber = 5;
+}
+
+// We can also call another function from a function.
+void OurOtherFunction()
+{
+	// which assignes the value of the variable myNumber to number 5
+	OurFunction();	
+}
+
+// If we call our self from within a function we cause an infinite recursion.
+// So our game hangs indefinitelly.
+void OurHangingFunction()
+{
+	OurHangingFunction();
+}
+```
+
 Function names
 
 	1myFunction ❌ do not start names with a number

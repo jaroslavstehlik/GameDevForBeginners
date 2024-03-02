@@ -5,14 +5,14 @@ Change during application runtime
 ```csharp
 int integerNumber = 5;
 float floatingPointNumber = 5.5f;
+double doubleFloatingPointNumber = 5.5;
+char singleCharacter = 's';
 string text = "this is a plain text";
 ```
 
-Variable has always:
+Variable is always defined by:
 
-	type
-	name
-	value;
+	type name = value;
 
 Variable names
 
