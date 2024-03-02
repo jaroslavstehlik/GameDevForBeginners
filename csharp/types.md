@@ -1,42 +1,40 @@
-	Each variable or a constant has a specific type.
+## Types
 	
-	primitive types
-		bool | boolean | binary true or false
+Each variable or a constant has a specific type.
+	
+#### primitive types
+bool | boolean | binary true or false
 
 ```csharp
 	bool positive = true;
 	bool negative = false;
 ```
-
-		char | character | single letter value
-
+char | character | single letter value
 ```csharp
 	char letterA = 'a';
 	char letterB = 'b';
 ```
-		
-		int | integer | whole number
-		
+int | integer | whole number	
 ```csharp
 	int positiveNumber = 24;
 	int negativeNumber = -126;
 ```
 		
-		float | float | floating point number
+float | float | floating point number
 
 ```csharp
 	float positiveFloatingNumber = 3.14f;
 	float negativeFloatingNumber = -126.0f;
 ```
 
-		double | double | double precision floating point number
+double | double | double precision floating point number
 
 ```csharp
 	double positiveFloatingNumber = 3.14;
 	double negativeFloatingNumber = -126.0;
 ```
 
-		enum | enumeration | list of options represented by a whole number
+enum | enumeration | list of options represented by a whole number
 
 ```csharp
 	enum myEnum {
@@ -46,8 +44,8 @@
 	}
 ```
 		
-	composite types
-		[] | array | multiple elements
+#### composite types
+[] | array | multiple elements
 
 ```csharp
 	bool[] arrayOfBooleans;
@@ -57,14 +55,14 @@
 	double[] arrayOfDoubles;
 ```
 
-		string | string | array of characters, text
+string | string | array of characters, text
 
 
 ```csharp
 	string myString = "this is my first string";
 ```
 
-		class | class | container containing multiple variables and functions
+class | class | container containing multiple variables and functions
 
 ```csharp
 	class MyClass {
@@ -81,7 +79,7 @@
 	}
 ```
 
-		struct | structure | container containing multiple variables
+struct | structure | container containing multiple variables
 
 ```csharp
 	struct MyStruct {

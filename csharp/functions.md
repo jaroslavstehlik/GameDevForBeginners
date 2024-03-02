@@ -1,5 +1,7 @@
-	Action which can take in input and return and output
-	````
+## Functions
+
+Action which can take in input and return and output
+
 ```csharp
 	// takes an int as an input value
 	// outputs an int as an output value

@@ -1,7 +1,9 @@
-	Each class, struct and function has a body.
-	Where we define our variables affects the accessibility of those variables.
+## Scope
+
+Each class, struct and function has a body.
+Where we define our variables affects the accessibility of those variables.
 	
-	variable is accessible only by the body of the class
+variable is accessible only by the body of the class
 	
 ```csharp
 	class MyClass {
@@ -9,7 +11,7 @@
 	}
 ```
 
-	variable is accessible only by the body of the function
+variable is accessible only by the body of the function
 
 ```csharp
 	class MyClass {
@@ -19,7 +21,7 @@
 	}
 ```
 
-	function is accessible only by the body of the class
+function is accessible only by the body of the class
 
 ```csharp
 	class MyClass {
@@ -28,8 +30,8 @@
 	}
 ```
 
-	if we want to make a function or a variable visible outside of the class
-	we need to define in the body of the class and make it public.
+if we want to make a function or a variable visible outside of the class
+we need to define in the body of the class and make it public.
 
 ```csharp
 	class MyClass {
@@ -38,8 +40,8 @@
 	}
 ```
 
-	if we want to make a class accessible to other classes.
-	we have to make it public as well.
+if we want to make a class accessible to other classes.
+we have to make it public as well.
 
 ```csharp
 	public class MyClass {

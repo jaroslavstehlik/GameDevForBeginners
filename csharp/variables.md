@@ -1,4 +1,6 @@
-	Change during application runtime
+## Variables
+	
+Change during application runtime
 	
 ```csharp
 	int integerNumber = 5;
@@ -6,7 +8,8 @@
 	string text = "this is a plain text";
 ```
 
-	Variable has always:
+Variable has always:
+
 	type
 	name
 	value;
