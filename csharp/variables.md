@@ -3,9 +3,9 @@
 Change during application runtime
 	
 ```csharp
-	int integerNumber = 5;
-	float floatingPointNumber = 5.5f;
-	string text = "this is a plain text";
+int integerNumber = 5;
+float floatingPointNumber = 5.5f;
+string text = "this is a plain text";
 ```
 
 Variable has always:
