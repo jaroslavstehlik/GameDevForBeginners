@@ -3,28 +3,28 @@
 Action which can take in input and return and output
 
 ```csharp
-	// takes an int as an input value
-	// outputs an int as an output value
-	int OurFunction(int value)
-	{
-		// body of a function
-		return 5;
-	}
+// takes an int as an input value
+// outputs an int as an output value
+int OurFunction(int value)
+{
+	// body of a function
+	return 5;
+}
 
-	// does not take any input
-	// outputs an int
-	int OurFunction()
-	{
-		// body of a function
-		return 5;
-	}
+// does not take any input
+// outputs an int
+int OurFunction()
+{
+	// body of a function
+	return 5;
+}
 
-	// does not take any input
-	// does not output any output
-	void OurFunction()
-	{
-		// body of a function
-	}
+// does not take any input
+// does not output any output
+void OurFunction()
+{
+	// body of a function
+}
 ```
 	
 Function names

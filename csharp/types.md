@@ -57,6 +57,7 @@ double[] arrayOfDoubles;
 
 string | string | array of characters, text
 
+
 ```csharp
 string myString = "this is my first string";
 ```
@@ -71,7 +72,7 @@ class MyClass {
 	float myFloat;
 	string myString;
 
-void MyFunction()
+	void MyFunction()
 	{
 		// body of MyFunction
 	}

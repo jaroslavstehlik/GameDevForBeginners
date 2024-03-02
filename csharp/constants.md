@@ -3,9 +3,9 @@
 Do not change during application runtime
 
 ```csharp
-	5;
-	5.5f;
-	"this is a plain text";
+5;
+5.5f;
+"this is a plain text";
 ```
 
 5 is a whole number
