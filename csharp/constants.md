@@ -10,4 +10,3 @@
 	5.5f is a floating point number
 	5.5 is a double precision floating point number
 	"this is a plain text" is string
-
