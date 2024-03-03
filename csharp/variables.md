@@ -1,5 +1,7 @@
 ## Variables
-	
+
+![variables](img/variables.webp)
+
 Change during application runtime
 	
 ```csharp

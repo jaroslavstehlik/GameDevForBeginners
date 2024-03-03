@@ -1,5 +1,7 @@
 ## Constants
 
+![constants](img/constants.webp)
+
 Do not change during application runtime
 
 ```csharp

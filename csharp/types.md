@@ -1,4 +1,6 @@
 ## Types
+
+![types](img/types.webp)
 	
 Each variable or a constant has a specific type.
 	

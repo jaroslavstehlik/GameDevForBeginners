@@ -1,5 +1,7 @@
 ## Functions
 
+![functions](img/functions.webp)
+
 Action which can take in input and return an output
 
 ```csharp
