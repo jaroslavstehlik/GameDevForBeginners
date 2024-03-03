@@ -1,6 +1,6 @@
 ## Scope
 
-![scope vs cooking](img/scope.webp)
+![scope vs cooking](../img/scope.webp)
 Each class, struct and function has a body.
 Where we define our variables affects the accessibility of those variables.
 	

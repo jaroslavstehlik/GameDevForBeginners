@@ -1,6 +1,6 @@
 # Programming vs cooking
 
-![programming vs cooking2](img/programming_vs_cooking2.webp)
+![programming vs cooking2](../img/programming_vs_cooking2.webp)
 
 Programming can be compared to a cooking recipe.
 

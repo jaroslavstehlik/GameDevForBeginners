@@ -1,6 +1,6 @@
 ## Variables
 
-![variables](img/variables.webp)
+![variables](../img/variables.webp)
 
 Change during application runtime
 	
