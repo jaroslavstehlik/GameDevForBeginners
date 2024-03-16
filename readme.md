@@ -8,6 +8,7 @@ This GitHub repository is dedicated to teaching the fundamentals of game develop
 [Variables](csharp/variables.md)\
 [Functions](csharp/functions.md)\
 [Types](csharp/types.md)\
-[Scope](csharp/scope.md)
+[Scope](csharp/scope.md)\
+[Loops](csharp/loops.md)
 
 Work in progress :)
