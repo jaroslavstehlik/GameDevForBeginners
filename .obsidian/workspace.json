@@ -13,8 +13,8 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "csharp/loops.md",
-                "mode": "source",
+                "file": "readme.md",
+                "mode": "preview",
                 "source": false
               }
             }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "csharp/loops.md",
+                "file": "readme.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "csharp/loops.md",
+                "file": "readme.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "csharp/loops.md"
+                "file": "readme.md"
               }
             }
           }
@@ -148,6 +148,7 @@
   },
   "active": "e56e743e611c20c6",
   "lastOpenFiles": [
+    "csharp/loops.md",
     "csharp/conditions.md",
     "csharp/operators.md",
     "csharp/functions.md",
@@ -155,11 +156,10 @@
     "csharp/types.md",
     "csharp/variables.md",
     "csharp/constants.md",
+    "readme.md",
     "csharp/programming_vs_cooking.md",
-    "csharp/loops.md",
     "img/conditions.webp",
     "img/operators.webp",
-    "readme.md",
     "img/loops.webp",
     "img/variables.webp",
     "img/DALL·E 2024-03-03 23.07.30 - Visualize a vibrant and colorful display featuring three tomatoes of different sizes, three carrots with varying shades, and three ice creams of diffe.webp",

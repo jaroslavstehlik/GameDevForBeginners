@@ -4,11 +4,15 @@ This GitHub repository is dedicated to teaching the fundamentals of game develop
 
 [Programming vs Cooking](csharp/programming_vs_cooking.md)
 
-[Constants](csharp/constants.md)\
-[Variables](csharp/variables.md)\
-[Functions](csharp/functions.md)\
-[Types](csharp/types.md)\
-[Scope](csharp/scope.md)\
-[Loops](csharp/loops.md)
+Most basic programming topics:
+
+- [Constants](csharp/constants.md)\
+- [Variables](csharp/variables.md)\
+- [Types](csharp/types.md)\
+- [Scope](csharp/scope.md)\
+- [Functions](csharp/functions.md)\
+- [Operators](csharp/operators.md)\
+- [Conditions](csharp/conditions.md)\
+- [Loops](csharp/loops.md)
 
 Work in progress :)
