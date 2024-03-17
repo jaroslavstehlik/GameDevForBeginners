@@ -66,3 +66,7 @@ Function names
 	my variable ❌ do not use spaces
 	My_Function ❌ do not use underscore instead of space in function names
 	MyFunction ✅ do start function name with upper case
+
+[Continue with operators](operators.md)
+
+[Functions on Microsoft.com](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/local-functions)

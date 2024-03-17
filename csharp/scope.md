@@ -62,3 +62,7 @@ public class MyClass
 	}
 }
 ```
+
+[Continue with functions](functions.md)
+
+[Scope on Microsoft.com](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/scope)

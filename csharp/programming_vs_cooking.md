@@ -80,3 +80,5 @@ Programming languages and computers have been meticulously developed to operate 
 The variability in cooking results from the need to understand and manage numerous factors, such as ingredient behavior under different conditions, moisture content, and cooking times and temperatures. Mastery in cooking parallels the knowledge and expertise of a chemist, as it requires a deep understanding of how elements interact in various scenarios.
 
 In programming, clarity and precision are paramount. Programming languages introduce data types to explicitly define the nature and size of data. Functions specify the operations applied to data, outlining clear transformations and expected outcomes. This focus on well-defined data and specific functions highlights programming's emphasis on control and predictability, contrasting with the fluid and often experiential nature of cooking.
+
+[Start with constants](constants.md)

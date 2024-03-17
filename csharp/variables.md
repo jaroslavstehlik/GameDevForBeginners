@@ -26,3 +26,7 @@ Variable names
 	MyVariable ❌ do not start variable name with upper case
 	my_variable ✅ you can use underscores instead of spaces
 	myVariable ✅ use camel case instead of spaces
+
+[Continue with types](types.md)
+
+[Variables on Microsoft.com](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/variables)

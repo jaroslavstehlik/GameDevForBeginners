@@ -94,3 +94,6 @@ struct MyStruct {
 }
 ```
 
+[Continue with scope](scope.md)
+
+[Types on Microsoft.com](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/types)

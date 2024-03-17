@@ -26,9 +26,16 @@ string plainString = "this is a plain text";
 
 They can also appear directly as a parameter of a function.
 ```csharp
-MyFunctionTakesInt(5);
-MyFunctionTakesFloat(5.5f);
-MyFunctionTakesDouble(5.5);
-MyFunctionTakesChar('s');
-MyFunctionTakesString("this is a plain text");
+void Start()
+{
+	MyFunctionTakesInt(5);
+	MyFunctionTakesFloat(5.5f);
+	MyFunctionTakesDouble(5.5);
+	MyFunctionTakesChar('s');
+	MyFunctionTakesString("this is a plain text");
+}
 ```
+
+[Continue with variables](variables.md)
+
+[Constants on Microsoft.com](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/constants)

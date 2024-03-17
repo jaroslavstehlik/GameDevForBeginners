@@ -13,26 +13,13 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "readme.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "5ab0f325b1225d94",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "csharp/scope.md",
+                "file": "csharp/loops.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -98,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "csharp/scope.md",
+                "file": "csharp/loops.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -115,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "csharp/scope.md",
+                "file": "csharp/loops.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -138,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "csharp/scope.md"
+                "file": "csharp/loops.md"
               }
             }
           }
@@ -159,15 +146,19 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "5ab0f325b1225d94",
+  "active": "e56e743e611c20c6",
   "lastOpenFiles": [
-    "csharp/variables.md",
-    "csharp/types.md",
+    "csharp/conditions.md",
+    "csharp/operators.md",
+    "csharp/functions.md",
     "csharp/scope.md",
+    "csharp/types.md",
+    "csharp/variables.md",
+    "csharp/constants.md",
     "csharp/programming_vs_cooking.md",
     "csharp/loops.md",
-    "csharp/functions.md",
-    "csharp/constants.md",
+    "img/conditions.webp",
+    "img/operators.webp",
     "readme.md",
     "img/loops.webp",
     "img/variables.webp",
@@ -177,8 +168,6 @@
     "img/scope.webp",
     "img/scope .webp",
     "img/ .webp",
-    "img/constants.webp",
-    "img/DALL·E 2024-03-03 22.49.45 - Visualize an indestructible tomato, a symbol of resilience and strength, unlike any ordinary tomato. This extraordinary tomato has a metallic sheen, g.webp",
     "img/DALL·E 2024-03-03 22.49.45 -.textClipping",
     "img",
     "untitled folder",
