@@ -10,6 +10,7 @@ In programming, constants hold a similar place of importance. They are the unalt
 5; // is a whole number
 5.5f; // is a floating point number
 5.5; // is a double precision floating point number
+true; // is positive boolean value
 's' // is a single character
 "this is a plain text"; // is a string
 ```
@@ -20,6 +21,7 @@ they appear on the right side from the = equal symbol.
 int fiveInt = 5;
 float fiveFloat = 5.5f;
 double fiveDouble = 5.5;
+bool boolean = true;
 char plainChar = 's';
 string plainString = "this is a plain text";
 ```
@@ -31,6 +33,7 @@ void Start()
 	MyFunctionTakesInt(5);
 	MyFunctionTakesFloat(5.5f);
 	MyFunctionTakesDouble(5.5);
+	MyFunctionTakesBool(true);
 	MyFunctionTakesChar('s');
 	MyFunctionTakesString("this is a plain text");
 }

@@ -13,8 +13,8 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "readme.md",
-                "mode": "preview",
+                "file": "csharp/variables.md",
+                "mode": "source",
                 "source": false
               }
             }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "readme.md",
+                "file": "csharp/variables.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "readme.md",
+                "file": "csharp/variables.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "readme.md"
+                "file": "csharp/variables.md"
               }
             }
           }
@@ -148,16 +148,16 @@
   },
   "active": "e56e743e611c20c6",
   "lastOpenFiles": [
-    "csharp/loops.md",
     "csharp/conditions.md",
-    "csharp/operators.md",
-    "csharp/functions.md",
-    "csharp/scope.md",
-    "csharp/types.md",
     "csharp/variables.md",
     "csharp/constants.md",
-    "readme.md",
+    "csharp/functions.md",
+    "csharp/loops.md",
+    "csharp/operators.md",
     "csharp/programming_vs_cooking.md",
+    "csharp/scope.md",
+    "csharp/types.md",
+    "readme.md",
     "img/conditions.webp",
     "img/operators.webp",
     "img/loops.webp",

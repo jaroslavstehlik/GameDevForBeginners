@@ -15,16 +15,17 @@ Primitive data types are the simple, indivisible types that form the basis of pr
 Composite types, on the other hand, are akin to our salads. They're formed by combining primitive types or other composite types into more complex structures. Examples include arrays, structures, and classes. Just as a salad brings together various flavors into a cohesive dish, composite types combine simpler data types to create more intricate and versatile data structures.
 ### primitive types
 bool | boolean | binary true or false
-
 ```csharp
 bool positive = true;
 bool negative = false;
 ```
+
 char | character | single letter value
 ```csharp
 char letterA = 'a';
 char letterB = 'b';
 ```
+
 int | integer | whole number	
 ```csharp
 int positiveNumber = 24;
@@ -67,6 +68,17 @@ string | string | array of characters, text
 string myString = "this is my first string";
 ```
 
+struct | structure | container containing multiple variables
+```csharp
+struct MyStruct {
+	// body of MyStruct
+	bool[] myArrayOfBools;
+	int myInteger;
+	float myFloat;
+	string myString;
+}
+```
+
 class | class | container containing multiple variables and functions
 ```csharp
 class MyClass {
@@ -80,17 +92,6 @@ class MyClass {
 	{
 		// body of MyFunction
 	}
-}
-```
-
-struct | structure | container containing multiple variables
-```csharp
-struct MyStruct {
-	// body of MyStruct
-	bool[] myArrayOfBools;
-	int myInteger;
-	float myFloat;
-	string myString;
 }
 ```
 
