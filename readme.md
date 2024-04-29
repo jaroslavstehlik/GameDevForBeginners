@@ -1,3 +1,13 @@
+# Game dev building blocks
+
+- [Building blocks](game_dev/building_blocks.md)
+
+
+
+
+
+# Game dev programming
+
 ![programming vs cooking](img/programming_vs_cooking.webp)
 
 This GitHub repository is dedicated to teaching the fundamentals of game development to absolute beginners, with no prior experience required.

@@ -4,17 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "c22707de388cdd22",
+        "id": "60cf4412134ca4b7",
         "type": "tabs",
         "children": [
           {
-            "id": "e56e743e611c20c6",
+            "id": "d666fb40d1988e93",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "csharp/variables.md",
-                "mode": "source",
+                "file": "game_dev/building_blocks.md",
+                "mode": "preview",
                 "source": false
               }
             }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "csharp/variables.md",
+                "file": "game_dev/building_blocks.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "csharp/variables.md",
+                "file": "game_dev/building_blocks.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "csharp/variables.md"
+                "file": "game_dev/building_blocks.md"
               }
             }
           }
@@ -146,18 +146,32 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "e56e743e611c20c6",
+  "active": "d666fb40d1988e93",
   "lastOpenFiles": [
-    "csharp/conditions.md",
+    "game_dev/building_blocks/character_controller.md",
+    "game_dev/building_blocks.md",
+    "game_dev/building_blocks/map.md",
+    "game_dev/building_blocks/inventory.md",
+    "game_dev/building_blocks/score.md",
+    "game_dev/building_blocks/spawners.md",
+    "game_dev/building_blocks/timers.md",
+    "game_dev/building_blocks/teleports.md",
+    "game_dev/building_blocks/triggers.md",
+    "game_dev/building_blocks/walls.md",
+    "readme.md",
+    "building_blocks/building_blocks.md",
+    "building_blocks",
+    "game_dev/building_blocks",
+    "csharp/programming_vs_cooking.md",
+    "game_dev",
     "csharp/variables.md",
+    "csharp/conditions.md",
     "csharp/constants.md",
     "csharp/functions.md",
     "csharp/loops.md",
     "csharp/operators.md",
-    "csharp/programming_vs_cooking.md",
     "csharp/scope.md",
     "csharp/types.md",
-    "readme.md",
     "img/conditions.webp",
     "img/operators.webp",
     "img/loops.webp",
