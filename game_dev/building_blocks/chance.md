@@ -2,7 +2,7 @@
 In games pure luck or chance are often important to make the game more interesting or to make the game playable more than once.
 
 ***Fallout luck fairy***\
-<img src="https://i.makeagif.com/media/10-21-2015/oFQa_0.gif" width="100%" height="100%" />
+![fallout](../../img/fallout_chance.gif)
 
 In game engines we talk about chance as randomness.
 We use a random number generator which acts similar to a board game dice.
