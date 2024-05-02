@@ -1,8 +1,8 @@
 # spawners
 Spawners are areas which spawn specific units. Those units can be enemies, loot, npcs basically everything in the game which needs to respawn at a certain time is considered spawner. 
 
-***Minecraft monster spawner*** 
-. <img src="https://static.wikia.nocookie.net/minecraft360/images/1/10/Mob-spawners.gif/revision/latest?cb=20120819095831" width="100%" height="100%" />
+***Minecraft monster spawner***\
+<img src="https://static.wikia.nocookie.net/minecraft360/images/1/10/Mob-spawners.gif/revision/latest?cb=20120819095831" width="100%" height="100%" />
 ## Object to spawn
 We have to spawn something, otherwise it would be not considered a spawner.
 That something is usually a game element or a unit.

@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "game_dev/building_blocks/teleports.md",
+                "file": "game_dev/building_blocks/chance.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "game_dev/building_blocks/teleports.md",
+                "file": "game_dev/building_blocks/chance.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "game_dev/building_blocks/teleports.md",
+                "file": "game_dev/building_blocks/chance.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "game_dev/building_blocks/teleports.md"
+                "file": "game_dev/building_blocks/chance.md"
               }
             }
           }
@@ -148,16 +148,19 @@
   },
   "active": "d666fb40d1988e93",
   "lastOpenFiles": [
-    "game_dev/building_blocks/spawners.md",
-    "game_dev/building_blocks/score.md",
-    "game_dev/building_blocks/map.md",
-    "game_dev/building_blocks/inventory.md",
     "game_dev/building_blocks/character_controller.md",
-    "game_dev/building_blocks/chance.md",
+    "game_dev/building_blocks/inventory.md",
+    "game_dev/building_blocks/map.md",
+    "game_dev/building_blocks/score.md",
     "game_dev/building_blocks/teleports.md",
+    "game_dev/building_blocks/spawners.md",
     "game_dev/building_blocks/timers.md",
     "game_dev/building_blocks/triggers.md",
     "game_dev/building_blocks/walls.md",
+    "game_dev/building_blocks/chance.md",
+    "img/portal.gif",
+    "img/1Y9v.gif",
+    "img/bomberman.webp",
     "Pasted image 20240502115557.png",
     "csharp/conditions.md",
     "img/maze.gif",
@@ -180,9 +183,6 @@
     "img/loops.webp",
     "img/variables.webp",
     "img/DALL·E 2024-03-03 23.07.30 - Visualize a vibrant and colorful display featuring three tomatoes of different sizes, three carrots with varying shades, and three ice creams of diffe.webp",
-    "img/types.webp",
-    "img/DALL·E 2024-03-03 22.53.46 - Visualize a simple yet appetizing scene on a rustic wooden table. On the table, placed neatly next to each other, are four key ingredients for a delig.webp",
-    "img/scope.webp",
     "img/DALL·E 2024-03-03 22.49.45 -.textClipping",
     "img",
     "untitled folder",

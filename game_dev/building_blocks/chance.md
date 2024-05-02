@@ -1,7 +1,7 @@
 # Chance
 In games pure luck or chance are often important to make the game more interesting or to make the game playable more than once.
 
-Fallout luck fairy. 
+***Fallout luck fairy***\
 <img src="https://i.makeagif.com/media/10-21-2015/oFQa_0.gif" width="100%" height="100%" />
 
 In game engines we talk about chance as randomness.

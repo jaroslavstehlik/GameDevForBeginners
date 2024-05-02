@@ -1,8 +1,8 @@
 # Teleports or portals
 Teleports and portals can save the player some time or they can transport the player to a totally different place on the map, which can cause disorientation and excitement.
 
-Portal
-<img src="https://i.gifer.com/l44.gif" width="100%" height="100%" />
+***Portal, infinite portal***\
+![portal](../../img/portal.gif)
 ## Trigger
 We first need a trigger which detects the player and maybe our objects as well.
 
