@@ -1,8 +1,8 @@
 # Score, Level or currency
 Score is used for keeping track of player progress, level progress or amount of currency held. In a platformer game it would be the number of stars collected, in a zombie game it could represent the amount of zombies killed. In a strategy game it would be the amount of gold we have extracted. In an RPG game a level would show how much skill have we gained by progressing in the game.
 
-***World of warcraft level up***
-<img src="https://media1.tenor.com/m/MoMAq1MhNAAAAAAd/warcraft-level-up.gif" width="100%" height="100%" />
+***World of warcraft level up*** 
+. <img src="https://media1.tenor.com/m/MoMAq1MhNAAAAAAd/warcraft-level-up.gif" width="100%" height="100%" />
 ## Lifetime
 It is important to know the lifetime of a score.
 
