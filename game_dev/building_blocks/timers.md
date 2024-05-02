@@ -3,12 +3,13 @@ Timers are essential blocks for timing certain events. Certain portions of gamep
 
 Timers play an essential role in many aspects of game play. Spawner has a timer which tells when a certain object or enemy spawns. Spells have very often cooldowns a timer which tells for how long does the player have to wait until they can activate the spell again.
 
+<img src="https://i.gifer.com/8HKv.webp" width="50%" height="50%" />
 ## Duration
 Timers have duration in seconds at which the timer has to trigger an event.
 
 # Cycles
-Timers can repeat them selves of they can be a one time event.
-That can be specified by the number of cycles.
+Timers can repeat them selves or they can be a one time event.
+They can be specified by the number of cycles.
 
 # Events
 The event which has to be triggered when the timer ends.

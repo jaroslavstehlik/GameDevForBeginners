@@ -3,6 +3,9 @@ Triggers are very similar to colliders but instead of being a barrier which cant
 
 Triggers are the most primitive game element we can introduce in a game. From a simple switch which opens some door, to a very complicated puzzles or systems which can very easily keep us occupied for several hours.
 
+<img src="https://i.imgur.com/u4CcL.gif" width="100%" height="100%" />
+
+
 What makes a trigger to detect stuff?
 # Grid
 On a grid based game, we can identify a trigger with a specific trigger tile. If we can identify which tile on the grid is for walking and which is not, we can also create another class of a tile which is meant for triggering.
