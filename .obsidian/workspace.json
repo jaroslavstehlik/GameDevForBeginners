@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "game_dev/building_blocks/spawners.md",
+                "file": "game_dev/building_blocks/quests.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "game_dev/building_blocks/spawners.md",
+                "file": "game_dev/building_blocks/quests.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "game_dev/building_blocks/spawners.md",
+                "file": "game_dev/building_blocks/quests.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "game_dev/building_blocks/spawners.md"
+                "file": "game_dev/building_blocks/quests.md"
               }
             }
           }
@@ -148,19 +148,24 @@
   },
   "active": "d666fb40d1988e93",
   "lastOpenFiles": [
-    "game_dev/Unity/Temp/ADB-Refreshc914c0aa0c645441ea7af4366c6520f5",
+    "game_dev/Unity/Temp/ADB-Refreshbdd99b2f280624997bc386e117e488b2",
+    "game_dev/Unity/Temp/ADB-Refreshf4f202a9e044c40f8825dfc69b158d4f",
+    "game_dev/Unity/Temp/ADB-Refreshd5dee0cdd9fa740ef914b6ee8c5d799a",
     "game_dev/Unity/Library/ProtocolInstance.json",
-    "game_dev/Unity/Library/Artifacts/e0/e0e9a37ca6e58213fd1c43bfd3c5615a",
-    "game_dev/Unity/Library/Artifacts/ea/ea927d44ca0666f8a8e25116184c81e3",
-    "game_dev/Unity/Library/Artifacts/02/0294b20f634037f413ec69c242bfac2f",
-    "game_dev/Unity/Library/Artifacts/fe/fe852533fc927b3aa67862aa77f04895",
-    "game_dev/Unity/Library/Artifacts/7a/7aad149004045f68d0539226afd27cc1",
-    "game_dev/Unity/Temp/ADB-Refresh06a2c596e7a654837a6b8793c4295ebc",
-    "game_dev/Unity/Temp/ADB-Refresh7fbd5e3e2fd744dbbb896bacfcfda161",
-    "game_dev/Unity/Library/Artifacts/5e/5e39fc0402e8e6c47642f5c86a987c62",
-    "game_dev/Unity/Temp/ADB-Refresh64699869a091d4ff7b06c1202b6a7c95",
-    "game_dev/building_blocks/teleports.md",
+    "game_dev/Unity/Library/Bee/backend_profiler0.traceevents",
+    "game_dev/Unity/Library/Bee/TundraBuildState.state",
+    "game_dev/Unity/Library/Artifacts/ea/ea7acba6c880e214546c3767511d4850",
+    "game_dev/Unity/Temp/ADB-Refresh8b1eba01023304c4db2836e161943521",
+    "game_dev/Unity/Temp/ADB-Refreshf23d3be134f104a3d82310aafb317f10",
+    "game_dev/Unity/Temp/ADB-Refresh85f49087376ef48a386beca03ef18578",
+    "game_dev/Unity/Temp/ADB-Refresh4c603d2e61f6543a69f3f4e3011e9299",
+    "img/skyrim_quests.png",
+    "game_dev/building_blocks/map.md",
+    "game_dev/building_blocks/quests.md",
+    "game_dev/building_blocks.md",
+    "game_dev/building_blocks/score.md",
     "game_dev/building_blocks/spawners.md",
+    "game_dev/building_blocks/teleports.md",
     "game_dev/building_blocks/timers.md",
     "game_dev/building_blocks/triggers.md",
     "game_dev/building_blocks/walls.md",
@@ -173,7 +178,6 @@
     "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Samples~/Tutorial/Asteroids/Visuals/Textures/ship_orange_nrm.png",
     "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Samples~/Tutorial/Asteroids/Visuals/Textures/ship_orange_dff.png",
     "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Samples~/Tutorial/Asteroids/Visuals/Textures/lazer_orange_dff.png",
-    "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Samples~/Tutorial/Asteroids/Visuals/Textures/asteroid_nrm.png",
     "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Samples~/Tutorial/README.md",
     "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Documentation~/whats-new.md",
     "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Documentation~/upgrade-guide.md",
@@ -189,10 +193,6 @@
     "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Documentation~/DocumentRevisionHistory.md",
     "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Documentation~/DocumentArchive.md",
     "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Documentation~/CoverageRecording.md",
-    "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Documentation~/CodeCoverageWindow.md",
-    "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Third Party Notices.md",
-    "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/README.md",
-    "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/LICENSE.md",
-    "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/CHANGELOG.md"
+    "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Documentation~/CodeCoverageWindow.md"
   ]
 }

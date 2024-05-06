@@ -6,6 +6,7 @@
 - [Timers](building_blocks/timers.md)
 - [Spawners](building_blocks/spawners.md)
 - [Score](building_blocks/score.md)
+- [Quests](building_blocks/quests.md)
 - [Inventory](building_blocks/inventory.md)
 - [Map](building_blocks/map.md)
 - [Character controller](building_blocks/character_controller.md)

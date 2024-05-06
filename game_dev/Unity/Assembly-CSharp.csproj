@@ -53,8 +53,17 @@
      <Compile Include="Assets/Spawner/SpawnerLevel1.cs" />
      <Compile Include="Assets/Spawner/SpawnerLevel2.cs" />
      <Compile Include="Assets/Utils/GameObjectUtils.cs" />
+     <Compile Include="Assets/Score/ScoreGameObject.cs" />
+     <Compile Include="Assets/Score/ScoreProject.cs" />
+     <Compile Include="Assets/Score/ScoreSave.cs" />
+     <Compile Include="Assets/Quest/Quest.cs" />
+     <Compile Include="Assets/Quest/QuestLog.cs" />
+     <Compile Include="Assets/Quest/QuestListener.cs" />
+     <Compile Include="Assets/Quest/QuestLogController.cs" />
      <Folder Include="Assets" />
      <Folder Include="Assets/Utils" />
+     <Folder Include="Assets/Quest" />
+     <Folder Include="Assets/Score" />
      <Folder Include="Assets/Teleport" />
      <Folder Include="Assets/Scenes" />
      <Folder Include="Assets/Timer" />
