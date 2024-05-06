@@ -49,6 +49,8 @@ This is the simplest teleport we can make. However, it has a major flaw.
 If our object contains a RigidBody the teleportation might fail due to collision detection.
 When we move RigidBodies around, they still have to detect collisions and if there is a wall in the way, the player might get stuck. Lets make this teleport compatible with RigidBodies then.
 
+## Level 2
+
 ```csharp
 using UnityEngine;
 using UnityEngine.Events;
@@ -80,6 +82,8 @@ public class TeleportLevel2 : MonoBehaviour
 ```
 
 Now our teleport actually supports moving RigidBodies around. But we might want to filter only specific objects to be able to teleport. We can use object tag as a filter.
+
+## Level 3
 
 ```csharp
 using System.Linq;
