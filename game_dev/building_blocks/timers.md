@@ -106,6 +106,9 @@ public class TimerLevel2 : MonoBehaviour
     // Monobehaviour calls this method when component is enabled in scene
     void OnEnable()
     {
+        // Reset cycles
+        curretCycle = 0;
+        
         // Store coroutine in to variable
         coroutine = TimerCoroutine();
         
