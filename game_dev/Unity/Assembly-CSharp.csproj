@@ -45,7 +45,11 @@
      <Compile Include="Assets/Trigger/TriggerLevel2.cs" />
      <Compile Include="Assets/Trigger/TriggerLevel3.cs" />
      <Compile Include="Assets/Console/Console.cs" />
+     <Compile Include="Assets/Teleport/TeleportLevel1.cs" />
+     <Compile Include="Assets/Teleport/TeleportLevel2.cs" />
+     <Compile Include="Assets/Teleport/TeleportLevel3.cs" />
      <Folder Include="Assets" />
+     <Folder Include="Assets/Teleport" />
      <Folder Include="Assets/Scenes" />
      <Folder Include="Assets/Trigger" />
      <Folder Include="Assets/Console" />

@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "game_dev/building_blocks/triggers.md",
+                "file": "game_dev/building_blocks/teleports.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "game_dev/building_blocks/triggers.md",
+                "file": "game_dev/building_blocks/teleports.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "game_dev/building_blocks/triggers.md",
+                "file": "game_dev/building_blocks/teleports.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "game_dev/building_blocks/triggers.md"
+                "file": "game_dev/building_blocks/teleports.md"
               }
             }
           }
@@ -148,51 +148,51 @@
   },
   "active": "d666fb40d1988e93",
   "lastOpenFiles": [
-    "game_dev/Unity/Temp/ADB-Refresh843f09b1d578b4138a6af8e2c91708fb",
-    "game_dev/Unity/Temp/ADB-Refresh0988a2e8df72f4ff0a5ee82f15fdc489",
-    "game_dev/Unity/Temp/ADB-Refresh1e29c2954ba624031941f2695d7eb4d7",
-    "game_dev/Unity/Temp/ADB-Refresh561c4244261c347b7b05680a1bffa8a3",
-    "game_dev/Unity/Library/TempArtifacts/Extra/eaba9e66ac8cb4bbb867396ee4524894",
-    "game_dev/Unity/Temp/ADB-Refreshd82a10d2949c34eac927f63274df0810",
-    "game_dev/Unity/Temp/ADB-Refreshab2a9bc548ca7407f95ca2acfd0ff1f3",
+    "game_dev/Unity/Temp/ADB-Refresh08e37a65285bc476ba8909b0aea8e67c",
+    "game_dev/Unity/Temp/ADB-Refresh7bc3eb78daf7d48169e7ffe0564afd56",
+    "game_dev/Unity/Temp/ADB-Refresh02f781c0e9dbb49cfbb54465267f646a",
     "game_dev/Unity/Library/ProtocolInstance.json",
-    "game_dev/Unity/Temp/ADB-Refreshd3b36c6b11d4845fda9d58cf7d0a6512",
     "game_dev/Unity/Library/Bee/backend_profiler0.traceevents",
     "game_dev/Unity/Library/Bee/TundraBuildState.state",
-    "game_dev/building_blocks/timers.md",
+    "game_dev/Unity/Temp/ADB-Refresh09befd8c47e514dce8a36f9177e32d45",
+    "game_dev/Unity/Library/Artifacts/cb/cb037d4f5ea9eb780e3232c25436e7b8",
+    "game_dev/Unity/Temp/ADB-Refreshfff67d7ca52854cf59f1c5bd144fb409",
+    "game_dev/Unity/Library/Artifacts/fd/fd5a209df505655a3956926879dda63e",
+    "game_dev/Unity/Library/Artifacts/5d/5d07be1c8a5e95c01f28905151941104",
     "game_dev/building_blocks/triggers.md",
-    "game_dev/Unity/Library/PackageCache/com.unity.timeline@1.6.5/Samples~/Customization/Annotation/Editor/Resources/dark/timeline_annotation_selected.png",
-    "game_dev/Unity/Library/PackageCache/com.unity.timeline@1.6.5/Samples~/Customization/Annotation/Editor/Resources/dark/timeline_annotation_collapsed.png",
-    "game_dev/Unity/Library/PackageCache/com.unity.timeline@1.6.5/Samples~/Customization/Annotation/Editor/Resources/dark/timeline_annotation.png",
-    "game_dev/Unity/Library/PackageCache/com.unity.timeline@1.6.5/Samples~/Customization/Annotation/Editor/Resources/light/timeline_annotation_selected.png",
-    "game_dev/Unity/Library/PackageCache/com.unity.timeline@1.6.5/Samples~/Customization/Annotation/Editor/Resources/light/timeline_annotation_collapsed.png",
-    "game_dev/Unity/Library/PackageCache/com.unity.timeline@1.6.5/Samples~/Customization/Annotation/Editor/Resources/light/timeline_annotation.png",
+    "game_dev/building_blocks/walls.md",
+    "game_dev/building_blocks/timers.md",
+    "game_dev/building_blocks/teleports.md",
     "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Samples~/Tutorial/Asteroids/Visuals/Textures/FX/part_spark_small_dff.png",
-    "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Samples~/Tutorial/Asteroids/Visuals/Textures/FX/part_shockwave_dff.png",
     "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Samples~/Tutorial/Asteroids/Visuals/Textures/FX/part_spark_large_dff.png",
-    "game_dev/Unity/Library/PackageCache/com.unity.timeline@1.6.5/Samples~/GameplaySequenceDemo/Particles/Misc Effects/Textures/DustPuffSmall.png",
-    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/input-system/nodes-note-package.md",
-    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/input-system/nodes-input-system-ports.md",
-    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/input-system/nodes-input-system-output-trigger-port.md",
-    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/input-system/nodes-input-action-change.md",
-    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/input-manager/nodes-note-manual.md",
-    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/input-manager/nodes-input-output-trigger.md",
-    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/input-manager/nodes-desc-end.md",
-    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/custom-c-nodes/vs-tasks-note-end.md",
-    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/custom-c-nodes/vs-open-graph-w-node.md",
-    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/custom-c-nodes/vs-ff-add-node.md",
-    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/custom-events/vs-tasks-note-end.md",
-    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/custom-events/vs-right-click-project.md",
-    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/vs-with-graph-open-ff.md",
-    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/vs-visual-scripting-window.md",
-    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/vs-save-script.md",
-    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/vs-open-hierarchy-window.md",
-    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/vs-return-unity.md",
-    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/vs-regen-node-library.md",
-    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/vs-open-state-menu.md",
-    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/vs-open-inspector-window.md",
-    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/vs-open-project-window.md",
-    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/vs-open-project-settings.md",
-    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/vs-open-new-external-code.md"
+    "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Samples~/Tutorial/Asteroids/Visuals/Textures/FX/part_shockwave_dff.png",
+    "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Samples~/Tutorial/Asteroids/Visuals/UI/LifeEmpty.png",
+    "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Samples~/Tutorial/Asteroids/Visuals/UI/Life.png",
+    "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Samples~/Tutorial/Asteroids/Visuals/UI/AsteroidsLogo.png",
+    "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Samples~/Tutorial/Asteroids/Visuals/Textures/ship_orange_nrm.png",
+    "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Samples~/Tutorial/Asteroids/Visuals/Textures/ship_orange_dff.png",
+    "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Samples~/Tutorial/Asteroids/Visuals/Textures/lazer_orange_dff.png",
+    "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Samples~/Tutorial/Asteroids/Visuals/Textures/asteroid_nrm.png",
+    "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Samples~/Tutorial/README.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Documentation~/whats-new.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Documentation~/upgrade-guide.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Documentation~/index.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Documentation~/UsingCodeCoverage.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Documentation~/TechnicalDetails.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Documentation~/TableOfContents.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Documentation~/Quickstart.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Documentation~/CoverageBatchmode.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Documentation~/InstallingCodeCoverage.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Documentation~/CoverageTestRunner.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Documentation~/HowToInterpretResults.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Documentation~/DocumentRevisionHistory.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Documentation~/DocumentArchive.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Documentation~/CoverageRecording.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Documentation~/CodeCoverageWindow.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Third Party Notices.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/README.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/LICENSE.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/CHANGELOG.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.settings-manager@1.0.3/Documentation~/settings-manager.md"
   ]
 }
