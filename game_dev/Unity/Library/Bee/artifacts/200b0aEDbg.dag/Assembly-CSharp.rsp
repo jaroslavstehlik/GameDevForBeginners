@@ -346,6 +346,8 @@
 "Assets/Teleport/TeleportLevel1.cs"
 "Assets/Teleport/TeleportLevel2.cs"
 "Assets/Teleport/TeleportLevel3.cs"
+"Assets/Timer/TimerLevel1.cs"
+"Assets/Timer/TimerLevel2.cs"
 "Assets/Trigger/TriggerLevel1.cs"
 "Assets/Trigger/TriggerLevel2.cs"
 "Assets/Trigger/TriggerLevel3.cs"

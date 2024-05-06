@@ -48,9 +48,12 @@
      <Compile Include="Assets/Teleport/TeleportLevel1.cs" />
      <Compile Include="Assets/Teleport/TeleportLevel2.cs" />
      <Compile Include="Assets/Teleport/TeleportLevel3.cs" />
+     <Compile Include="Assets/Timer/TimerLevel1.cs" />
+     <Compile Include="Assets/Timer/TimerLevel2.cs" />
      <Folder Include="Assets" />
      <Folder Include="Assets/Teleport" />
      <Folder Include="Assets/Scenes" />
+     <Folder Include="Assets/Timer" />
      <Folder Include="Assets/Trigger" />
      <Folder Include="Assets/Console" />
      <Reference Include="UnityEngine">
