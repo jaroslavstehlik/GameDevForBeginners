@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "game_dev/building_blocks/chance.md",
+                "file": "game_dev/building_blocks/triggers.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "game_dev/building_blocks/chance.md",
+                "file": "game_dev/building_blocks/triggers.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "game_dev/building_blocks/chance.md",
+                "file": "game_dev/building_blocks/triggers.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "game_dev/building_blocks/chance.md"
+                "file": "game_dev/building_blocks/triggers.md"
               }
             }
           }
@@ -148,44 +148,51 @@
   },
   "active": "d666fb40d1988e93",
   "lastOpenFiles": [
-    "game_dev/building_blocks/character_controller.md",
-    "game_dev/building_blocks/inventory.md",
-    "game_dev/building_blocks/map.md",
-    "img/gtasanandreas_gangs.webp",
-    "img/reddeadredemption_treasuremap.webp",
-    "img/kingdomcomedeliverence_map.webp",
-    "img/reddeadredemption_minimap.jpeg",
-    "game_dev/building_blocks/walls.md",
-    "game_dev/building_blocks/triggers.md",
+    "game_dev/Unity/Temp/ADB-Refresh843f09b1d578b4138a6af8e2c91708fb",
+    "game_dev/Unity/Temp/ADB-Refresh0988a2e8df72f4ff0a5ee82f15fdc489",
+    "game_dev/Unity/Temp/ADB-Refresh1e29c2954ba624031941f2695d7eb4d7",
+    "game_dev/Unity/Temp/ADB-Refresh561c4244261c347b7b05680a1bffa8a3",
+    "game_dev/Unity/Library/TempArtifacts/Extra/eaba9e66ac8cb4bbb867396ee4524894",
+    "game_dev/Unity/Temp/ADB-Refreshd82a10d2949c34eac927f63274df0810",
+    "game_dev/Unity/Temp/ADB-Refreshab2a9bc548ca7407f95ca2acfd0ff1f3",
+    "game_dev/Unity/Library/ProtocolInstance.json",
+    "game_dev/Unity/Temp/ADB-Refreshd3b36c6b11d4845fda9d58cf7d0a6512",
+    "game_dev/Unity/Library/Bee/backend_profiler0.traceevents",
+    "game_dev/Unity/Library/Bee/TundraBuildState.state",
     "game_dev/building_blocks/timers.md",
-    "game_dev/building_blocks/teleports.md",
-    "game_dev/building_blocks/spawners.md",
-    "game_dev/building_blocks/score.md",
-    "img/minecraft_inventory.png",
-    "img/minecraft_chest.png",
-    "game_dev/building_blocks/chance.md",
-    "img/fallout_chance.gif",
-    "img/supermariobros.webp",
-    "img/worldofwarcraft.gif",
-    "img/minecraft_spawners.webp",
-    "csharp/conditions.md",
-    "game_dev/building_blocks.md",
-    "readme.md",
-    "building_blocks/building_blocks.md",
-    "building_blocks",
-    "game_dev/building_blocks",
-    "csharp/programming_vs_cooking.md",
-    "game_dev",
-    "csharp/variables.md",
-    "csharp/constants.md",
-    "csharp/functions.md",
-    "csharp/loops.md",
-    "csharp/operators.md",
-    "csharp/scope.md",
-    "csharp/types.md",
-    "img/DALL·E 2024-03-03 22.49.45 -.textClipping",
-    "img",
-    "untitled folder",
-    "csharp/cook.md"
+    "game_dev/building_blocks/triggers.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.timeline@1.6.5/Samples~/Customization/Annotation/Editor/Resources/dark/timeline_annotation_selected.png",
+    "game_dev/Unity/Library/PackageCache/com.unity.timeline@1.6.5/Samples~/Customization/Annotation/Editor/Resources/dark/timeline_annotation_collapsed.png",
+    "game_dev/Unity/Library/PackageCache/com.unity.timeline@1.6.5/Samples~/Customization/Annotation/Editor/Resources/dark/timeline_annotation.png",
+    "game_dev/Unity/Library/PackageCache/com.unity.timeline@1.6.5/Samples~/Customization/Annotation/Editor/Resources/light/timeline_annotation_selected.png",
+    "game_dev/Unity/Library/PackageCache/com.unity.timeline@1.6.5/Samples~/Customization/Annotation/Editor/Resources/light/timeline_annotation_collapsed.png",
+    "game_dev/Unity/Library/PackageCache/com.unity.timeline@1.6.5/Samples~/Customization/Annotation/Editor/Resources/light/timeline_annotation.png",
+    "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Samples~/Tutorial/Asteroids/Visuals/Textures/FX/part_spark_small_dff.png",
+    "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Samples~/Tutorial/Asteroids/Visuals/Textures/FX/part_shockwave_dff.png",
+    "game_dev/Unity/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/Samples~/Tutorial/Asteroids/Visuals/Textures/FX/part_spark_large_dff.png",
+    "game_dev/Unity/Library/PackageCache/com.unity.timeline@1.6.5/Samples~/GameplaySequenceDemo/Particles/Misc Effects/Textures/DustPuffSmall.png",
+    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/input-system/nodes-note-package.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/input-system/nodes-input-system-ports.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/input-system/nodes-input-system-output-trigger-port.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/input-system/nodes-input-action-change.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/input-manager/nodes-note-manual.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/input-manager/nodes-input-output-trigger.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/input-manager/nodes-desc-end.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/custom-c-nodes/vs-tasks-note-end.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/custom-c-nodes/vs-open-graph-w-node.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/custom-c-nodes/vs-ff-add-node.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/custom-events/vs-tasks-note-end.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/custom-events/vs-right-click-project.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/vs-with-graph-open-ff.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/vs-visual-scripting-window.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/vs-save-script.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/vs-open-hierarchy-window.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/vs-return-unity.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/vs-regen-node-library.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/vs-open-state-menu.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/vs-open-inspector-window.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/vs-open-project-window.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/vs-open-project-settings.md",
+    "game_dev/Unity/Library/PackageCache/com.unity.visualscripting@1.9.0/Documentation~/snippets/vs-open-new-external-code.md"
   ]
 }
