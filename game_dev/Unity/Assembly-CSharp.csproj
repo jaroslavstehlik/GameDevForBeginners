@@ -50,12 +50,17 @@
      <Compile Include="Assets/Teleport/TeleportLevel3.cs" />
      <Compile Include="Assets/Timer/TimerLevel1.cs" />
      <Compile Include="Assets/Timer/TimerLevel2.cs" />
+     <Compile Include="Assets/Spawner/SpawnerLevel1.cs" />
+     <Compile Include="Assets/Spawner/SpawnerLevel2.cs" />
+     <Compile Include="Assets/Utils/GameObjectUtils.cs" />
      <Folder Include="Assets" />
+     <Folder Include="Assets/Utils" />
      <Folder Include="Assets/Teleport" />
      <Folder Include="Assets/Scenes" />
      <Folder Include="Assets/Timer" />
      <Folder Include="Assets/Trigger" />
      <Folder Include="Assets/Console" />
+     <Folder Include="Assets/Spawner" />
      <Reference Include="UnityEngine">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.30f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
      </Reference>

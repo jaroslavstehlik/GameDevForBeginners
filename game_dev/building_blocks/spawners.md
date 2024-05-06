@@ -24,3 +24,209 @@ Spawner can be implemented as:
 - **Spawn event**
 	- Timer, when our timer finishes, we spawn another element.
 	- Game event, when our enemy is killed, we spawn another enemy.
+
+## Level 1
+
+```csharp
+using System.Collections;
+using UnityEngine;
+using UnityEngine.Events;
+
+public class SpawnerLevel1 : MonoBehaviour
+{
+    // Public event when spawner spawns an object
+    public UnityEvent onSpawn;
+    
+    // Duration of spawner
+    public float duration = 1f;
+    
+    // GameObject to spawn
+    public GameObject spawnGameObject;
+
+    // Where to place our spawned object
+    public Transform spawnLocation;
+    
+    // Define coroutine so we can later stop it
+    private IEnumerator coroutine;
+    
+    // Monobehaviour calls this method when component is enabled in scene
+    void OnEnable()
+    {
+        // Store coroutine in to variable
+        coroutine = TimerCoroutine();
+        
+        // Start coroutine
+        StartCoroutine(coroutine);
+    }
+
+    // Monobehaviour calls this method when component is disabled in scene
+    void OnDisable()
+    {
+        // Stop coroutine
+        StopCoroutine(coroutine);
+        
+        // Clear variable
+        coroutine = null;
+    }
+
+    // The coroutine returns IEnumerator which tells Unity when to stop
+    IEnumerator TimerCoroutine()
+    {
+        // We will spawn objects until spawner component is enabled
+        while (enabled)
+        {
+            // Yield means that we want this function to run across multiple frames
+            // WaitForSeconds means that the function will wait certain amount of time
+            // before it continues execution
+            yield return new WaitForSeconds(duration);
+
+            // Clone the game object and store it in local variable
+            GameObject spawnedGameObject = Instantiate(spawnGameObject);
+            
+            // Set the parent hierarchy transform to spawn location
+            // This will prevent clutter in the scene
+            spawnedGameObject.transform.SetParent(spawnLocation);
+            
+            // Set the spawned game object position to our spawn location
+            spawnedGameObject.transform.position = spawnLocation.position;
+            
+            // Set the spawned game object rotation to our spawn location
+            spawnedGameObject.transform.rotation = spawnLocation.rotation;
+            
+            // Check if anyone listens to our event
+            if(onSpawn != null)
+                // Invoke event
+                onSpawn.Invoke();
+        }
+    }
+}
+```
+
+This clones the spawned game object every duration we set. This implementation has few issues however.
+
+- The longer the spawner exists the more it spawns objects which might in best case decrease our game frame rate and in worst case crash our game. This can be resolved by a timer which destroys the spawned objects
+- Spawning GameObjects can create hiccups in our game, which will affect smoothness of our gameplay.
+
+So what can we do to make this safer? Lets use a memory pool.
+A memory pool is just an array of GameObjects which is instatiated as soon as possible. Individual objects are disabled and when the spawner is about to spawn an object it just moves the object to the spawn location, resets all its states and turns its visibility on.
+# Level 2
+
+```csharp
+using System;
+using System.Collections;
+using UnityEngine;
+using UnityEngine.Events;
+
+public class SpawnerLevel2 : MonoBehaviour
+{
+    // Public event when spawner spawns an object
+    public UnityEvent onSpawn;
+    
+    // Duration of spawner
+    public float duration = 1f;
+
+    public int maxSpawnCount = 10;
+    
+    // GameObject to spawn
+    public GameObject spawnGameObject;
+
+    // Where to place our spawned object
+    public Transform spawnLocation;
+    
+    // Define coroutine so we can later stop it
+    private IEnumerator coroutine;
+
+    private GameObject[] memoryPool;
+
+    private int memoryPoolSpawnerIndex = 0;
+
+    private void Awake()
+    {
+        // Create an array representing our memory pool
+        memoryPool = new GameObject[maxSpawnCount];
+        
+        // Iterate over each element of the array
+        for (int i = 0; i < memoryPool.Length; i++)
+        {
+            // Clone the spawn game object and assign it in the arrays index
+            memoryPool[i] = Instantiate(spawnGameObject, spawnLocation);
+            
+            // Disable the game object immediately
+            memoryPool[i].SetActive(false);
+        }
+    }
+
+    // Monobehaviour calls this method when component is enabled in scene
+    void OnEnable()
+    {
+        // Store coroutine in to variable
+        coroutine = TimerCoroutine();
+        
+        // Start coroutine
+        StartCoroutine(coroutine);
+    }
+
+    // Monobehaviour calls this method when component is disabled in scene
+    void OnDisable()
+    {
+        // Stop coroutine
+        StopCoroutine(coroutine);
+        
+        // Clear variable
+        coroutine = null;
+    }
+
+    // The coroutine returns IEnumerator which tells Unity when to stop
+    IEnumerator TimerCoroutine()
+    {
+        // We will spawn objects until spawner component is enabled
+        while (enabled)
+        {
+            // Yield means that we want this function to run across multiple frames
+            // WaitForSeconds means that the function will wait certain amount of time
+            // before it continues execution
+            yield return new WaitForSeconds(duration);
+
+            // Get the spawned game object from our memory pool
+            GameObject spawnedGameObject = memoryPool[memoryPoolSpawnerIndex];
+
+            // If the object contains rigidbody we need to reset its velocity 
+            Rigidbody rigidbody = spawnedGameObject.GetComponent<Rigidbody>();
+            if (rigidbody != null)
+            {
+                rigidbody.velocity = Vector3.zero;
+                rigidbody.angularVelocity = Vector3.zero;
+            }
+            
+            // Set the parent hierarchy transform to spawn location
+            // This will prevent clutter in the scene
+            spawnedGameObject.transform.SetParent(spawnLocation);
+            
+            // Set the spawned game object position to our spawn location
+            spawnedGameObject.transform.position = spawnLocation.position;
+            
+            // Set the spawned game object rotation to our spawn location
+            spawnedGameObject.transform.rotation = spawnLocation.rotation;
+            
+            // Activate the spawned game object
+            spawnedGameObject.SetActive(true);
+
+            // Increment our memory pool spawner index
+            memoryPoolSpawnerIndex++;
+
+            // Make sure that our spawner index does not overflow our memory pool
+            if (memoryPoolSpawnerIndex >= memoryPool.Length)
+                memoryPoolSpawnerIndex = 0;
+            
+            // Check if anyone listens to our event
+            if(onSpawn != null)
+                // Invoke event
+                onSpawn.Invoke();
+        }
+    }
+}
+```
+
+While this implementation is much more efficient, the crucial portion of this implementation is the reseting of state every time we need to spawn the object. 
+If the Object has complex states, for example animations, physics or game logic that also needs to be reset whenever we need to spawn an object. 
+Keep this in mind, the more complex the state, the more complex the reset becomes as well. In a complex reset state might be actually simpler to use the creation and destruction as this always resets the state to its beginning.
