@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 // This field tells UnityEditor to create an asset menu
 // which creates a new scriptable object in project.
-[CreateAssetMenu(fileName = "Quest", menuName = "GMD/Quest", order = 1)]
+[CreateAssetMenu(fileName = "Quest", menuName = "GMD/Quest/Quest", order = 1)]
 public class Quest : ScriptableObject
 {
     public UnityEvent<Quest> onQuestActivated;

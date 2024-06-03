@@ -5,13 +5,13 @@ using UnityEngine.Events;
 // and propagate those changes to our scene
 public class QuestListener : MonoBehaviour
 {
+    public Quest quest;
+
     public UnityEvent<Quest> onQuestActivated;
     public UnityEvent<Quest> onQuestDeactivated;
     
     public UnityEvent<Quest> onQuestReset;
     public UnityEvent<Quest> onQuestComplete;
-    
-    public Quest quest;
 
     private void OnEnable()
     {
@@ -55,12 +55,14 @@ public class QuestListener : MonoBehaviour
 
     void OnQuestActivated(Quest quest)
     {
+        Debug.Log($"OnQuestActivated: {quest.name}");
         if(onQuestActivated != null)
             onQuestActivated.Invoke(quest);
     }
     
     void OnQuestDeactivated(Quest quest)
     {
+        Debug.Log($"OnQuestDeactivated: {quest.name}");
         if(onQuestDeactivated != null)
             onQuestDeactivated.Invoke(quest);
     }

@@ -4,13 +4,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+// Make public methods available in the scene
+// for controlling our Quest Log.
 public class QuestLogController : MonoBehaviour
 {
+    // reference to our quest log project asset
     public QuestLog questLog;
 
-    public Quest ActivateNextQuest()
+    public void ActivateNextQuest()
     {
-        return questLog.ActivateNextQuest();
+        questLog.ActivateNextQuest();
     }
 
     public Quest GetActiveQuest()
@@ -25,7 +28,7 @@ public class QuestLogController : MonoBehaviour
 
     public void CompleteActiveQuest()
     {
-        questLog.CompleteActiveQuest();
+        questLog.CompleteFocusedQuest();
     }
     
     public void Reset()

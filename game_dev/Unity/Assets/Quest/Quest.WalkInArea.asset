@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7861c04d1d4f2499d964f21a95c56da6, type: 3}
-  m_Name: Quest Walk In area
+  m_Name: Quest.WalkInArea
   m_EditorClassIdentifier: 
   onQuestActivated:
     m_PersistentCalls:
@@ -25,6 +25,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   active: 0
-  completed: 0
-  description: Walk in aread
+  completed: 1
+  description: Walk in area
   saveKey: room01_walk_in_area
