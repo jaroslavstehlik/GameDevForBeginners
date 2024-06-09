@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-struct GroundInfo
+struct SphereCastInfo
 {
-    public bool grounded;
+    public bool collides;
     public RaycastHit raycastHit;
     public Ray ray;
     public float radius;
@@ -24,7 +24,8 @@ struct ProximityInfo
 
 struct CollisionState
 {
-    public GroundInfo groundInfo;
+    public SphereCastInfo ceilingInfo;
+    public SphereCastInfo groundInfo;
     public ProximityInfo[] sideProximity;
 }
     
@@ -32,17 +33,18 @@ struct PlayerInput
 {
     public Vector2 move;
     public bool jump;
+    public bool sprint;
 
     public static PlayerInput Empty
     {
         get{
-            return new PlayerInput() { move = Vector2.zero, jump = false };
+            return new PlayerInput() { move = Vector2.zero, jump = false, sprint = false };
         }
     }
 
     public bool isEmpty
     {
-        get { return move == Vector2.zero && jump == false; }
+        get { return move == Vector2.zero && jump == false && sprint == false; }
     }
 }
 
@@ -50,20 +52,17 @@ public class CharacterControllerBasic : MonoBehaviour
 {
     [SerializeField] private CapsuleCollider _collider;
     [SerializeField] private Rigidbody _rigidbody;
-    [SerializeField] private Transform _groundTrigger;
-    [SerializeField] private Transform _leftWallTrigger;
-    [SerializeField] private Transform _rightWallTrigger;
-    [SerializeField] private Transform _forwardWallTrigger;
-    [SerializeField] private Transform _backwardWallTrigger;
     public LayerMask environmentMask = int.MaxValue;
     public float raycastLength = 2f;
-
-    
     public float moveSpeed = 1f;
+    public float sprintMultiplier = 2f;
     public float jumpAmount = 10f;
-
+    public float jumpDuration = 1f;
+    public bool visualiseDebug = true;
+    
     private Queue<PlayerInput> _playerInputQueue = new Queue<PlayerInput>();
     private CollisionState _collisionState;
+    private float jumpTimeRemaining = 0f;
     
     private void Update()
     {
@@ -104,6 +103,15 @@ public class CharacterControllerBasic : MonoBehaviour
             playerInput.jump = false;
         }
         
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            playerInput.sprint = true;
+        }
+        else
+        {
+            playerInput.sprint = false;
+        }
+        
         if (!playerInput.isEmpty)
         {
             _playerInputQueue.Enqueue(playerInput);
@@ -112,24 +120,19 @@ public class CharacterControllerBasic : MonoBehaviour
 
     void FixedUpdate()
     {
-        Vector3 velocity = _rigidbody.velocity;
         Quaternion rotation = _rigidbody.rotation;
-        // modify rb velocity to prevent collider wall clipping
-        
-        // pre simulate fixed update
-        // PreSimulationUpdate
-        
-        // capture rigidbody velocity
-        
-        // ProcessVelocity
-        
-        // Grounded
-        
-        // Ungrounded
 
-        // user movement
+        float rayCastDistance = 0.25f;
+        Vector3 up = rotation * Vector3.up;
+        Ray groundRay = new Ray(_rigidbody.position + up * _collider.radius + up * rayCastDistance * 0.5f,
+            -up);
+        
+        SphereCast(out _collisionState.groundInfo, groundRay, rayCastDistance, _collider.radius, environmentMask);
 
-        DetectGround(out _collisionState.groundInfo);
+        Ray ceilingRay = new Ray(_rigidbody.position + up * _collider.height - up * _collider.radius - up * rayCastDistance * 0.5f,
+            up);
+        
+        SphereCast(out _collisionState.ceilingInfo, ceilingRay, rayCastDistance, _collider.radius, environmentMask);
         
         Array.Resize(ref _collisionState.sideProximity, 8);
         for (int i = 0; i < _collisionState.sideProximity.Length; i++)
@@ -163,69 +166,61 @@ public class CharacterControllerBasic : MonoBehaviour
         PlayerInput playerInput = new PlayerInput();
         while(_playerInputQueue.Count > 0)
         {
-            playerInput = _playerInputQueue.Dequeue();
+            PlayerInput newPlayerInput = _playerInputQueue.Dequeue();
+            playerInput.jump |= newPlayerInput.jump;
+            playerInput.sprint |= newPlayerInput.sprint;
+            playerInput.move = newPlayerInput.move;
         }
 
-        Vector3 playerMove = new Vector3(playerInput.move.x, 0f, playerInput.move.y);
-        Vector3 futureMove = playerMove;
-        Vector3 futureVelocity = Vector3.zero;
-
-        Matrix4x4 worldToLocal = transform.worldToLocalMatrix;
-
-        for (int i = 0; i < _collisionState.sideProximity.Length; i++)
+        float playerSpeed = moveSpeed;
+        if (playerInput.sprint)
+            playerSpeed *= sprintMultiplier;
+        
+        Vector2 playerInputDirection = playerInput.move.normalized;
+        float playerInputMagnitude = Mathf.Clamp(playerInput.move.magnitude, 0f, 1f) * playerSpeed;
+        Vector2 playerInputMove = playerInputDirection * playerInputMagnitude;
+        Vector3 playerMove = new Vector3(playerInputMove.x, 0f, playerInputMove.y);
+        Vector3 futureVelocity = rotation * playerMove;
+        
+        if (jumpTimeRemaining > 0f)
         {
-            if(!_collisionState.sideProximity[i].hit)
-                continue;
-
-            Vector3 normal = _collisionState.sideProximity[i].raycastHit.normal;
-            Vector3 localNormal = worldToLocal.MultiplyVector(normal);
-            Vector2 localNormal2D = new Vector2(localNormal.x, localNormal.z);
-
-            /*
-            float dot = Vector2.Dot(_collisionState.sideProximity[i].localDirection, localNormal2D) * -1f;
-            float dot2 = Vector2.Dot(_collisionState.sideProximity[i].localDirection, playerMove);
-            float dot3 = dot * dot2;
-            
-            if (dot3 > 0f)
+            if (!_collisionState.ceilingInfo.collides)
             {
-                //float dot2 = Vector2.Dot(_collisionState.sideProximity[i].localDirection, playerInput.move);
-                Vector3 oposingDirection = new Vector3(_collisionState.sideProximity[i].localDirection.x,
-                    0f,
-                    _collisionState.sideProximity[i].localDirection.y);
-
-                float raycastDistanceInverse = Mathf.Clamp01(_collisionState.sideProximity[i].raycastLength - _collisionState.sideProximity[i].raycastHit.distance) / _collisionState.sideProximity[i].raycastLength;
-                futureMove -= oposingDirection * dot * Mathf.Pow(raycastDistanceInverse, 2f);
+                jumpTimeRemaining -= Time.fixedDeltaTime;
+                futureVelocity += Vector3.up * jumpAmount;
             }
-            */
+            else
+            {
+                jumpTimeRemaining = 0f;
+            }
+        }
+        else
+        {
+            if (!_collisionState.groundInfo.collides)
+            {
+                futureVelocity += Physics.gravity;
+            }
+            else
+            {
+                if (playerInput.jump)
+                {
+                    jumpTimeRemaining = jumpDuration;
+                    futureVelocity += Vector3.up * jumpAmount;
+                }
+            }
+
         }
         
-        futureVelocity = rotation * futureMove * moveSpeed;
-
-        if (!_collisionState.groundInfo.grounded)
-        {
-            futureVelocity += Physics.gravity * Time.fixedDeltaTime;
-        }
-        
-        if (_collisionState.groundInfo.grounded && playerInput.jump)
-        {
-            futureVelocity += Vector3.up * jumpAmount;
-        }
-
-        velocity += futureVelocity;
-        _rigidbody.velocity = velocity;
+        _rigidbody.velocity = futureVelocity;
     }
 
-    void DetectGround(out GroundInfo groundInfo)
+    static void SphereCast(out SphereCastInfo sphereCastInfo, Ray ray, float castDistance, float radius, int layerMask)
     {
-        groundInfo.castDistance = 0.25f;
-        groundInfo.radius = _collider.radius;
-        Vector3 up = transform.up;
-        Vector3 down = -up;
-        Vector3 origin = _rigidbody.position + up * groundInfo.radius + up * groundInfo.castDistance * 0.5f;
-
-        groundInfo.ray = new Ray(origin, down);
-        groundInfo.grounded =
-            Physics.SphereCast(groundInfo.ray.origin, groundInfo.radius, groundInfo.ray.direction, out groundInfo.raycastHit, groundInfo.castDistance, environmentMask);
+        sphereCastInfo.castDistance = castDistance;
+        sphereCastInfo.radius = radius;
+        sphereCastInfo.ray = ray;
+        sphereCastInfo.collides =
+            Physics.SphereCast(sphereCastInfo.ray.origin, sphereCastInfo.radius, sphereCastInfo.ray.direction, out sphereCastInfo.raycastHit, sphereCastInfo.castDistance, layerMask);
     }
 
     void DrawTriggerGizmo(Transform transform, bool triggered)
@@ -243,9 +238,23 @@ public class CharacterControllerBasic : MonoBehaviour
         Gizmos.DrawWireCube(Vector3.zero, Vector3.one);
         Gizmos.matrix = Matrix4x4.identity;
     }
+
+    void DrawSphereCast(SphereCastInfo sphereCastInfo)
+    {
+        Gizmos.color = sphereCastInfo.collides ? Color.red : Color.white;
+        Gizmos.DrawWireSphere(sphereCastInfo.ray.origin, sphereCastInfo.radius);
+        Gizmos.DrawWireSphere(sphereCastInfo.ray.origin + sphereCastInfo.ray.direction * sphereCastInfo.castDistance, sphereCastInfo.radius);
+        if (sphereCastInfo.collides)
+        {
+            Gizmos.DrawWireSphere(sphereCastInfo.raycastHit.point, 0.1f);
+        }
+    }
     
     private void OnDrawGizmos()
     {
+        if(!visualiseDebug)
+            return;
+        
         if (_collisionState.sideProximity != null)
         {
             for (int i = 0; i < _collisionState.sideProximity.Length; i++)
@@ -263,12 +272,7 @@ public class CharacterControllerBasic : MonoBehaviour
             }
         }
 
-        Gizmos.color = _collisionState.groundInfo.grounded ? Color.red : Color.white;
-        Gizmos.DrawWireSphere(_collisionState.groundInfo.ray.origin, _collisionState.groundInfo.radius);
-        Gizmos.DrawWireSphere(_collisionState.groundInfo.ray.origin + _collisionState.groundInfo.ray.direction * _collisionState.groundInfo.castDistance, _collisionState.groundInfo.radius);
-        if (_collisionState.groundInfo.grounded)
-        {
-            Gizmos.DrawWireSphere(_collisionState.groundInfo.raycastHit.point, 0.1f);
-        }
+        DrawSphereCast(_collisionState.groundInfo);
+        DrawSphereCast(_collisionState.ceilingInfo);
     }
 }
