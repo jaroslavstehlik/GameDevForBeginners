@@ -8,6 +8,7 @@ struct SphereCastInfo
 {
     public bool collides;
     public RaycastHit raycastHit;
+    public RaycastHit[] raycastHits;
     public Ray ray;
     public float radius;
     public float castDistance;
@@ -33,6 +34,7 @@ struct PlayerInput
 {
     public Vector2 move;
     public bool jump;
+    public bool crouch;
     public bool sprint;
 
     public static PlayerInput Empty
@@ -56,9 +58,13 @@ public class CharacterControllerBasic : MonoBehaviour
     public float raycastLength = 2f;
     public float moveSpeed = 1f;
     public float sprintMultiplier = 2f;
+    public float crouchMultiplier = 0.5f;
     public float jumpAmount = 10f;
     public float jumpDuration = 1f;
+    public float maxSlopeAngle = 45f;
     public bool visualiseDebug = true;
+    public bool showGroundHit = true;
+    public bool showCeilingHit = true;
     
     private Queue<PlayerInput> _playerInputQueue = new Queue<PlayerInput>();
     private CollisionState _collisionState;
@@ -94,23 +100,9 @@ public class CharacterControllerBasic : MonoBehaviour
             playerInput.move.x = 0f;
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            playerInput.jump = true;
-        }
-        else
-        {
-            playerInput.jump = false;
-        }
-        
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            playerInput.sprint = true;
-        }
-        else
-        {
-            playerInput.sprint = false;
-        }
+        playerInput.jump = Input.GetKeyDown(KeyCode.Space);
+        playerInput.sprint = Input.GetKey(KeyCode.LeftShift);
+        playerInput.crouch = Input.GetKey(KeyCode.LeftControl);
         
         if (!playerInput.isEmpty)
         {
@@ -120,20 +112,21 @@ public class CharacterControllerBasic : MonoBehaviour
 
     void FixedUpdate()
     {
+        Vector3 position = _rigidbody.position;
         Quaternion rotation = _rigidbody.rotation;
+        Matrix4x4 localToWorld = Matrix4x4.TRS(position, rotation, Vector3.one);
+        Matrix4x4 worldToLocal = localToWorld.inverse;
 
         float rayCastDistance = 0.25f;
         Vector3 up = rotation * Vector3.up;
         Ray groundRay = new Ray(_rigidbody.position + up * _collider.radius + up * rayCastDistance * 0.5f,
             -up);
-        
         SphereCast(out _collisionState.groundInfo, groundRay, rayCastDistance, _collider.radius, environmentMask);
 
         Ray ceilingRay = new Ray(_rigidbody.position + up * _collider.height - up * _collider.radius - up * rayCastDistance * 0.5f,
             up);
-        
         SphereCast(out _collisionState.ceilingInfo, ceilingRay, rayCastDistance, _collider.radius, environmentMask);
-        
+
         Array.Resize(ref _collisionState.sideProximity, 8);
         for (int i = 0; i < _collisionState.sideProximity.Length; i++)
         {
@@ -169,17 +162,39 @@ public class CharacterControllerBasic : MonoBehaviour
             PlayerInput newPlayerInput = _playerInputQueue.Dequeue();
             playerInput.jump |= newPlayerInput.jump;
             playerInput.sprint |= newPlayerInput.sprint;
+            playerInput.crouch |= newPlayerInput.crouch;
             playerInput.move = newPlayerInput.move;
         }
 
         float playerSpeed = moveSpeed;
-        if (playerInput.sprint)
-            playerSpeed *= sprintMultiplier;
+        if (playerInput.crouch)
+        {
+            playerSpeed *= crouchMultiplier;
+        }
+        else if(playerInput.sprint)
+        {
+            playerSpeed *= sprintMultiplier;    
+        }
+
+        Vector3 playerInputDirection = new Vector3(playerInput.move.x, 0f, playerInput.move.y).normalized;
+        float playerInputMagnitude = Mathf.Clamp(playerInputDirection.magnitude, 0f, 1f) * playerSpeed;
+        Vector3 playerInputMove = playerInputDirection * playerInputMagnitude;
         
-        Vector2 playerInputDirection = playerInput.move.normalized;
-        float playerInputMagnitude = Mathf.Clamp(playerInput.move.magnitude, 0f, 1f) * playerSpeed;
-        Vector2 playerInputMove = playerInputDirection * playerInputMagnitude;
-        Vector3 playerMove = new Vector3(playerInputMove.x, 0f, playerInputMove.y);
+        Vector3 localGroundNormal = worldToLocal.MultiplyVector(_collisionState.groundInfo.raycastHit.normal);
+
+        float rampLocalAngle = Vector3.Angle(localGroundNormal, Vector3.up);
+        bool slopeIsTooSteep = !_collisionState.groundInfo.collides || rampLocalAngle > maxSlopeAngle;
+        
+        if (slopeIsTooSteep)
+        {
+            float rampPLayerLocalDotProduct = Vector3.Dot(playerInputDirection, localGroundNormal);
+            if (rampPLayerLocalDotProduct < 0f)
+            {
+                playerInputMove *= 0f;
+            }
+        }
+
+        Vector3 playerMove = playerInputMove;
         Vector3 futureVelocity = rotation * playerMove;
         
         if (jumpTimeRemaining > 0f)
@@ -192,17 +207,22 @@ public class CharacterControllerBasic : MonoBehaviour
             else
             {
                 jumpTimeRemaining = 0f;
+                ApplyGravity(ref futureVelocity);
             }
         }
         else
         {
             if (!_collisionState.groundInfo.collides)
             {
-                futureVelocity += Physics.gravity;
+                ApplyGravity(ref futureVelocity);
             }
             else
             {
-                if (playerInput.jump)
+                if (slopeIsTooSteep)
+                {
+                    ApplyGravity(ref futureVelocity);
+                }
+                else if(playerInput.jump)
                 {
                     jumpTimeRemaining = jumpDuration;
                     futureVelocity += Vector3.up * jumpAmount;
@@ -214,13 +234,35 @@ public class CharacterControllerBasic : MonoBehaviour
         _rigidbody.velocity = futureVelocity;
     }
 
+    void ApplyGravity(ref Vector3 velocity)
+    {
+        velocity += Physics.gravity;
+    }
+
     static void SphereCast(out SphereCastInfo sphereCastInfo, Ray ray, float castDistance, float radius, int layerMask)
     {
         sphereCastInfo.castDistance = castDistance;
         sphereCastInfo.radius = radius;
         sphereCastInfo.ray = ray;
-        sphereCastInfo.collides =
-            Physics.SphereCast(sphereCastInfo.ray.origin, sphereCastInfo.radius, sphereCastInfo.ray.direction, out sphereCastInfo.raycastHit, sphereCastInfo.castDistance, layerMask);
+        
+        sphereCastInfo.raycastHits = Physics.SphereCastAll(sphereCastInfo.ray.origin, sphereCastInfo.radius, sphereCastInfo.ray.direction, sphereCastInfo.castDistance, layerMask);
+        float mostSimilarProduct = float.MaxValue;
+        int mostSimilarRaycastHitIndex = -1;
+        for (int i = 0; i < sphereCastInfo.raycastHits.Length; i++)
+        {
+            if(sphereCastInfo.raycastHits[i].distance == 0f)
+                continue;
+            
+            float slopeProduct = Vector3.Dot(sphereCastInfo.raycastHits[i].normal, ray.direction);
+            if (slopeProduct < mostSimilarProduct)
+            {
+                mostSimilarProduct = slopeProduct;
+                mostSimilarRaycastHitIndex = i;
+            }
+        }
+        
+        sphereCastInfo.collides = mostSimilarRaycastHitIndex != -1;
+        sphereCastInfo.raycastHit = sphereCastInfo.collides ? sphereCastInfo.raycastHits[mostSimilarRaycastHitIndex] : new RaycastHit();
     }
 
     void DrawTriggerGizmo(Transform transform, bool triggered)
@@ -255,6 +297,7 @@ public class CharacterControllerBasic : MonoBehaviour
         if(!visualiseDebug)
             return;
         
+        /*
         if (_collisionState.sideProximity != null)
         {
             for (int i = 0; i < _collisionState.sideProximity.Length; i++)
@@ -271,8 +314,20 @@ public class CharacterControllerBasic : MonoBehaviour
                     _collisionState.sideProximity[i].raycast.origin + _collisionState.sideProximity[i].raycast.direction * _collisionState.sideProximity[i].raycastLength);
             }
         }
-
-        DrawSphereCast(_collisionState.groundInfo);
-        DrawSphereCast(_collisionState.ceilingInfo);
+        */
+        if(showGroundHit)
+            DrawSphereCast(_collisionState.groundInfo);
+        if(showCeilingHit)
+            DrawSphereCast(_collisionState.ceilingInfo);
+        if (_collisionState.groundInfo.collides)
+        {
+            Gizmos.DrawWireSphere(_collisionState.groundInfo.raycastHit.point, 0.1f);
+            Gizmos.DrawLine(_collisionState.groundInfo.raycastHit.point, _collisionState.groundInfo.raycastHit.point + _collisionState.groundInfo.raycastHit.normal);
+            
+            for (int i = 0; i < _collisionState.groundInfo.raycastHits.Length; i++)
+            {
+                //Gizmos.DrawLine(_collisionState.groundInfo.raycastHits[i].point, _collisionState.groundInfo.raycastHits[i].point + _collisionState.groundInfo.raycastHits[i].normal);       
+            }
+        }
     }
 }
