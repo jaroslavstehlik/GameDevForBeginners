@@ -69,6 +69,8 @@
      <Compile Include="Assets/Score/ScoreSave.cs" />
      <Compile Include="Assets/Inventory/InventoryController.cs" />
      <Compile Include="Assets/Timer/TimerLevel1.cs" />
+     <Compile Include="Assets/Camera/ThirdPersonCamera.cs" />
+     <Compile Include="Assets/Math/Lerp.cs" />
      <Folder Include="Assets" />
      <Folder Include="Assets/Utils" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
@@ -90,12 +92,14 @@
      <Folder Include="Assets/Timer" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Surface-Mobile.shader" />
      <Folder Include="Assets/TextMesh Pro" />
-     <Folder Include="Assets/CharacterController/Plaground" />
+     <Folder Include="Assets/CharacterController/Playground" />
+     <Folder Include="Assets/Camera" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Surface.shader" />
      <None Include="Assets/TextMesh Pro/Sprites/EmojiOne Attribution.txt" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_Bitmap-Custom-Atlas.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF.shader" />
      <Folder Include="Assets/Inventory" />
+     <Folder Include="Assets/Math" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile SSD.shader" />
      <None Include="Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc" />

@@ -52,6 +52,7 @@ struct PlayerInput
 
 public class CharacterControllerBasic : MonoBehaviour
 {
+    [SerializeField] private Transform _cameraTransform;
     [SerializeField] private CapsuleCollider _collider;
     [SerializeField] private Rigidbody _rigidbody;
     public LayerMask environmentMask = int.MaxValue;
@@ -230,7 +231,9 @@ public class CharacterControllerBasic : MonoBehaviour
             }
 
         }
-        
+
+        float cameraYaw = _cameraTransform.rotation.eulerAngles.y;
+        _rigidbody.rotation = Quaternion.Euler(0f, cameraYaw, 0f);
         _rigidbody.velocity = futureVelocity;
     }
 
