@@ -41,6 +41,7 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets/Camera/ThirdPersonCamera.cs" />
      <Compile Include="Assets/Trigger/TriggerLevel1.cs" />
      <Compile Include="Assets/Timer/TimerLevel2.cs" />
      <Compile Include="Assets/Score/ScoreProject.cs" />
@@ -65,12 +66,12 @@
      <Compile Include="Assets/Inventory/Inventory.cs" />
      <Compile Include="Assets/Teleport/TeleportLevel2.cs" />
      <Compile Include="Assets/Quest/QuestLogListener.cs" />
+     <Compile Include="Assets/Math/Lerp.cs" />
      <Compile Include="Assets/Console/Console.cs" />
      <Compile Include="Assets/Score/ScoreSave.cs" />
      <Compile Include="Assets/Inventory/InventoryController.cs" />
      <Compile Include="Assets/Timer/TimerLevel1.cs" />
-     <Compile Include="Assets/Camera/ThirdPersonCamera.cs" />
-     <Compile Include="Assets/Math/Lerp.cs" />
+     <Compile Include="Assets/CharacterController/Runner/CharacterControllerRunner.cs" />
      <Folder Include="Assets" />
      <Folder Include="Assets/Utils" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
@@ -92,6 +93,7 @@
      <Folder Include="Assets/Timer" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Surface-Mobile.shader" />
      <Folder Include="Assets/TextMesh Pro" />
+     <Folder Include="Assets/CharacterController/Runner" />
      <Folder Include="Assets/CharacterController/Playground" />
      <Folder Include="Assets/Camera" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Surface.shader" />

@@ -17,7 +17,7 @@ public class ThirdPersonCamera : MonoBehaviour
     public LayerMask cameraCollisionMask;
     public float cameraRadius = 0.1f;
 
-    private void Update()
+    private void LateUpdate()
     {
         float mouseX = Input.GetAxis("Mouse X");
         cameraYaw += mouseX * mouseSensitivity * 10f;
