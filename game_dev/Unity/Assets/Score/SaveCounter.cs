@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class ScoreSave : MonoBehaviour
+public class SaveScore : MonoBehaviour
 {
     // public event
     public UnityEvent<int> onScoreChanged;

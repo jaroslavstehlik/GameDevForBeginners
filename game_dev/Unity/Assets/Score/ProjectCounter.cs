@@ -8,7 +8,7 @@ using UnityEngine.Events;
 // Scriptable object can be stored only in project
 // it can be referenced in scene
 // it is used mostly for holding game data
-public class ScoreProject : ScriptableObject
+public class ProjectScore : ScriptableObject
 {
     // public event
     public UnityEvent<int> onScoreChanged;

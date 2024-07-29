@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class ScoreGameObject : MonoBehaviour
+public class GameObjectScore : MonoBehaviour
 {
     // public event
     public UnityEvent<int> onScoreChanged;

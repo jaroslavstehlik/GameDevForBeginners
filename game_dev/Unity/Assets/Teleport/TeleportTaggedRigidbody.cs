@@ -2,7 +2,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class TeleportLevel3 : MonoBehaviour
+public class TeleportRigidbodyTags : MonoBehaviour
 {
     // Our array of tags
     public string[] tags;

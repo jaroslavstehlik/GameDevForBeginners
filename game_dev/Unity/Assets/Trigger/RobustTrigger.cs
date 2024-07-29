@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class TriggerLevel2 : MonoBehaviour
+public class TriggerRobust : MonoBehaviour
 {
     // Public events 
     public UnityEvent onTriggerEnter;
