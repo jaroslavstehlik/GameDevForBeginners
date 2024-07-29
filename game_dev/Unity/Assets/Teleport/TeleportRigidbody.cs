@@ -1,7 +1,8 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class TeleportLevel2 : MonoBehaviour
+public class TeleportRigidbody : MonoBehaviour
 {
     // Public events 
     public UnityEvent onTeleport;
@@ -14,14 +15,25 @@ public class TeleportLevel2 : MonoBehaviour
     {
         // Modify object which entered trigger
         // find rigidbody
-        Rigidbody rigidBody = other.GetComponent<Rigidbody>();
+        TeleportableRigidbody teleportableRigidbody = other.GetComponent<TeleportableRigidbody>();
+        // If we did not found rigidbody, terminate function
+        if(teleportableRigidbody == null)
+            return;
+
         // Set its target position
-        rigidBody.position = targetTransform.position;
+        teleportableRigidbody.rigidbody.position = targetTransform.position;
         // Set its target rotation
-        rigidBody.rotation = targetTransform.rotation;
+        teleportableRigidbody.rigidbody.rotation = targetTransform.rotation;
         
         // Invoke teleport event
         if(onTeleport != null)
             onTeleport.Invoke();
     }
+    
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(transform.position, targetTransform.position);
+    }
+#endif
 }

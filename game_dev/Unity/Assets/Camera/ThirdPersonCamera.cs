@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class ThirdPersonCamera : MonoBehaviour
 {
@@ -42,7 +38,8 @@ public class ThirdPersonCamera : MonoBehaviour
             QueryTriggerInteraction.Ignore);
 
         float actualCameraDistance = Vector3.Distance(targetPosition, transform.position);
-        float cameraDistanceWithPhysics = Mathf.Lerp(actualCameraDistance, cameraDistance, Lerp.Smooth(0.1f));
+        
+        float cameraDistanceWithPhysics = LerpUtils.Lerp(actualCameraDistance, cameraDistance, Time.deltaTime * 0.1f);
         if (hit)
         {
             cameraDistanceWithPhysics = Mathf.Min(cameraDistance, raycastHit.distance);

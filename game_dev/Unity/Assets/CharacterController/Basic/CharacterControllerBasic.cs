@@ -266,20 +266,20 @@ public class CharacterControllerBasic : MonoBehaviour
 
     void ResetGravity(ref Vector3 gravityVelocity)
     {
-        Debug.Log("ResetGravity");
+        //Debug.Log("ResetGravity");
         gravityVelocity = Vector3.zero;
     }
 
     void ApplyGravity(ref Vector3 velocity, float fallProgress)
     {
         velocity += Physics.gravity * fallProgress;
-        Debug.Log("ApplyGravity");
+        //Debug.Log("ApplyGravity");
     }
 
     void ApplyJump(ref Vector3 velocity, float jumpProgress)
     {
         velocity += Vector3.up * jumpAmount * (1f - jumpProgress);
-        Debug.Log("ApplyJump");
+        //Debug.Log("ApplyJump");
     }
 
     static Vector3 ProjectVelocityOnNormal(Vector3 velocityDirection, float velocityMagnitude, Vector3 playerUp, Vector3 groundNormal)

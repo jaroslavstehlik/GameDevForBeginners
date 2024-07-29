@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class TriggerLevel3 : MonoBehaviour
+public class CounterTrigger : MonoBehaviour
 {
     // Public events 
     public UnityEvent onTriggerEnter;

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class BasicTrigger : MonoBehaviour
+public class NaiveTrigger : MonoBehaviour
 {
     // Public events 
     public UnityEvent onTriggerEnter;

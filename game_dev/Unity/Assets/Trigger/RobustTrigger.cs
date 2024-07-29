@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class TriggerRobust : MonoBehaviour
+public class RobustTrigger : MonoBehaviour
 {
     // Public events 
     public UnityEvent onTriggerEnter;

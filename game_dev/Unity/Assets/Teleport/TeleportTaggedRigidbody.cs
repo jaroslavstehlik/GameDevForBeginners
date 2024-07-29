@@ -2,7 +2,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class TeleportRigidbodyTags : MonoBehaviour
+public class TeleportTaggedRigidbody : MonoBehaviour
 {
     // Our array of tags
     public string[] tags;
@@ -38,14 +38,26 @@ public class TeleportRigidbodyTags : MonoBehaviour
         
         // Modify object which entered trigger
         // find rigidbody
-        Rigidbody rigidBody = other.GetComponent<Rigidbody>();
+        TeleportableRigidbody teleportableRigidbody = other.GetComponent<TeleportableRigidbody>();
+        if(teleportableRigidbody == null)
+            // If we did not found rigidbody, terminate function
+            return;
+        
         // Set its target position
-        rigidBody.position = targetTransform.position;
+        teleportableRigidbody.rigidbody.position = targetTransform.position;
         // Set its target rotation
-        rigidBody.rotation = targetTransform.rotation;
+        teleportableRigidbody.rigidbody.rotation = targetTransform.rotation;
         
         // Invoke teleport event
         if(onTeleport != null)
             onTeleport.Invoke();
     }
+    
+        
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(transform.position, targetTransform.position);
+    }
+#endif
 }

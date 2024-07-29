@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class TimerLevel2 : MonoBehaviour
+public class CyclicTimer : MonoBehaviour
 {
     // Public event when single timer cycle finished
     public UnityEvent onTimerCycleFinished;

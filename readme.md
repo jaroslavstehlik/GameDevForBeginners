@@ -1,10 +1,17 @@
 # Game dev building blocks
 
-- [Building blocks](game_dev/building_blocks.md)
-
-
-
-
+- [Walls](game_dev/building_blocks/walls.md)
+- [Triggers](game_dev/building_blocks/triggers.md)
+- [Teleports](game_dev/building_blocks/teleports.md)
+- [Timers](game_dev/building_blocks/timers.md)
+- [Spawners](game_dev/building_blocks/spawners.md)
+- [Counters](game_dev/building_blocks/counters.md)
+- [Console](game_dev/building_blocks/console.md)
+- [Quests](game_dev/building_blocks/quests.md)
+- [Inventory](game_dev/building_blocks/inventory.md)
+- [Map](game_dev/building_blocks/map.md)
+- [Character controller](game_dev/building_blocks/character_controller.md)
+- [Camera](game_dev/building_blocks/camera.md)
 
 # Game dev programming
 

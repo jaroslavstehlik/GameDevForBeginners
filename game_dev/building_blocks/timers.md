@@ -20,14 +20,14 @@ The event which has to be triggered when the timer ends.
 - Coroutine which waits for duration before it executes event.
 - Event, trigger an even when the timer ends.
 
-## Level 1
+## Basic Timer
 
 ```csharp
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class TimerLevel1 : MonoBehaviour
+public class BasicTimer : MonoBehaviour
 {
     // Public event when timer finishes
     public UnityEvent onTimerFinished;
@@ -74,7 +74,7 @@ public class TimerLevel1 : MonoBehaviour
 }
 ```
 
-## Level 2
+## Cyclic Timer
 
 Our timer could repeat it self multiple times. Lets implement cycles.
 
@@ -83,7 +83,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class TimerLevel2 : MonoBehaviour
+public class CyclicTimer : MonoBehaviour
 {
     // Public event when single timer cycle finished
     public UnityEvent onTimerCycleFinished;

@@ -7,32 +7,32 @@ Triggers are the most primitive game element we can introduce in a game. From a 
 ![minecraft](../../img/minecraft_trap.gif)
 
 
-What makes a trigger to detect stuff?
+What makes a trigger detect stuff?
 # Grid
 On a grid based game, we can identify a trigger with a specific trigger tile. If we can identify which tile on the grid is for walking and which is not, we can also create another class of a tile which is meant for triggering.
 
 # Colliders
-Primitive shapes which describe a specific volume can be also used as triggers in most physics engines. We usually have to use some kind of flag on the collider to make it act as a trigger, otherwise it would be functioning as a wall.
+Primitive shapes which describe a specific volume can be also used as triggers in most physics engines. We usually have to use some kind of flag on the collider to make it act as a trigger, otherwise it would be behaving as a wall.
 
 # Events
-Every trigger if it detects something has to trigger an event. An event is simply a link to a specific function. That function is called when we activate the trigger.
+Every trigger triggers an event when it detects something. An event is simply a link to a specific function. That function is called when we activate the trigger.
 
 # Implementation
-Our trigger script needs to derive from MonoBehaviour in order so it can receive messages about triggers.\ 
+Our trigger script needs to inherit from MonoBehaviour in order so it can receive messages about triggers.  
 
-MonoBehaviour class implements three trigger related messages.\ 
+MonoBehaviour class implements three trigger related messages.  
 - OnTriggerEnter
 - OnTriggerStay
 - OnTriggerExit
 
-We will use only OnTriggerEnter and OnTriggerExit for now.
-## Level 1
+We will use only OnTriggerEnter and OnTriggerExit for now.  
+## Naive trigger
 
 ```csharp
 using UnityEngine;
 using UnityEngine.Events;
 
-public class TriggerLevel1 : MonoBehaviour
+public class NaiveTrigger : MonoBehaviour
 {
     // Public events 
     public UnityEvent onTriggerEnter;
@@ -70,14 +70,14 @@ If our events would just enable and disable a wall for example, The wall would d
 
 - One of the solutions would be to make sure that only a single collider can enter and exit the trigger. But this would be very hard to achieve in the scene.
 - The other solution is to remember which colliders have entered and which colliders have left the trigger.
-## Level 2
+## Robust trigger
 
 ```csharp
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class TriggerLevel2 : MonoBehaviour
+public class RobustTrigger : MonoBehaviour
 {
     // Public events 
     public UnityEvent onTriggerEnter;
@@ -136,14 +136,14 @@ and triggers exit only when all objects leave the trigger.
 This trigger is pretty robust towards multiple object detection.
 However it might be more useful if we could trigger the events only when certain amount of objects enter or leave the trigger. 
 
-## Level 3
+## Counter trigger
 
 ```csharp
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class TriggerLevel3 : MonoBehaviour
+public class CounterTrigger : MonoBehaviour
 {
     // Public events 
     public UnityEvent onTriggerEnter;

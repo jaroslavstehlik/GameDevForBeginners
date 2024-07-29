@@ -14,13 +14,13 @@ Then we need a specific place on the map to which the teleport or portal will tr
 - Position, which tells where to teleport our player or object
 - Move player to a specific position
 
-## Level 1
+## Teleport Transform
 
 ```csharp
 using UnityEngine;
 using UnityEngine.Events;
 
-public class TeleportLevel1 : MonoBehaviour
+public class TeleportTransform : MonoBehaviour
 {
     // Public events 
     public UnityEvent onTeleport;
@@ -31,31 +31,43 @@ public class TeleportLevel1 : MonoBehaviour
     // MonoBehaviour OnTriggerEnter function
     void OnTriggerEnter(Collider other)
     {
+        TeleportableTransform teleportableTransform = other.GetComponent<TeleportableTransform>();
+        // If we did not found transform, terminate function
+        if(teleportableTransform == null)
+            return;
+
         // Modify object which entered trigger
         // Set its target position
-        other.transform.position = targetTransform.position;
+        teleportableTransform.target.position = targetTransform.position;
         // Set its target rotation
-        other.transform.rotation = targetTransform.rotation;
+        teleportableTransform.target.transform.rotation = targetTransform.rotation;
         
         // Invoke teleport event
         if(onTeleport != null)
             onTeleport.Invoke();
     }
+        
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(transform.position, targetTransform.position);
+    }
+#endif
 }
-
 ```
 
 This is the simplest teleport we can make. However, it has a major flaw.
 If our object contains a RigidBody the teleportation might fail due to collision detection.
 When we move RigidBodies around, they still have to detect collisions and if there is a wall in the way, the player might get stuck. Lets make this teleport compatible with RigidBodies then.
 
-## Level 2
+## Teleport Rigidbody
 
 ```csharp
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class TeleportLevel2 : MonoBehaviour
+public class TeleportRigidbody : MonoBehaviour
 {
     // Public events 
     public UnityEvent onTeleport;
@@ -68,29 +80,40 @@ public class TeleportLevel2 : MonoBehaviour
     {
         // Modify object which entered trigger
         // find rigidbody
-        Rigidbody rigidBody = other.GetComponent<Rigidbody>();
+        TeleportableRigidbody teleportableRigidbody = other.GetComponent<TeleportableRigidbody>();
+        // If we did not found rigidbody, terminate function
+        if(teleportableRigidbody == null)
+            return;
+
         // Set its target position
-        rigidBody.position = targetTransform.position;
+        teleportableRigidbody.rigidbody.position = targetTransform.position;
         // Set its target rotation
-        rigidBody.rotation = targetTransform.rotation;
+        teleportableRigidbody.rigidbody.rotation = targetTransform.rotation;
         
         // Invoke teleport event
         if(onTeleport != null)
             onTeleport.Invoke();
     }
+    
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(transform.position, targetTransform.position);
+    }
+#endif
 }
 ```
 
 Now our teleport actually supports moving RigidBodies around. But we might want to filter only specific objects to be able to teleport. We can use object tag as a filter.
 
-## Level 3
+## Teleport Tagged Rigidbody
 
 ```csharp
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class TeleportLevel3 : MonoBehaviour
+public class TeleportTaggedRigidbody : MonoBehaviour
 {
     // Our array of tags
     public string[] tags;
@@ -126,15 +149,27 @@ public class TeleportLevel3 : MonoBehaviour
         
         // Modify object which entered trigger
         // find rigidbody
-        Rigidbody rigidBody = other.GetComponent<Rigidbody>();
+        TeleportableRigidbody teleportableRigidbody = other.GetComponent<TeleportableRigidbody>();
+        if(teleportableRigidbody == null)
+            // If we did not found rigidbody, terminate function
+            return;
+        
         // Set its target position
-        rigidBody.position = targetTransform.position;
+        teleportableRigidbody.rigidbody.position = targetTransform.position;
         // Set its target rotation
-        rigidBody.rotation = targetTransform.rotation;
+        teleportableRigidbody.rigidbody.rotation = targetTransform.rotation;
         
         // Invoke teleport event
         if(onTeleport != null)
             onTeleport.Invoke();
     }
+    
+        
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(transform.position, targetTransform.position);
+    }
+#endif
 }
 ```

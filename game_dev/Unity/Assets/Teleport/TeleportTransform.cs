@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class TeleportLevel1 : MonoBehaviour
+public class TeleportTransform : MonoBehaviour
 {
     // Public events 
     public UnityEvent onTeleport;
@@ -12,14 +12,26 @@ public class TeleportLevel1 : MonoBehaviour
     // MonoBehaviour OnTriggerEnter function
     void OnTriggerEnter(Collider other)
     {
+        TeleportableTransform teleportableTransform = other.GetComponent<TeleportableTransform>();
+        // If we did not found transform, terminate function
+        if(teleportableTransform == null)
+            return;
+
         // Modify object which entered trigger
         // Set its target position
-        other.transform.position = targetTransform.position;
+        teleportableTransform.target.position = targetTransform.position;
         // Set its target rotation
-        other.transform.rotation = targetTransform.rotation;
+        teleportableTransform.target.transform.rotation = targetTransform.rotation;
         
         // Invoke teleport event
         if(onTeleport != null)
             onTeleport.Invoke();
     }
+        
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(transform.position, targetTransform.position);
+    }
+#endif
 }

@@ -1,0 +1,1 @@
+<a href="https://www.flaticon.com/free-icons/trigger" title="trigger icons">Trigger icons created by edt.im - Flaticon</a>

@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class TimerLevel1 : MonoBehaviour
+public class BasicTimer : MonoBehaviour
 {
     // Public event when timer finishes
     public UnityEvent onTimerFinished;
