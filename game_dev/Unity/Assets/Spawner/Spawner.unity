@@ -614,7 +614,7 @@ PrefabInstance:
       objectReference: {fileID: 2072517840}
     - target: {fileID: 8034035249628833420, guid: 1cc34e6add9fc42a99f37e46956c4b80, type: 3}
       propertyPath: m_Name
-      value: SpawnerLevel2
+      value: MemoryPoolSpawner
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1cc34e6add9fc42a99f37e46956c4b80, type: 3}
@@ -679,7 +679,7 @@ PrefabInstance:
       objectReference: {fileID: 1932475559845613664, guid: c38aca5b10e0a4a2bbe880146fce2114, type: 3}
     - target: {fileID: 8034035249628833420, guid: 796eee65b2d3b4bd19499d015b404277, type: 3}
       propertyPath: m_Name
-      value: SpawnerLevel1
+      value: InstanceSpawner
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 796eee65b2d3b4bd19499d015b404277, type: 3}

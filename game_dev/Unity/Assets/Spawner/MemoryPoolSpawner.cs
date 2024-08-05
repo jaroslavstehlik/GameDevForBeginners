@@ -1,16 +1,16 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class SpawnerLevel2 : MonoBehaviour
+public class MemoryPoolSpawner : MonoBehaviour
 {
     // Public event when spawner spawns an object
-    public UnityEvent onSpawn;
+    public UnityEvent<GameObject> onSpawn;
     
     // Duration of spawner
     public float duration = 1f;
 
+    // maximum number of GameObjects to spawn
     public int maxSpawnCount = 10;
     
     // GameObject to spawn
@@ -19,7 +19,7 @@ public class SpawnerLevel2 : MonoBehaviour
     // Where to place our spawned object
     public Transform spawnLocation;
     
-    // Define coroutine so we can later stop it
+    // Store coroutine so we can later stop it
     private IEnumerator coroutine;
 
     private GameObject[] memoryPool;
@@ -107,7 +107,7 @@ public class SpawnerLevel2 : MonoBehaviour
             // Check if anyone listens to our event
             if(onSpawn != null)
                 // Invoke event
-                onSpawn.Invoke();
+                onSpawn.Invoke(spawnedGameObject);
         }
     }
 }

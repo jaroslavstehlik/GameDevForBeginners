@@ -13,29 +13,17 @@ We usually spawn things at a specific interval, for example once in a minute.
 Or we spawn things when we kill an enemy, another enemy is spawned, therefore
 the number of enemies remains constant.
 
-## Memory pool
-Usually we don't want to spawn many new elements at once because they very often cause hiccups. A hiccup in a game is caused by some operation which takes too much time. If we create elements when the game loads instead ahead of time, we still get some hiccup but it is during level loading which is more acceptable. Then during spawning we just enable and disable those elements, which creates the same effect as spawning but without the hiccup.
-
-# Implementation
-Spawner can be implemented as:
-- **Array**, an array of elements which represents our memory pool.
-- **Integer**, representing the current index of an element we want to spawn.
-- **Spawn function**, which enables our element in scene and increments the spawn index.
-- **Spawn event**
-	- Timer, when our timer finishes, we spawn another element.
-	- Game event, when our enemy is killed, we spawn another enemy.
-
-## Level 1
+## Instance Spawner
 
 ```csharp
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class SpawnerLevel1 : MonoBehaviour
+public class InstanceSpawner : MonoBehaviour
 {
     // Public event when spawner spawns an object
-    public UnityEvent onSpawn;
+    public UnityEvent<GameObject> onSpawn;
     
     // Duration of spawner
     public float duration = 1f;
@@ -46,7 +34,7 @@ public class SpawnerLevel1 : MonoBehaviour
     // Where to place our spawned object
     public Transform spawnLocation;
     
-    // Define coroutine so we can later stop it
+    // Store coroutine so we can later stop it
     private IEnumerator coroutine;
     
     // Monobehaviour calls this method when component is enabled in scene
@@ -96,7 +84,7 @@ public class SpawnerLevel1 : MonoBehaviour
             // Check if anyone listens to our event
             if(onSpawn != null)
                 // Invoke event
-                onSpawn.Invoke();
+                onSpawn.Invoke(spawnedGameObject);
         }
     }
 }
@@ -109,22 +97,35 @@ This clones the spawned game object every duration we set. This implementation h
 
 So what can we do to make this safer? Lets use a memory pool.
 A memory pool is just an array of GameObjects which is instatiated as soon as possible. Individual objects are disabled and when the spawner is about to spawn an object it just moves the object to the spawn location, resets all its states and turns its visibility on.
-# Level 2
+
+## Memory pool
+Usually we don't want to spawn many new elements at once because they very often cause hiccups. A hiccup in a game is caused by some operation which takes too much time. If we create elements when the game loads instead ahead of time, we still get some hiccup but it is during level loading which is more acceptable. Then during spawning we just enable and disable those elements, which creates the same effect as spawning but without the hiccup.
+
+# Implementation
+Spawner can be implemented as:
+- **Array**, an array of elements which represents our memory pool.
+- **Integer**, representing the current index of an element we want to spawn.
+- **Spawn function**, which enables our element in scene and increments the spawn index.
+- **Spawn event**
+	- Timer, when our timer finishes, we spawn another element.
+	- Game event, when our enemy is killed, we spawn another enemy.
+
+# Memory Pool Spawner
 
 ```csharp
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class SpawnerLevel2 : MonoBehaviour
+public class MemoryPoolSpawner : MonoBehaviour
 {
     // Public event when spawner spawns an object
-    public UnityEvent onSpawn;
+    public UnityEvent<GameObject> onSpawn;
     
     // Duration of spawner
     public float duration = 1f;
 
+    // maximum number of GameObjects to spawn
     public int maxSpawnCount = 10;
     
     // GameObject to spawn
@@ -133,7 +134,7 @@ public class SpawnerLevel2 : MonoBehaviour
     // Where to place our spawned object
     public Transform spawnLocation;
     
-    // Define coroutine so we can later stop it
+    // Store coroutine so we can later stop it
     private IEnumerator coroutine;
 
     private GameObject[] memoryPool;
@@ -221,12 +222,12 @@ public class SpawnerLevel2 : MonoBehaviour
             // Check if anyone listens to our event
             if(onSpawn != null)
                 // Invoke event
-                onSpawn.Invoke();
+                onSpawn.Invoke(spawnedGameObject);
         }
     }
 }
 ```
 
-While this implementation is much more efficient, the crucial portion of this implementation is the reseting of state every time we need to spawn the object. 
+While this implementation is much more efficient, the crucial portion of this implementation is the resetting of state every time we need to spawn the object. 
 If the Object has complex states, for example animations, physics or game logic that also needs to be reset whenever we need to spawn an object. 
 Keep this in mind, the more complex the state, the more complex the reset becomes as well. In a complex reset state might be actually simpler to use the creation and destruction as this always resets the state to its beginning.

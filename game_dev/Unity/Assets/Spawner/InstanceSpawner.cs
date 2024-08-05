@@ -2,10 +2,10 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class SpawnerLevel1 : MonoBehaviour
+public class InstanceSpawner : MonoBehaviour
 {
     // Public event when spawner spawns an object
-    public UnityEvent onSpawn;
+    public UnityEvent<GameObject> onSpawn;
     
     // Duration of spawner
     public float duration = 1f;
@@ -16,7 +16,7 @@ public class SpawnerLevel1 : MonoBehaviour
     // Where to place our spawned object
     public Transform spawnLocation;
     
-    // Define coroutine so we can later stop it
+    // Store coroutine so we can later stop it
     private IEnumerator coroutine;
     
     // Monobehaviour calls this method when component is enabled in scene
@@ -66,7 +66,7 @@ public class SpawnerLevel1 : MonoBehaviour
             // Check if anyone listens to our event
             if(onSpawn != null)
                 // Invoke event
-                onSpawn.Invoke();
+                onSpawn.Invoke(spawnedGameObject);
         }
     }
 }

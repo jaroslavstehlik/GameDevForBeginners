@@ -21,7 +21,7 @@ public class TeleportTransform : MonoBehaviour
         // Set its target position
         teleportableTransform.target.position = targetTransform.position;
         // Set its target rotation
-        teleportableTransform.target.transform.rotation = targetTransform.rotation;
+        teleportableTransform.target.rotation = targetTransform.rotation;
         
         // Invoke teleport event
         if(onTeleport != null)

@@ -40,7 +40,7 @@ public class TeleportTransform : MonoBehaviour
         // Set its target position
         teleportableTransform.target.position = targetTransform.position;
         // Set its target rotation
-        teleportableTransform.target.transform.rotation = targetTransform.rotation;
+        teleportableTransform.target.rotation = targetTransform.rotation;
         
         // Invoke teleport event
         if(onTeleport != null)
@@ -63,7 +63,6 @@ When we move RigidBodies around, they still have to detect collisions and if the
 ## Teleport Rigidbody
 
 ```csharp
-using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -109,7 +108,6 @@ Now our teleport actually supports moving RigidBodies around. But we might want 
 ## Teleport Tagged Rigidbody
 
 ```csharp
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 

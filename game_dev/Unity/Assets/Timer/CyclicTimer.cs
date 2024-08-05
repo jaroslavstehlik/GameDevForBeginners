@@ -20,13 +20,13 @@ public class CyclicTimer : MonoBehaviour
     private IEnumerator coroutine;
 
     // Keep track of the current timer cycle
-    private int curretCycle = 0;
+    private int currentCycle = 0;
     
     // Monobehaviour calls this method when component is enabled in scene
     void OnEnable()
     {
         // Reset cycles
-        curretCycle = 0;
+        currentCycle = 0;
         
         // Store coroutine in to variable
         coroutine = TimerCoroutine();
@@ -49,7 +49,7 @@ public class CyclicTimer : MonoBehaviour
     IEnumerator TimerCoroutine()
     {
         // We will execute the body of this cycle until the condition is true
-        while (curretCycle < cycles)
+        while (currentCycle < cycles)
         {
             // Yield means that we want this function to run across multiple frames
             // WaitForSeconds means that the function will wait certain amount of time
@@ -62,7 +62,7 @@ public class CyclicTimer : MonoBehaviour
                 onTimerCycleFinished.Invoke();
             
             // increment curretCycle by 1
-            curretCycle++;
+            currentCycle++;
         }
         
         // Check if anyone listens to our event
