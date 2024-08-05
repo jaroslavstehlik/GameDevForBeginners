@@ -3,36 +3,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 // Make public methods available in the scene
 // for controlling our Quest Log.
-public class QuestLogController : MonoBehaviour
+public class LinearQuestLogController : MonoBehaviour
 {
     // reference to our quest log project asset
-    public QuestLog questLog;
+    public LinearQuestLog linearQuestLog;
 
     public void ActivateNextQuest()
     {
-        questLog.ActivateNextQuest();
+        linearQuestLog.ActivateNextQuest();
     }
 
     public Quest GetActiveQuest()
     {
-        return questLog.GetActiveQuest();
+        return linearQuestLog.GetActiveQuest();
     }
 
     public float GetQuestLogProgress()
     {
-        return questLog.GetQuestLogProgress();
+        return linearQuestLog.GetQuestLogProgress();
     }
 
     public void CompleteActiveQuest()
     {
-        questLog.CompleteFocusedQuest();
+        linearQuestLog.CompleteFocusedQuest();
     }
     
     public void Reset()
     {
-        questLog.Reset();
+        linearQuestLog.Reset();
     }
 }

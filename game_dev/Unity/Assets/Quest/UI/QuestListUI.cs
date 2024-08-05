@@ -2,24 +2,25 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class QuestListUI : MonoBehaviour
 {
-    public QuestLog questLog;
+    [FormerlySerializedAs("questLog")] public LinearQuestLog linearQuestLog;
     [SerializeField] private GameObject questItemPrefab;
     [SerializeField] private RectTransform questItemContainer;
 
     private void OnEnable()
     {
-        questLog.onQuestActivated.AddListener(OnQuestActivated);
-        questLog.onQuestCompleted.AddListener(OnQuestCompleted);
-        OnQuestActivated(questLog.GetActiveQuest());
+        linearQuestLog.onQuestActivated.AddListener(OnQuestActivated);
+        linearQuestLog.onQuestCompleted.AddListener(OnQuestCompleted);
+        OnQuestActivated(linearQuestLog.GetActiveQuest());
     }
 
     private void OnDisable()
     {
-        questLog.onQuestActivated.RemoveListener(OnQuestActivated);
-        questLog.onQuestCompleted.RemoveListener(OnQuestCompleted);
+        linearQuestLog.onQuestActivated.RemoveListener(OnQuestActivated);
+        linearQuestLog.onQuestCompleted.RemoveListener(OnQuestCompleted);
     }
 
     private void ClearItems()
@@ -44,6 +45,6 @@ public class QuestListUI : MonoBehaviour
     private void OnQuestCompleted(Quest quest)
     {
         ClearItems();
-        questLog.ActivateNextQuest();
+        linearQuestLog.ActivateNextQuest();
     }
 }

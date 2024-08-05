@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,9 +16,9 @@ public class Quest : ScriptableObject
     public UnityEvent<Quest> onQuestComplete;
     
     // Each quest needs to identify if it is currently active
-    [SerializeField] private bool active = false;
+    [NonSerialized] private bool active = false;
     // Each quest needs to identify if it has been completed
-    [SerializeField] bool completed = false;
+    [NonSerialized] private bool completed = false;
     // The description of our quest to the player
     public string description = string.Empty;
     // The unique identifier to enable quest progress saving
@@ -56,6 +57,7 @@ public class Quest : ScriptableObject
     {
         if (!active)
         {
+            Debug.Log($"Quest activated: {name}");
             active = true;
             if (onQuestActivated != null)
                 onQuestActivated.Invoke(this);
@@ -67,6 +69,7 @@ public class Quest : ScriptableObject
     {
         if (active)
         {
+            Debug.Log($"Quest deactivated: {name}");
             active = false;
             if (onQuestDeactivated != null)
                 onQuestDeactivated.Invoke(this);

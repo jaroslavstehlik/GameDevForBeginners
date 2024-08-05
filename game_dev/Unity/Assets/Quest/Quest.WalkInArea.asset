@@ -25,6 +25,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   active: 0
-  completed: 1
+  completed: 0
   description: Walk in area
   saveKey: room01_walk_in_area

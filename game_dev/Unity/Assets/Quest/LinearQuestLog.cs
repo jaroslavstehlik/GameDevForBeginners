@@ -8,32 +8,30 @@ using UnityEngine.Serialization;
 // This field tells UnityEditor to create an asset menu
 // which creates a new scriptable object in project.
 [CreateAssetMenu(fileName = "Quest Log", menuName = "GMD/Quest/Quest Log", order = 1)]
-public class QuestLog : ScriptableObject
+public class LinearQuestLog : ScriptableObject
 {
-    public UnityEvent<QuestLog> onQuestLogCompleted;
-    public UnityEvent<QuestLog> onQuestLogReset;
+    public UnityEvent<LinearQuestLog> onQuestLogStarted;
+    public UnityEvent<LinearQuestLog> onQuestLogCompleted;
+    public UnityEvent<LinearQuestLog> onQuestLogReset;
     
     public UnityEvent<Quest> onQuestActivated;
     public UnityEvent<Quest> onQuestCompleted;
-    
-    [SerializeField] Quest[] quests;
 
-    [SerializeField] private int focusedQuestIndex = 0;
+    // when a quest in the queue is completed the next quest will be activated
+    public bool activateNextQuestOnComplete = true;
+    
+    [SerializeField] private Quest[] quests;
+
+    [NonSerialized] private int focusedQuestIndex = 0;
 
     private void OnEnable()
     {
-        // reset focused quest index
-        focusedQuestIndex = 0;
-        
         // start listening for quest activations and completions
         foreach (var quest in quests)
         {
             quest.onQuestActivated.AddListener(OnQuestActivated);
             quest.onQuestComplete.AddListener(OnQuestCompleted);
         }
-        
-        // activate focused quest
-        quests[focusedQuestIndex].Activate();
     }
 
     private void OnDisable()
@@ -49,12 +47,21 @@ public class QuestLog : ScriptableObject
     {
         if(onQuestActivated != null)
             onQuestActivated.Invoke(quest);
+
+        if (quest == quests[0])
+        {
+            if (onQuestLogStarted != null)
+                onQuestLogStarted.Invoke(this);
+        }
     }
 
     private void OnQuestCompleted(Quest quest)
     {
         if(onQuestCompleted != null)
             onQuestCompleted.Invoke(quest);
+
+        if (activateNextQuestOnComplete)
+            ActivateNextQuest();
     }
 
     public Quest[] GetAllQuests()
@@ -160,5 +167,13 @@ public class QuestLog : ScriptableObject
         
         if(onQuestLogReset != null)
             onQuestLogReset.Invoke(this);
+    }
+
+    public void StartFirstQuest()
+    {
+        if(quests.Length == 0)
+            return;
+        
+        quests[0].Activate();
     }
 }
