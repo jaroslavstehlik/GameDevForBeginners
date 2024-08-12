@@ -6,31 +6,42 @@ using UnityEngine.Serialization;
 // and propagate those changes to our scene
 public class LinearQuestLogListener : MonoBehaviour
 {
-    [FormerlySerializedAs("questLog")] public LinearQuestLog linearQuestLog;
-    public UnityEvent<LinearQuestLog> onQuestLogStarted;
+    public LinearQuestLog linearQuestLog;
+    public UnityEvent<LinearQuestLog> onQuestLogActivated;
     public UnityEvent<LinearQuestLog> onQuestLogCompleted;
-    public UnityEvent<LinearQuestLog> onQuestLogReset;
+    public UnityEvent<LinearQuestLog> onQuestLogDeactivated;
     
     private void OnEnable()
     {
-        linearQuestLog.onQuestLogStarted.AddListener(OnQuestLogStarted);
+        linearQuestLog.onQuestLogActivated.AddListener(OnQuestLogActivated);
         linearQuestLog.onQuestLogCompleted.AddListener(OnQuestLogCompleted);
-        linearQuestLog.onQuestLogReset.AddListener(OnQuestLogReset);
-        if (linearQuestLog.isCompleted)
-            OnQuestLogCompleted(linearQuestLog);
+        linearQuestLog.onQuestLogDeactivated.AddListener(OnQuestLogDeactivated);
+
+        switch (linearQuestLog.state)
+        {
+            case LinearQuestLogState.active:
+                OnQuestLogActivated(linearQuestLog);
+                break;
+            case LinearQuestLogState.complete:
+                OnQuestLogCompleted(linearQuestLog);
+                break;
+            case LinearQuestLogState.inactive:
+                OnQuestLogDeactivated(linearQuestLog);
+                break;
+        }
     }
     
     private void OnDisable()
     {
-        linearQuestLog.onQuestLogStarted.RemoveListener(OnQuestLogStarted);
+        linearQuestLog.onQuestLogActivated.RemoveListener(OnQuestLogActivated);
         linearQuestLog.onQuestLogCompleted.RemoveListener(OnQuestLogCompleted);
-        linearQuestLog.onQuestLogReset.RemoveListener(OnQuestLogReset);
+        linearQuestLog.onQuestLogDeactivated.RemoveListener(OnQuestLogDeactivated);
     }
 
-    void OnQuestLogStarted(LinearQuestLog linearQuestLog)
+    void OnQuestLogActivated(LinearQuestLog linearQuestLog)
     {
-        if(onQuestLogStarted != null)
-            onQuestLogStarted.Invoke(linearQuestLog);
+        if(onQuestLogActivated != null)
+            onQuestLogActivated.Invoke(linearQuestLog);
     }
 
     void OnQuestLogCompleted(LinearQuestLog linearQuestLog)
@@ -39,9 +50,9 @@ public class LinearQuestLogListener : MonoBehaviour
             onQuestLogCompleted.Invoke(linearQuestLog);
     }
     
-    void OnQuestLogReset(LinearQuestLog linearQuestLog)
+    void OnQuestLogDeactivated(LinearQuestLog linearQuestLog)
     {
-        if(onQuestLogReset != null)
-            onQuestLogReset.Invoke(linearQuestLog);
+        if(onQuestLogDeactivated != null)
+            onQuestLogDeactivated.Invoke(linearQuestLog);
     }
 }

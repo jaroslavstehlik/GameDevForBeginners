@@ -12,15 +12,11 @@ public class QuestListUI : MonoBehaviour
 
     private void OnEnable()
     {
-        linearQuestLog.onQuestActivated.AddListener(OnQuestActivated);
-        linearQuestLog.onQuestCompleted.AddListener(OnQuestCompleted);
         OnQuestActivated(linearQuestLog.GetActiveQuest());
     }
 
     private void OnDisable()
     {
-        linearQuestLog.onQuestActivated.RemoveListener(OnQuestActivated);
-        linearQuestLog.onQuestCompleted.RemoveListener(OnQuestCompleted);
     }
 
     private void ClearItems()

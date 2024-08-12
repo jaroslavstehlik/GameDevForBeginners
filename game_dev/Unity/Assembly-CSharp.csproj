@@ -57,7 +57,6 @@
      <Compile Include="Assets/Spawner/MemoryPoolSpawner.cs" />
      <Compile Include="Assets/CharacterController/Runner/CharacterControllerRunner.cs" />
      <Compile Include="Assets/Utils/LerpUtils.cs" />
-     <Compile Include="Assets/Quest/LinearQuestLogController.cs" />
      <Compile Include="Assets/Teleport/TeleportableRigidbody.cs" />
      <Compile Include="Assets/Camera/FirstPersonCamera.cs" />
      <Compile Include="Assets/Trigger/RobustTrigger.cs" />
@@ -66,6 +65,7 @@
      <Compile Include="Assets/Trigger/CounterTrigger.cs" />
      <Compile Include="Assets/Inventory/InventoryCollection.cs" />
      <Compile Include="Assets/Quest/UI/QuestItemUI.cs" />
+     <Compile Include="Assets/Quest/QuestListener.cs" />
      <Compile Include="Assets/Inventory/Inventory.cs" />
      <Compile Include="Assets/Teleport/TeleportRigidbody.cs" />
      <Compile Include="Assets/Quest/LinearQuestLogListener.cs" />
@@ -75,7 +75,7 @@
      <Compile Include="Assets/Counters/SaveCounter.cs" />
      <Compile Include="Assets/Inventory/InventoryController.cs" />
      <Compile Include="Assets/Timer/BasicTimer.cs" />
-     <Compile Include="Assets/Quest/QuestListener.cs" />
+     <Compile Include="Assets/Utils/MonoBehaviourListener.cs" />
      <Folder Include="Assets" />
      <Folder Include="Assets/Utils" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />

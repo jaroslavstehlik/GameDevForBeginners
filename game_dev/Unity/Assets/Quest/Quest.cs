@@ -4,6 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+public enum QuestState
+{
+    inactive = 0,
+    active = 1,
+    complete = 2
+}
+
 // This field tells UnityEditor to create an asset menu
 // which creates a new scriptable object in project.
 [CreateAssetMenu(fileName = "Quest", menuName = "GMD/Quest/Quest", order = 1)]
@@ -11,14 +18,46 @@ public class Quest : ScriptableObject
 {
     public UnityEvent<Quest> onQuestActivated;
     public UnityEvent<Quest> onQuestDeactivated;
-    
-    public UnityEvent<Quest> onQuestReset;
     public UnityEvent<Quest> onQuestComplete;
     
-    // Each quest needs to identify if it is currently active
-    [NonSerialized] private bool active = false;
-    // Each quest needs to identify if it has been completed
-    [NonSerialized] private bool completed = false;
+    [NonSerialized] private QuestState _state;
+
+    public QuestState state
+    {
+        get
+        {
+            return _state;
+        }
+        set
+        {
+            if(_state == value)
+                return;
+
+            switch (value)
+            {
+                case QuestState.active:
+                    Debug.Log($"Quest activated: {name}");
+                    _state = QuestState.active;
+                    if (onQuestActivated != null)
+                        onQuestActivated.Invoke(this);
+                    break;
+                case QuestState.complete:
+                    Debug.Log($"Quest completed: {name}");
+                    _state = QuestState.complete;
+                    if (onQuestComplete != null)
+                        onQuestComplete.Invoke(this);
+                    break;
+                case QuestState.inactive:
+                    Debug.Log($"Quest deactivated: {name}");
+                    _state = QuestState.inactive;
+                    if (onQuestDeactivated != null)
+                        onQuestDeactivated.Invoke(this);
+                    break;
+            }
+        }
+    }
+    
+    
     // The description of our quest to the player
     public string description = string.Empty;
     // The unique identifier to enable quest progress saving
@@ -27,59 +66,37 @@ public class Quest : ScriptableObject
     // Is current quest active?
     public bool IsActive()
     {
-        return active;
+        return state == QuestState.active;
     }
     
     // Is current quest completed?
     public bool IsCompleted()
     {
-        return completed;
+        return state == QuestState.complete;
     }
     
-    // Mark this quest as completed
-    public void Complete()
-    {
-        completed = true;
-        if (onQuestComplete != null)
-            onQuestComplete.Invoke(this);
-    }
-    
-    // Reset the state of the quest
-    public void Reset()
-    {
-        completed = false;
-        if (onQuestReset != null)
-            onQuestReset.Invoke(this);
-    }
-
     // Activate the quest
     public void Activate()
     {
-        if (!active)
-        {
-            Debug.Log($"Quest activated: {name}");
-            active = true;
-            if (onQuestActivated != null)
-                onQuestActivated.Invoke(this);
-        }
+        state = QuestState.active;
+    }
+
+    // Mark this quest as completed
+    public void Complete()
+    {
+        state = QuestState.complete;
     }
 
     // Deactivate the quest
     public void Deactivate()
     {
-        if (active)
-        {
-            Debug.Log($"Quest deactivated: {name}");
-            active = false;
-            if (onQuestDeactivated != null)
-                onQuestDeactivated.Invoke(this);
-        }
+        state = QuestState.inactive;
     }
 
     // Save the quest to save data
     public void Save()
     {
-        PlayerPrefs.SetInt(saveKey, completed ? 0 : 1);
+        PlayerPrefs.SetInt(saveKey, (int)state);
     }
 
     // Load the quest from save data
@@ -88,15 +105,7 @@ public class Quest : ScriptableObject
         // Check if save already exists
         if (PlayerPrefs.HasKey(saveKey))
         {
-            // Read the save
-            if (PlayerPrefs.GetInt(saveKey) == 1)
-            {
-                Complete();
-            }
-            else
-            {
-                Reset();
-            }
+            state = (QuestState)PlayerPrefs.GetInt(saveKey);
         }
     }
 }

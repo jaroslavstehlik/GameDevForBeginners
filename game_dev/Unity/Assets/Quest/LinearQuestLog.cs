@@ -1,35 +1,77 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
+
+public enum LinearQuestLogState
+{
+    inactive = 0,
+    active = 1,
+    complete = 2
+}
 
 // This field tells UnityEditor to create an asset menu
 // which creates a new scriptable object in project.
 [CreateAssetMenu(fileName = "Quest Log", menuName = "GMD/Quest/Quest Log", order = 1)]
 public class LinearQuestLog : ScriptableObject
 {
-    public UnityEvent<LinearQuestLog> onQuestLogStarted;
+    public UnityEvent<LinearQuestLog> onQuestLogActivated;
     public UnityEvent<LinearQuestLog> onQuestLogCompleted;
-    public UnityEvent<LinearQuestLog> onQuestLogReset;
+    public UnityEvent<LinearQuestLog> onQuestLogDeactivated;
     
-    public UnityEvent<Quest> onQuestActivated;
-    public UnityEvent<Quest> onQuestCompleted;
-
     // when a quest in the queue is completed the next quest will be activated
     public bool activateNextQuestOnComplete = true;
     
     [SerializeField] private Quest[] quests;
 
-    [NonSerialized] private int focusedQuestIndex = 0;
+    [NonSerialized] private int activeQuestIndex = 0;
 
+    [NonSerialized] private LinearQuestLogState _state;
+
+    public LinearQuestLogState state
+    {
+        get
+        {
+            return _state;
+        }
+        set
+        {
+            if(_state == value)
+                return;
+
+            switch (value)
+            {
+                case LinearQuestLogState.active:
+                    Debug.Log($"Quest Log activated: {name}");
+                    _state = LinearQuestLogState.active;
+                    activeQuestIndex = 0;
+                    SetAllQuests(QuestState.inactive);
+                    GetActiveQuest().Activate();
+                    if (onQuestLogActivated != null)
+                        onQuestLogActivated.Invoke(this);
+                    break;
+                case LinearQuestLogState.complete:
+                    Debug.Log($"Quest Log completed: {name}");
+                    _state = LinearQuestLogState.complete;
+                    SetAllQuests(QuestState.inactive);
+                    if (onQuestLogCompleted != null)
+                        onQuestLogCompleted.Invoke(this);
+                    break;
+                case LinearQuestLogState.inactive:
+                    Debug.Log($"Quest Log deactivated: {name}");
+                    _state = LinearQuestLogState.inactive;
+                    SetAllQuests(QuestState.inactive);
+                    if (onQuestLogDeactivated != null)
+                        onQuestLogDeactivated.Invoke(this);
+                    break;
+            }
+        }
+    }
+    
     private void OnEnable()
     {
         // start listening for quest activations and completions
         foreach (var quest in quests)
         {
-            quest.onQuestActivated.AddListener(OnQuestActivated);
             quest.onQuestComplete.AddListener(OnQuestCompleted);
         }
     }
@@ -38,28 +80,12 @@ public class LinearQuestLog : ScriptableObject
     {
         foreach (var quest in quests)
         {
-            quest.onQuestActivated.RemoveListener(OnQuestActivated);
             quest.onQuestComplete.RemoveListener(OnQuestCompleted);
-        }
-    }
-
-    private void OnQuestActivated(Quest quest)
-    {
-        if(onQuestActivated != null)
-            onQuestActivated.Invoke(quest);
-
-        if (quest == quests[0])
-        {
-            if (onQuestLogStarted != null)
-                onQuestLogStarted.Invoke(this);
         }
     }
 
     private void OnQuestCompleted(Quest quest)
     {
-        if(onQuestCompleted != null)
-            onQuestCompleted.Invoke(quest);
-
         if (activateNextQuestOnComplete)
             ActivateNextQuest();
     }
@@ -69,111 +95,130 @@ public class LinearQuestLog : ScriptableObject
         return quests;
     }
     
-    public int GetFocusedQuestIndex()
+    public int GetActiveQuestIndex()
     {
-        return focusedQuestIndex;
+        return activeQuestIndex;
     }
 
     public float GetQuestLogProgress()
     {
-        return Mathf.Clamp(focusedQuestIndex / (float)quests.Length, 0f, 1f);
+        return Mathf.Clamp(activeQuestIndex / (float)quests.Length, 0f, 1f);
     }
 
+    public bool isActive
+    {
+        get
+        {
+            return state == LinearQuestLogState.active;
+        }
+    }
+    
     public bool isCompleted
     {
         get
         {
-            return focusedQuestIndex >= quests.Length;
+            return state == LinearQuestLogState.complete;
+        }
+    }
+    
+    public bool isDeactivated
+    {
+        get
+        {
+            return state == LinearQuestLogState.inactive;
         }
     }
 
-    bool isFocusedQuestValid
+    // Activate the quest
+    public void Activate()
     {
-        get { return focusedQuestIndex < 0 || focusedQuestIndex >= quests.Length; }
+        state = LinearQuestLogState.active;
     }
 
-    public Quest GetFocusedQuest()
+    // Mark this quest as completed
+    public void Complete()
     {
-        // Focused quest index is out of range
-        if (isFocusedQuestValid)
-            return null;
-
-        return quests[focusedQuestIndex];
+        state = LinearQuestLogState.complete;
     }
-    
+
+    // Deactivate the quest
+    public void Deactivate()
+    {
+        state = LinearQuestLogState.inactive;
+    }
+
+    bool isActiveQuestValid
+    {
+        get { return activeQuestIndex >= 0 && activeQuestIndex < quests.Length && quests[activeQuestIndex] != null; }
+    }
+
     public Quest GetActiveQuest()
     {
-        Quest focusedQuest = GetFocusedQuest();
-        
-        // Quest is not active
-        if (!focusedQuest.IsActive())
+        // Focused quest index is out of range
+        if (!isActiveQuestValid)
+        {
+            Debug.LogError($"Active quest index is invalid! {activeQuestIndex}");
             return null;
-        
-        return focusedQuest;
+        }
+
+        return quests[activeQuestIndex];
     }
     
-    public bool CompleteFocusedQuest()
+    public bool CompleteActiveQuest()
     {
-        if (isFocusedQuestValid)
+        if (!isActiveQuestValid)
+        {
+            Debug.LogError($"Active quest index is invalid! {activeQuestIndex}");
             return false;
+        }
         
-        quests[focusedQuestIndex].Complete();
+        if (!GetActiveQuest().IsActive())
+        {
+            Debug.LogError($"Current quest: {GetActiveQuest().name} is not active, unable to complete!");
+            return false;
+        }
+
+        GetActiveQuest().Complete();
         return true;
     }
 
     public Quest ActivateNextQuest()
     {
-        // Deactivate last quest
-        quests[focusedQuestIndex].Deactivate();
-        
-        // increment quest index
-        focusedQuestIndex++;
-
-        // Check if we are out of quests
-        if (focusedQuestIndex >= quests.Length)
+        // the linear quest log is inactive, activate it first
+        if (state != LinearQuestLogState.active)
         {
-            // Complete log when we are out of quests
-            if(onQuestLogCompleted != null)
-                onQuestLogCompleted.Invoke(this);
-            // return nothing when we run out of quests
+            Activate();
+            // return current active quest
+            return GetActiveQuest();
+        }
+
+        // Deactivate last quest
+        GetActiveQuest().Deactivate();
+
+        // increment quest index
+        activeQuestIndex++;
+
+        // Did we finished our quest log?
+        if (activeQuestIndex >= quests.Length)
+        {
+            Complete();
             return null;
         }
 
-        // Activate current quest
-        quests[focusedQuestIndex].Activate();
+        // Activate quest
+        GetActiveQuest().Activate();
         
         // return current active quest
-        return quests[focusedQuestIndex];
+        return GetActiveQuest();
     }
 
-    // Reset all quests
-    public void Reset()
+    void SetAllQuests(QuestState state)
     {
         // Iterate over each quest
         foreach (Quest quest in quests)
         {
             // Deactivate quest
-            quest.Deactivate();
-            
-            // Reset its completion state
-            quest.Reset();
+            quest.state = state;
         }
-
-        // Reset focused quest index
-        focusedQuestIndex = 0;
-        
-        // activate focused quest
-        quests[focusedQuestIndex].Activate();
-        
-        if(onQuestLogReset != null)
-            onQuestLogReset.Invoke(this);
-    }
-
-    public void StartFirstQuest()
-    {
-        if(quests.Length == 0)
-            return;
-        
-        quests[0].Activate();
     }
 }
