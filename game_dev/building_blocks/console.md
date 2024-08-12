@@ -5,6 +5,9 @@ Consoles in games are heavily used for script debugging, collecting bread crumbs
 making sure that certain parts of your program did run properly and also  
 for logging errors.
 
+***The matrix***\
+<img src="../../img/matrix.gif" alt="thematrix" height="400"/>
+
 Therefore a console is the biggest friend of any developer.
 
 ```csharp

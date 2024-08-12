@@ -28,7 +28,7 @@ public class BasicTimer : MonoBehaviour
         StopTimer();
     }
 
-    void StartTimer()
+    public void StartTimer()
     {
         // Store coroutine in to variable
         coroutine = TimerCoroutine();
@@ -46,7 +46,6 @@ public class BasicTimer : MonoBehaviour
         coroutine = null;
     }
     
-
     // The coroutine returns IEnumerator which tells Unity when to stop
     IEnumerator TimerCoroutine()
     {

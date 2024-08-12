@@ -53,7 +53,7 @@ public class BasicTimer : MonoBehaviour
         StopTimer();
     }
 
-    void StartTimer()
+    public void StartTimer()
     {
         // Store coroutine in to variable
         coroutine = TimerCoroutine();
@@ -71,7 +71,6 @@ public class BasicTimer : MonoBehaviour
         coroutine = null;
     }
     
-
     // The coroutine returns IEnumerator which tells Unity when to stop
     IEnumerator TimerCoroutine()
     {
@@ -128,6 +127,17 @@ public class CyclicTimer : MonoBehaviour
         // Reset cycles
         currentCycle = 0;
         
+        StartTimer();
+    }
+
+    // Monobehaviour calls this method when component is disabled in scene
+    void OnDisable()
+    {
+        StopTimer();
+    }
+
+    public void StartTimer()
+    {
         // Store coroutine in to variable
         coroutine = TimerCoroutine();
         
@@ -135,8 +145,7 @@ public class CyclicTimer : MonoBehaviour
         StartCoroutine(coroutine);
     }
 
-    // Monobehaviour calls this method when component is disabled in scene
-    void OnDisable()
+    public void StopTimer()
     {
         // Stop coroutine
         StopCoroutine(coroutine);

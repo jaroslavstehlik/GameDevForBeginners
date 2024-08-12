@@ -54,14 +54,14 @@ public class InstanceSpawner : MonoBehaviour
     }
 }
 ```
+In combination with a timer we clone the spawned game object every duration we set. 
+This implementation has few issues however.
 
-This clones the spawned game object every duration we set. This implementation has few issues however.
-
-- The longer the spawner exists the more it spawns objects which might in best case decrease our game frame rate and in worst case crash our game. This can be resolved by a timer which destroys the spawned objects
+- The longer the spawner exists the more it spawns objects which might in best case decrease our game frame rate and in worst case crash our game. This can be resolved by a another timer which destroys the spawned objects
 - Spawning GameObjects can create hiccups in our game, which will affect smoothness of our gameplay.
 
 So what can we do to make this safer? Lets use a memory pool.
-A memory pool is just an array of GameObjects which is instatiated as soon as possible. Individual objects are disabled and when the spawner is about to spawn an object it just moves the object to the spawn location, resets all its states and turns its visibility on.
+A memory pool is just an array of GameObjects which are instantiated when needed. Individual objects are disabled and when the spawner is about to spawn an object it just moves the object to the spawn location, resets all its states and turns its visibility on.
 
 ## Memory pool
 Usually we don't want to spawn many new elements at once because they very often cause hiccups. A hiccup in a game is caused by some operation which takes too much time. If we create elements when the game loads instead ahead of time, we still get some hiccup but it is during level loading which is more acceptable. Then during spawning we just enable and disable those elements, which creates the same effect as spawning but without the hiccup.

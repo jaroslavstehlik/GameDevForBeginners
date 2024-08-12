@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -16,10 +14,13 @@ public enum QuestState
 [CreateAssetMenu(fileName = "Quest", menuName = "GMD/Quest/Quest", order = 1)]
 public class Quest : ScriptableObject
 {
+    // Events for tracking our quest progress
     public UnityEvent<Quest> onQuestActivated;
     public UnityEvent<Quest> onQuestDeactivated;
     public UnityEvent<Quest> onQuestComplete;
     
+    // attribute [NonSerialized] prevents saving value inside editor.
+    // We need this in order that the state resets when the editor stops playing.
     [NonSerialized] private QuestState _state;
 
     public QuestState state
@@ -56,7 +57,6 @@ public class Quest : ScriptableObject
             }
         }
     }
-    
     
     // The description of our quest to the player
     public string description = string.Empty;

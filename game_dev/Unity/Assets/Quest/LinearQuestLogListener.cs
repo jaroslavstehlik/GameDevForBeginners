@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 // We just listen for the quest state changes
 // and propagate those changes to our scene
