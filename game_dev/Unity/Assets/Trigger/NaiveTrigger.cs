@@ -4,8 +4,8 @@ using UnityEngine.Events;
 public class NaiveTrigger : MonoBehaviour
 {
     // Public events 
-    public UnityEvent onTriggerEnter;
-    public UnityEvent onTriggerExit;
+    public UnityEvent<Collider> onTriggerEnter;
+    public UnityEvent<Collider> onTriggerExit;
 
     // MonoBehaviour OnTriggerEnter function
     void OnTriggerEnter(Collider other)
@@ -13,7 +13,7 @@ public class NaiveTrigger : MonoBehaviour
         // Make sure someone listens to the event
         if(onTriggerEnter != null)
             // Trigger the event
-            onTriggerEnter.Invoke();
+            onTriggerEnter.Invoke(other);
     }
 
     // MonoBehaviour OnTriggerExit function
@@ -22,6 +22,6 @@ public class NaiveTrigger : MonoBehaviour
         // Make sure someone listens to the event
         if(onTriggerExit != null)
             // Trigger the event
-            onTriggerExit.Invoke();
+            onTriggerExit.Invoke(other);
     }
 }

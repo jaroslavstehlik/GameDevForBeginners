@@ -2,7 +2,7 @@
 Spawners are areas which spawn specific units. Those units can be enemies, loot, npcs basically everything in the game which needs to respawn at a certain time is considered spawner. 
 
 ***Minecraft monster spawner***\
-![minecraft](../../img/minecraft_spawners.webp)
+<img src="../../img/minecraft_spawners.webp" alt="minecraft" height="400"/>
 ## Object to spawn
 We have to spawn something, otherwise it would be not considered a spawner.
 That something is usually a game element or a unit.
@@ -16,7 +16,6 @@ the number of enemies remains constant.
 ## Instance Spawner
 
 ```csharp
-using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -25,66 +24,32 @@ public class InstanceSpawner : MonoBehaviour
     // Public event when spawner spawns an object
     public UnityEvent<GameObject> onSpawn;
     
-    // Duration of spawner
-    public float duration = 1f;
-    
     // GameObject to spawn
     public GameObject spawnGameObject;
 
     // Where to place our spawned object
     public Transform spawnLocation;
-    
-    // Store coroutine so we can later stop it
-    private IEnumerator coroutine;
-    
-    // Monobehaviour calls this method when component is enabled in scene
-    void OnEnable()
-    {
-        // Store coroutine in to variable
-        coroutine = TimerCoroutine();
-        
-        // Start coroutine
-        StartCoroutine(coroutine);
-    }
 
-    // Monobehaviour calls this method when component is disabled in scene
-    void OnDisable()
+    public void Spawn()
     {
-        // Stop coroutine
-        StopCoroutine(coroutine);
-        
-        // Clear variable
-        coroutine = null;
-    }
-
-    // The coroutine returns IEnumerator which tells Unity when to stop
-    IEnumerator TimerCoroutine()
-    {
-        // We will spawn objects until spawner component is enabled
-        while (enabled)
+        // Clone the game object and store it in local variable
+        GameObject spawnedGameObject = Instantiate(spawnGameObject);
+            
+        // Set the parent hierarchy transform to spawn location
+        // This will prevent clutter in the scene
+        spawnedGameObject.transform.SetParent(spawnLocation);
+            
+        // Set the spawned game object position to our spawn location
+        spawnedGameObject.transform.position = spawnLocation.position;
+            
+        // Set the spawned game object rotation to our spawn location
+        spawnedGameObject.transform.rotation = spawnLocation.rotation;
+            
+        // Check if anyone listens to our event
+        if (onSpawn != null)
         {
-            // Yield means that we want this function to run across multiple frames
-            // WaitForSeconds means that the function will wait certain amount of time
-            // before it continues execution
-            yield return new WaitForSeconds(duration);
-
-            // Clone the game object and store it in local variable
-            GameObject spawnedGameObject = Instantiate(spawnGameObject);
-            
-            // Set the parent hierarchy transform to spawn location
-            // This will prevent clutter in the scene
-            spawnedGameObject.transform.SetParent(spawnLocation);
-            
-            // Set the spawned game object position to our spawn location
-            spawnedGameObject.transform.position = spawnLocation.position;
-            
-            // Set the spawned game object rotation to our spawn location
-            spawnedGameObject.transform.rotation = spawnLocation.rotation;
-            
-            // Check if anyone listens to our event
-            if(onSpawn != null)
-                // Invoke event
-                onSpawn.Invoke(spawnedGameObject);
+            // Invoke event
+            onSpawn.Invoke(spawnedGameObject);
         }
     }
 }
@@ -113,7 +78,6 @@ Spawner can be implemented as:
 # Memory Pool Spawner
 
 ```csharp
-using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -122,9 +86,6 @@ public class MemoryPoolSpawner : MonoBehaviour
     // Public event when spawner spawns an object
     public UnityEvent<GameObject> onSpawn;
     
-    // Duration of spawner
-    public float duration = 1f;
-
     // maximum number of GameObjects to spawn
     public int maxSpawnCount = 10;
     
@@ -133,9 +94,6 @@ public class MemoryPoolSpawner : MonoBehaviour
 
     // Where to place our spawned object
     public Transform spawnLocation;
-    
-    // Store coroutine so we can later stop it
-    private IEnumerator coroutine;
 
     private GameObject[] memoryPool;
 
@@ -157,73 +115,43 @@ public class MemoryPoolSpawner : MonoBehaviour
         }
     }
 
-    // Monobehaviour calls this method when component is enabled in scene
-    void OnEnable()
+    public void Spawn()
     {
-        // Store coroutine in to variable
-        coroutine = TimerCoroutine();
-        
-        // Start coroutine
-        StartCoroutine(coroutine);
-    }
+        // Get the spawned game object from our memory pool
+        GameObject spawnedGameObject = memoryPool[memoryPoolSpawnerIndex];
 
-    // Monobehaviour calls this method when component is disabled in scene
-    void OnDisable()
-    {
-        // Stop coroutine
-        StopCoroutine(coroutine);
-        
-        // Clear variable
-        coroutine = null;
-    }
-
-    // The coroutine returns IEnumerator which tells Unity when to stop
-    IEnumerator TimerCoroutine()
-    {
-        // We will spawn objects until spawner component is enabled
-        while (enabled)
+        // If the object contains rigidbody we need to reset its velocity 
+        Rigidbody rigidbody = spawnedGameObject.GetComponent<Rigidbody>();
+        if (rigidbody != null)
         {
-            // Yield means that we want this function to run across multiple frames
-            // WaitForSeconds means that the function will wait certain amount of time
-            // before it continues execution
-            yield return new WaitForSeconds(duration);
-
-            // Get the spawned game object from our memory pool
-            GameObject spawnedGameObject = memoryPool[memoryPoolSpawnerIndex];
-
-            // If the object contains rigidbody we need to reset its velocity 
-            Rigidbody rigidbody = spawnedGameObject.GetComponent<Rigidbody>();
-            if (rigidbody != null)
-            {
-                rigidbody.velocity = Vector3.zero;
-                rigidbody.angularVelocity = Vector3.zero;
-            }
-            
-            // Set the parent hierarchy transform to spawn location
-            // This will prevent clutter in the scene
-            spawnedGameObject.transform.SetParent(spawnLocation);
-            
-            // Set the spawned game object position to our spawn location
-            spawnedGameObject.transform.position = spawnLocation.position;
-            
-            // Set the spawned game object rotation to our spawn location
-            spawnedGameObject.transform.rotation = spawnLocation.rotation;
-            
-            // Activate the spawned game object
-            spawnedGameObject.SetActive(true);
-
-            // Increment our memory pool spawner index
-            memoryPoolSpawnerIndex++;
-
-            // Make sure that our spawner index does not overflow our memory pool
-            if (memoryPoolSpawnerIndex >= memoryPool.Length)
-                memoryPoolSpawnerIndex = 0;
-            
-            // Check if anyone listens to our event
-            if(onSpawn != null)
-                // Invoke event
-                onSpawn.Invoke(spawnedGameObject);
+            rigidbody.velocity = Vector3.zero;
+            rigidbody.angularVelocity = Vector3.zero;
         }
+        
+        // Set the parent hierarchy transform to spawn location
+        // This will prevent clutter in the scene
+        spawnedGameObject.transform.SetParent(spawnLocation);
+        
+        // Set the spawned game object position to our spawn location
+        spawnedGameObject.transform.position = spawnLocation.position;
+        
+        // Set the spawned game object rotation to our spawn location
+        spawnedGameObject.transform.rotation = spawnLocation.rotation;
+        
+        // Activate the spawned game object
+        spawnedGameObject.SetActive(true);
+
+        // Increment our memory pool spawner index
+        memoryPoolSpawnerIndex++;
+
+        // Make sure that our spawner index does not overflow our memory pool
+        if (memoryPoolSpawnerIndex >= memoryPool.Length)
+            memoryPoolSpawnerIndex = 0;
+        
+        // Check if anyone listens to our event
+        if(onSpawn != null)
+            // Invoke event
+            onSpawn.Invoke(spawnedGameObject);
     }
 }
 ```

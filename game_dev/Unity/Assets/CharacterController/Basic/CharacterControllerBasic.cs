@@ -259,7 +259,12 @@ public class CharacterControllerBasic : MonoBehaviour
             ApplyJump(ref futureVelocity, jumpProgress);
         }
 
-        float cameraYaw = _cameraTransform.rotation.eulerAngles.y;
+        float cameraYaw = 0f;
+        if (_cameraTransform != null)
+        {
+            cameraYaw = _cameraTransform.rotation.eulerAngles.y;
+        }
+        
         _rigidbody.rotation = Quaternion.Euler(0f, cameraYaw, 0f);
         _rigidbody.velocity = futureVelocity;
     }

@@ -44,12 +44,11 @@
      <Compile Include="Assets/Camera/ThirdPersonCamera.cs" />
      <Compile Include="Assets/Trigger/NaiveTrigger.cs" />
      <Compile Include="Assets/Timer/CyclicTimer.cs" />
-     <Compile Include="Assets/Counters/ProjectCounter.cs" />
+     <Compile Include="Assets/Counter/ProjectCounter.cs" />
      <Compile Include="Assets/Quest/Quest.cs" />
      <Compile Include="Assets/Utils/GameObjectUtils.cs" />
      <Compile Include="Assets/Teleport/TeleportTransform.cs" />
-     <Compile Include="Assets/Counters/GameObjectCounter.cs" />
-     <Compile Include="Assets/Quest/UI/QuestListUI.cs" />
+     <Compile Include="Assets/Counter/GameObjectCounter.cs" />
      <Compile Include="Assets/Quest/LinearQuestLog.cs" />
      <Compile Include="Assets/Inventory/InventoryItem.cs" />
      <Compile Include="Assets/Spawner/InstanceSpawner.cs" />
@@ -64,7 +63,6 @@
      <Compile Include="Assets/Teleport/TeleportTaggedRigidbody.cs" />
      <Compile Include="Assets/Trigger/CounterTrigger.cs" />
      <Compile Include="Assets/Inventory/InventoryCollection.cs" />
-     <Compile Include="Assets/Quest/UI/QuestItemUI.cs" />
      <Compile Include="Assets/Quest/QuestListener.cs" />
      <Compile Include="Assets/Inventory/Inventory.cs" />
      <Compile Include="Assets/Teleport/TeleportRigidbody.cs" />
@@ -72,7 +70,7 @@
      <Compile Include="Assets/Teleport/TeleportableTransform.cs" />
      <Compile Include="Assets/Camera/FollowCamera.cs" />
      <Compile Include="Assets/Console/Console.cs" />
-     <Compile Include="Assets/Counters/SaveCounter.cs" />
+     <Compile Include="Assets/Counter/SaveCounter.cs" />
      <Compile Include="Assets/Inventory/InventoryController.cs" />
      <Compile Include="Assets/Timer/BasicTimer.cs" />
      <Compile Include="Assets/Utils/MonoBehaviourListener.cs" />
@@ -87,7 +85,7 @@
      <Folder Include="Assets/CharacterController/Environment" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader" />
      <Folder Include="Assets/CharacterController" />
-     <Folder Include="Assets/Counters" />
+     <Folder Include="Assets/Counter" />
      <Folder Include="Assets/Inventory/InventoryItems/DoorKey" />
      <Folder Include="Assets/TextMesh Pro/Resources/Fonts &amp; Materials" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro_Mobile.cginc" />
@@ -107,6 +105,7 @@
      <None Include="Assets/TextMesh Pro/Shaders/TMP_Bitmap-Custom-Atlas.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF.shader" />
      <Folder Include="Assets/Inventory" />
+     <Folder Include="Assets/Chance" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile SSD.shader" />
      <None Include="Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc" />
@@ -120,7 +119,7 @@
      <Folder Include="Assets/Spawner" />
      <Folder Include="Assets/Inventory/InventoryItems" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Masking.shader" />
-     <Folder Include="Assets/Quest/UI" />
+     <Folder Include="Assets/Map" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF Overlay.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_Bitmap-Mobile.shader" />
      <None Include="Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt" />

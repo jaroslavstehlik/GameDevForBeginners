@@ -9,8 +9,7 @@ public class TeleportRigidbody : MonoBehaviour
     // Target where player should teleport
     public Transform targetTransform;
     
-    // MonoBehaviour OnTriggerEnter function
-    void OnTriggerEnter(Collider other)
+    public void Teleport(Collider other)
     {
         // Modify object which entered trigger
         // find rigidbody
@@ -29,7 +28,9 @@ public class TeleportRigidbody : MonoBehaviour
             onTeleport.Invoke();
     }
     
+// Tell the compiler to use this portion of code only in Unity editor.    
 #if UNITY_EDITOR
+    // show an editor-only line between teleport origin and teleport destination
     private void OnDrawGizmos()
     {
         Gizmos.DrawLine(transform.position, targetTransform.position);

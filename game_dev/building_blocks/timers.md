@@ -4,7 +4,7 @@ Timers are essential blocks for timing certain events. Certain portions of gamep
 Timers play an essential role in many aspects of game play. Spawner has a timer which tells when a certain object or enemy spawns. Spells have very often cooldowns a timer which tells for how long does the player have to wait until they can activate the spell again.
 
 ***Bomberman bomb explosion***\
-![portal](../../img/bomberman.webp)
+<img src="../../img/bomberman.webp" alt="bomberman" height="400"/>
 ## Duration
 Timers have duration in seconds at which the timer has to trigger an event.
 
@@ -34,12 +34,26 @@ public class BasicTimer : MonoBehaviour
     
     // Duration of timer
     public float duration = 1f;
+
+    // Should the timer repeat
+    public bool repeat = false;
     
     // Define coroutine so we can later stop it
     private IEnumerator coroutine;
     
     // Monobehaviour calls this method when component is enabled in scene
     void OnEnable()
+    {
+        StartTimer();
+    }
+
+    // Monobehaviour calls this method when component is disabled in scene
+    void OnDisable()
+    {
+        StopTimer();
+    }
+
+    void StartTimer()
     {
         // Store coroutine in to variable
         coroutine = TimerCoroutine();
@@ -48,8 +62,7 @@ public class BasicTimer : MonoBehaviour
         StartCoroutine(coroutine);
     }
 
-    // Monobehaviour calls this method when component is disabled in scene
-    void OnDisable()
+    public void StopTimer()
     {
         // Stop coroutine
         StopCoroutine(coroutine);
@@ -57,6 +70,7 @@ public class BasicTimer : MonoBehaviour
         // Clear variable
         coroutine = null;
     }
+    
 
     // The coroutine returns IEnumerator which tells Unity when to stop
     IEnumerator TimerCoroutine()
@@ -70,6 +84,11 @@ public class BasicTimer : MonoBehaviour
         if(onTimerFinished != null)
             // Invoke event
             onTimerFinished.Invoke();
+
+        if (repeat)
+        {
+            StartTimer();
+        }
     }
 }
 ```
@@ -101,13 +120,13 @@ public class CyclicTimer : MonoBehaviour
     private IEnumerator coroutine;
 
     // Keep track of the current timer cycle
-    private int curretCycle = 0;
+    private int currentCycle = 0;
     
     // Monobehaviour calls this method when component is enabled in scene
     void OnEnable()
     {
         // Reset cycles
-        curretCycle = 0;
+        currentCycle = 0;
         
         // Store coroutine in to variable
         coroutine = TimerCoroutine();
@@ -130,7 +149,7 @@ public class CyclicTimer : MonoBehaviour
     IEnumerator TimerCoroutine()
     {
         // We will execute the body of this cycle until the condition is true
-        while (curretCycle < cycles)
+        while (currentCycle < cycles)
         {
             // Yield means that we want this function to run across multiple frames
             // WaitForSeconds means that the function will wait certain amount of time
@@ -143,7 +162,7 @@ public class CyclicTimer : MonoBehaviour
                 onTimerCycleFinished.Invoke();
             
             // increment curretCycle by 1
-            curretCycle++;
+            currentCycle++;
         }
         
         // Check if anyone listens to our event

@@ -9,12 +9,26 @@ public class BasicTimer : MonoBehaviour
     
     // Duration of timer
     public float duration = 1f;
+
+    // Should the timer repeat
+    public bool repeat = false;
     
     // Define coroutine so we can later stop it
     private IEnumerator coroutine;
     
     // Monobehaviour calls this method when component is enabled in scene
     void OnEnable()
+    {
+        StartTimer();
+    }
+
+    // Monobehaviour calls this method when component is disabled in scene
+    void OnDisable()
+    {
+        StopTimer();
+    }
+
+    void StartTimer()
     {
         // Store coroutine in to variable
         coroutine = TimerCoroutine();
@@ -23,8 +37,7 @@ public class BasicTimer : MonoBehaviour
         StartCoroutine(coroutine);
     }
 
-    // Monobehaviour calls this method when component is disabled in scene
-    void OnDisable()
+    public void StopTimer()
     {
         // Stop coroutine
         StopCoroutine(coroutine);
@@ -32,6 +45,7 @@ public class BasicTimer : MonoBehaviour
         // Clear variable
         coroutine = null;
     }
+    
 
     // The coroutine returns IEnumerator which tells Unity when to stop
     IEnumerator TimerCoroutine()
@@ -45,5 +59,10 @@ public class BasicTimer : MonoBehaviour
         if(onTimerFinished != null)
             // Invoke event
             onTimerFinished.Invoke();
+
+        if (repeat)
+        {
+            StartTimer();
+        }
     }
 }

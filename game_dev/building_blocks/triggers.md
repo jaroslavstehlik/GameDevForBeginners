@@ -4,7 +4,7 @@ Triggers are very similar to colliders but instead of being a barrier which cant
 Triggers are the most primitive game element we can introduce in a game. From a simple switch which opens some door, to a very complicated puzzles or systems which can very easily keep us occupied for several hours.
 
 ***Minecraft trigger trap***\
-![minecraft](../../img/minecraft_trap.gif)
+<img src="../../img/minecraft_trap.gif" alt="minecraft" height="400"/>
 
 
 What makes a trigger detect stuff?

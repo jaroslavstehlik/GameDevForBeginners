@@ -1,4 +1,6 @@
 
+<img src="img/building_blocks_intro.webp" alt="game dev building blocks" height="400"/>
+
 This GitHub repository is dedicated to teaching the fundamentals of game development to absolute beginners, with no prior experience required. The game engine we are using is Unity, but the concepts them selves are compatible across any game engines.
 
 # Game dev building blocks
@@ -18,7 +20,8 @@ This GitHub repository is dedicated to teaching the fundamentals of game develop
 
 # Game dev programming
 
-![programming vs cooking](img/programming_vs_cooking.webp)
+<img src="img/programming_vs_cooking.webp" alt="programming vs cooking" height="400"/>
+
 [Programming vs Cooking](csharp/programming_vs_cooking.md)
 
 Most basic programming topics:

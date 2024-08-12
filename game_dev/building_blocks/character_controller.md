@@ -2,7 +2,7 @@
 Is one of the most important element in any game. It can be as simple as a dot navigating on a grid and as complex as Assassin's Creed character which climbs and runs on walls or Spider man character which can swing from building to building. The main objective is design. We need to limit our character abilities to fit our level design.
 
 ***Super mario bros character controller***\
-![supermariobros](../../img/supermariobros.webp)
+<img src="../../img/supermariobros.webp" alt="supermariobros" height="400"/>
 ## Controller Input
 - Gamepad
 - Keyboard/mouse

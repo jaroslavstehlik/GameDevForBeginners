@@ -7,7 +7,7 @@ Strategy game would represent amount of gold we have extracted.
 RPG game, level would show how much skill have we gained by progressing in the game.
 
 ***World of warcraft level up***\
-![worldofwarcraft](../../img/worldofwarcraft.gif)
+<img src="../../img/worldofwarcraft.gif" alt="worldofwarcraft" height="400"/>
 ## Lifetime
 It is important to know the lifetime of a counter.
 
@@ -29,6 +29,8 @@ The game needs to be able to modify the counter during certain game events.
 
 - **Add**, during game we need to add the counter whenever player collects a star or kills a zombie. 
 - **Subtract**, during game we want to remove some counter progress, we can do it as a form of punishment or we can use it as consumable. Spending our counter as currency for exchanging goods or power-ups.
+- **Multiply**, special bonus in our game can double or triple our existing score.
+- **Divide**, our counter can also represent a negative effect, so diving its value would decrease that effect.
 
 ## Readers
 We often need to present score or currency to the player to inform about our progress.
@@ -58,7 +60,24 @@ public class GameObjectCounter : MonoBehaviour
     public UnityEvent<int> onCountChanged;
     
     // counter variable
-    [SerializeField] int count = 0;
+    [SerializeField] int _count = 0;
+
+    public int count
+    {
+        get
+        {
+            return _count;
+        }
+        set
+        {
+            if(_count != value)
+                return;
+            
+            _count = value;
+            if (onCountChanged != null)
+                onCountChanged.Invoke(_count);
+        }
+    }
 
     // Method for reading count
     public int Get()
@@ -70,24 +89,30 @@ public class GameObjectCounter : MonoBehaviour
     public void Set(int value)
     {
         count = value;
-        if (onCountChanged != null)
-            onCountChanged.Invoke(count);
     }
     
     // Method for adding count
     public void Add(int value)
     {
         count += value;
-        if (onCountChanged != null)
-            onCountChanged.Invoke(count);
     }
 
     // Method for subtracting count
     public void Subtract(int value)
     {
         count -= value;
-        if (onCountChanged != null)
-            onCountChanged.Invoke(count);
+    }
+    
+    // Method for multiplying count
+    public void Multiply(int value)
+    {
+        count *= value;
+    }
+
+    // Method for dividing count
+    public void Divide(int value)
+    {
+        count /= value;
     }
 }
 ```
@@ -108,10 +133,27 @@ using UnityEngine.Events;
 public class ProjectCounter : ScriptableObject
 {
     // public event
-    public UnityEvent<int> onCounterChanged;
+    public UnityEvent<int> onCountChanged;
     
     // counter variable
-    [SerializeField] int count = 0;
+    [SerializeField] int _count = 0;
+
+    public int count
+    {
+        get
+        {
+            return _count;
+        }
+        set
+        {
+            if(_count != value)
+                return;
+            
+            _count = value;
+            if (onCountChanged != null)
+                onCountChanged.Invoke(_count);
+        }
+    }
 
     // Method for reading count
     public int Get()
@@ -123,24 +165,30 @@ public class ProjectCounter : ScriptableObject
     public void Set(int value)
     {
         count = value;
-        if (onCounterChanged != null)
-            onCounterChanged.Invoke(count);
     }
     
     // Method for adding count
     public void Add(int value)
     {
         count += value;
-        if (onCounterChanged != null)
-            onCounterChanged.Invoke(count);
     }
 
     // Method for subtracting count
     public void Subtract(int value)
     {
         count -= value;
-        if (onCounterChanged != null)
-            onCounterChanged.Invoke(count);
+    }
+    
+    // Method for multiplying count
+    public void Multiply(int value)
+    {
+        count *= value;
+    }
+
+    // Method for dividing count
+    public void Divide(int value)
+    {
+        count /= value;
     }
 }
 ```
@@ -157,7 +205,7 @@ public class SaveCounter : MonoBehaviour
     public UnityEvent<int> onCountChanged;
     
     // counter variable
-    [SerializeField] int count = 0;
+    [SerializeField] int _count = 0;
 
     // The key to our counter, it has to be unique per whole game.
     public string counterKey = "myCounterKey";
@@ -169,17 +217,29 @@ public class SaveCounter : MonoBehaviour
         if (PlayerPrefs.HasKey(counterKey))
         {
             // Load the counter in to our variable
-            Set(PlayerPrefs.GetInt(counterKey));
+            count = PlayerPrefs.GetInt(counterKey);
         }
     }
 
-    // Save counter when our component is disabled
-    private void OnDisable()
+    public int count
     {
-        PlayerPrefs.SetInt(counterKey, count);
+        get
+        {
+            return _count;
+        }
+        set
+        {
+            if(_count != value)
+                return;
+            
+            _count = value;
+            PlayerPrefs.SetInt(counterKey, count);
+            if (onCountChanged != null)
+                onCountChanged.Invoke(_count);
+        }
     }
 
-    // Method for reading counter
+    // Method for reading count
     public int Get()
     {
         return count;
@@ -189,24 +249,30 @@ public class SaveCounter : MonoBehaviour
     public void Set(int value)
     {
         count = value;
-        if (onCountChanged != null)
-            onCountChanged.Invoke(count);
     }
     
     // Method for adding count
     public void Add(int value)
     {
         count += value;
-        if (onCountChanged != null)
-            onCountChanged.Invoke(count);
     }
 
     // Method for subtracting count
     public void Subtract(int value)
     {
         count -= value;
-        if (onCountChanged != null)
-            onCountChanged.Invoke(count);
+    }
+    
+    // Method for multiplying count
+    public void Multiply(int value)
+    {
+        count *= value;
+    }
+
+    // Method for dividing count
+    public void Divide(int value)
+    {
+        count /= value;
     }
 }
 ```

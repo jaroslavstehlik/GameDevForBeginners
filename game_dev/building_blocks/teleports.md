@@ -2,7 +2,7 @@
 Teleports and portals can save the player some time or they can transport the player to a totally different place on the map, which can cause disorientation and excitement.
 
 ***Portal, infinite portal***\
-![portal](../../img/portal.gif)
+<img src="../../img/portal.gif" alt="portal" height="400"/>
 ## Trigger
 We first need a trigger which detects the player and maybe our objects as well.
 
@@ -27,9 +27,8 @@ public class TeleportTransform : MonoBehaviour
     
     // Target where player should teleport
     public Transform targetTransform;
-    
-    // MonoBehaviour OnTriggerEnter function
-    void OnTriggerEnter(Collider other)
+
+    public void Teleport(Collider other)
     {
         TeleportableTransform teleportableTransform = other.GetComponent<TeleportableTransform>();
         // If we did not found transform, terminate function
@@ -46,8 +45,10 @@ public class TeleportTransform : MonoBehaviour
         if(onTeleport != null)
             onTeleport.Invoke();
     }
-        
+
+// Tell the compiler to use this portion of code only in Unity editor.
 #if UNITY_EDITOR
+    // show an editor-only line between teleport origin and teleport destination
     private void OnDrawGizmos()
     {
         Gizmos.DrawLine(transform.position, targetTransform.position);
@@ -74,8 +75,7 @@ public class TeleportRigidbody : MonoBehaviour
     // Target where player should teleport
     public Transform targetTransform;
     
-    // MonoBehaviour OnTriggerEnter function
-    void OnTriggerEnter(Collider other)
+    public void Teleport(Collider other)
     {
         // Modify object which entered trigger
         // find rigidbody
@@ -94,7 +94,9 @@ public class TeleportRigidbody : MonoBehaviour
             onTeleport.Invoke();
     }
     
+// Tell the compiler to use this portion of code only in Unity editor.    
 #if UNITY_EDITOR
+    // show an editor-only line between teleport origin and teleport destination
     private void OnDrawGizmos()
     {
         Gizmos.DrawLine(transform.position, targetTransform.position);
@@ -122,8 +124,7 @@ public class TeleportTaggedRigidbody : MonoBehaviour
     // Target where player should teleport
     public Transform targetTransform;
     
-    // MonoBehaviour OnTriggerEnter function
-    void OnTriggerEnter(Collider other)
+    public void Teleport(Collider other)
     {
         // Lets memorize if a tag has been found
         bool foundTag = false;
@@ -162,8 +163,9 @@ public class TeleportTaggedRigidbody : MonoBehaviour
             onTeleport.Invoke();
     }
     
-        
+// Tell the compiler to use this portion of code only in Unity editor.
 #if UNITY_EDITOR
+    // show an editor-only line between teleport origin and teleport destination
     private void OnDrawGizmos()
     {
         Gizmos.DrawLine(transform.position, targetTransform.position);
