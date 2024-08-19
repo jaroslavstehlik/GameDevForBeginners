@@ -1,3 +1,5 @@
+[Main page](../../readme.md)
+
 # Inventory
 An inventory in a game is a virtual space which stores game elements.
 Those specific elements are not present in the game world when they are in inventory.

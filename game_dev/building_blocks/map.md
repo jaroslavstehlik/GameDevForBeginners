@@ -1,3 +1,5 @@
+[Main page](../../readme.md)
+
 # Map
 Usually in open world games navigation can be challenging similar to real world. Some games even when they are corridor based have complex map layout and therefore a map can be helpful. Map can be also present checkpoints and landmarks in a less intrusive way compared to light beams or arrows inside the game it self.
 

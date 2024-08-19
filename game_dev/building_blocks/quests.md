@@ -1,3 +1,5 @@
+[Main page](../../readme.md)
+
 # Quests
 Many RPG games have quests or objectives. Most modern games even if they are casual and don't represent them selves as RPG games have some sort of objectives.
 

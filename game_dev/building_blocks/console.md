@@ -1,3 +1,5 @@
+[Main page](../../readme.md)
+
 # Console
 Every game, every program and everything on your PC starts with a console.  
 It is the simplest form of user input and visual feedback a computer can represent.  

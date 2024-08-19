@@ -1,3 +1,5 @@
+[Main page](../../readme.md)
+
 # Triggers
 Triggers are very similar to colliders but instead of being a barrier which cant be walked in to, it is a detector which main purpose is to be walked in to or detect that something has entered it. It can detect players, npcs, objects.
 

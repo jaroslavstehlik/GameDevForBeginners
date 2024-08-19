@@ -1,3 +1,5 @@
+[Main page](../../readme.md)
+
 # Counters
 Counter can represent score, level or currency.
 It is used for keeping track of player progress, level progress or amount of currency held.  

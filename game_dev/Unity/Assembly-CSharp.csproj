@@ -56,6 +56,7 @@
      <Compile Include="Assets/Spawner/MemoryPoolSpawner.cs" />
      <Compile Include="Assets/CharacterController/Runner/CharacterControllerRunner.cs" />
      <Compile Include="Assets/Utils/LerpUtils.cs" />
+     <Compile Include="Assets/Utils/MonoBehaviourListener.cs" />
      <Compile Include="Assets/Teleport/TeleportableRigidbody.cs" />
      <Compile Include="Assets/Camera/FirstPersonCamera.cs" />
      <Compile Include="Assets/Trigger/RobustTrigger.cs" />
@@ -73,7 +74,6 @@
      <Compile Include="Assets/Counter/SaveCounter.cs" />
      <Compile Include="Assets/Inventory/InventoryController.cs" />
      <Compile Include="Assets/Timer/BasicTimer.cs" />
-     <Compile Include="Assets/Utils/MonoBehaviourListener.cs" />
      <Folder Include="Assets" />
      <Folder Include="Assets/Utils" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />

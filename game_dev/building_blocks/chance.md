@@ -1,3 +1,5 @@
+[Main page](../../readme.md)
+
 # Chance
 In games pure luck or chance are often important to make the game more interesting or to make the game playable more than once.
 

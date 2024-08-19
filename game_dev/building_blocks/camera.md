@@ -1,3 +1,5 @@
+[Main page](../../readme.md)
+
 # Camera
 Without a proper camera in our game we would be unable to see the player or the world.  
 A camera is trying to mimic a physical camera in real world.

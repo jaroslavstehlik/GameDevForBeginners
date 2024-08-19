@@ -8,6 +8,7 @@ This GitHub repository is dedicated to teaching the fundamentals of game develop
 - [Camera](game_dev/building_blocks/camera.md)
 - [Character controller](game_dev/building_blocks/character_controller.md)
 - [Walls](game_dev/building_blocks/walls.md)
+- [World](game_dev/building_blocks/world.md)
 - [Console](game_dev/building_blocks/console.md)
 - [Triggers](game_dev/building_blocks/triggers.md)
 - [Teleports](game_dev/building_blocks/teleports.md)

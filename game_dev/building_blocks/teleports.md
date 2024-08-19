@@ -1,3 +1,5 @@
+[Main page](../../readme.md)
+
 # Teleports or portals
 Teleports and portals can save the player some time or they can transport the player to a totally different place on the map, which can cause disorientation and excitement.
 
