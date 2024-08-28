@@ -13,4 +13,6 @@ Worlds can be dissected in to several parts.
 - [Terrain](world_terrain.md)
 - [Biomes](world_biomes.md)
 - [Landmarks](world_landmarks.md)
-- [Design](world_design.md)
+
+[blocking](world_design_blocking.md)
+[tools](world_design_tools.md)
