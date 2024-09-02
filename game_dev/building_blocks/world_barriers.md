@@ -1,6 +1,6 @@
-[Main page](../../readme.md)
+[World](world.md)
 
-# Walls
+# World barriers
 Primary building block of most games are walls or barriers. They are the main game design element which gives the player a clear feedback about where they can or cant go.
 The most typical scenario would be a maze game. Maze games have very clear functionality without the need to use any script. The two openings of the maze clearly define start and finish.
 

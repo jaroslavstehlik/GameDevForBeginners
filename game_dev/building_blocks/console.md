@@ -12,17 +12,7 @@ for logging errors.
 
 Therefore a console is the biggest friend of any developer.
 
-```csharp
-using UnityEngine;
-
-public class Console : MonoBehaviour
-{
-    public void Log(string message)
-    {
-        Debug.Log(message);
-    }
-}
-```
+[source code | Console.cs](../Unity/Assets/Console/Console.cs)
 
 This simple script will provide us a public function which can be used in the
 unity editor to debug custom messages or events. 

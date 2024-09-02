@@ -30,35 +30,7 @@ MonoBehaviour class implements three trigger related messages.
 We will use only OnTriggerEnter and OnTriggerExit for now.  
 ## Naive trigger
 
-```csharp
-using UnityEngine;
-using UnityEngine.Events;
-
-public class NaiveTrigger : MonoBehaviour
-{
-    // Public events 
-    public UnityEvent onTriggerEnter;
-    public UnityEvent onTriggerExit;
-
-    // MonoBehaviour OnTriggerEnter function
-    void OnTriggerEnter(Collider other)
-    {
-        // Make sure someone listens to the event
-        if(onTriggerEnter != null)
-            // Trigger the event
-            onTriggerEnter.Invoke();
-    }
-
-    // MonoBehaviour OnTriggerExit function
-    void OnTriggerExit(Collider other)
-    {
-        // Make sure someone listens to the event
-        if(onTriggerExit != null)
-            // Trigger the event
-            onTriggerExit.Invoke();
-    }
-}
-```
+[source code | NaiveTrigger.cs](../Unity/Assets/Trigger/NaiveTrigger.cs)
 
 The code above will do most of its job but it is far from perfect. It is made as simple as possible but does not cover many different cases. One of the case is that if two objects enter and then single object exits we will get this sequence.
 
@@ -74,64 +46,7 @@ If our events would just enable and disable a wall for example, The wall would d
 - The other solution is to remember which colliders have entered and which colliders have left the trigger.
 ## Robust trigger
 
-```csharp
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Events;
-
-public class RobustTrigger : MonoBehaviour
-{
-    // Public events 
-    public UnityEvent onTriggerEnter;
-    public UnityEvent onTriggerExit;
-
-    // Remember colliders inside the trigger
-    private HashSet<int> colliders = new HashSet<int>();
-    
-    // MonoBehaviour OnTriggerEnter function
-    void OnTriggerEnter(Collider other)
-    {
-        // Remember how many colliders we had before we add new collider
-        int collidersCount = colliders.Count;
-        
-        // Check if collider has been already added
-        if (!colliders.Contains(other.GetInstanceID()))
-        {
-            // Add collider to colliders
-            colliders.Add(other.GetInstanceID());
-            
-            // First collider added to colliders, TriggerEnter now!
-            if (collidersCount == 0)
-            {
-                // Make sure someone listens to the event
-                if (onTriggerEnter != null)
-                    // Trigger the event
-                    onTriggerEnter.Invoke();
-            }
-        }
-    }
-
-    // MonoBehaviour OnTriggerExit function
-    void OnTriggerExit(Collider other)
-    {
-        // Check if collider is in colliders
-        if (colliders.Contains(other.GetInstanceID()))
-        {
-            // Remove that collider
-            colliders.Remove(other.GetInstanceID());
-            
-            // Check if all colliders have left the trigger
-            if (colliders.Count == 0)
-            {
-                // Make sure someone listens to the event
-                if (onTriggerExit != null)
-                    // Trigger the event
-                    onTriggerExit.Invoke();
-            }
-        }
-    }
-}
-```
+[source code | RobustTrigger.cs](../Unity/Assets/Trigger/RobustTrigger.cs)
 
 This solution triggers enter only when at least single object enters the trigger
 and triggers exit only when all objects leave the trigger. 
@@ -140,65 +55,6 @@ However it might be more useful if we could trigger the events only when certain
 
 ## Counter trigger
 
-```csharp
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Events;
-
-public class CounterTrigger : MonoBehaviour
-{
-    // Public events 
-    public UnityEvent onTriggerEnter;
-    public UnityEvent onTriggerExit;
-    
-    // Trigger only when certain amount of objects is inside the trigger
-    // Create an editor slider with a limited range
-    [Range(1, 10)]
-    public int minObjectsCount = 1;
-
-    // Remember colliders inside the trigger
-    private HashSet<int> colliders = new HashSet<int>();
-    
-    // MonoBehaviour OnTriggerEnter function
-    void OnTriggerEnter(Collider other)
-    {
-        // Check if collider has been already added
-        if (!colliders.Contains(other.GetInstanceID()))
-        {
-            // Add collider to colliders
-            colliders.Add(other.GetInstanceID());
-            
-            // Did we met our minimum criteria? Trigger! 
-            if (colliders.Count == minObjectsCount)
-            {
-                // Make sure someone listens to the event
-                if (onTriggerEnter != null)
-                    // Trigger the event
-                    onTriggerEnter.Invoke();
-            }
-        }
-    }
-
-    // MonoBehaviour OnTriggerExit function
-    void OnTriggerExit(Collider other)
-    {
-        // Check if collider is in colliders
-        if (colliders.Contains(other.GetInstanceID()))
-        {
-            // Remove that collider
-            colliders.Remove(other.GetInstanceID());
-            
-            // Only when we are one element below our requirement, Trigger! 
-            if (colliders.Count == minObjectsCount - 1)
-            {
-                // Make sure someone listens to the event
-                if (onTriggerExit != null)
-                    // Trigger the event
-                    onTriggerExit.Invoke();
-            }
-        }
-    }
-}
-```
+[source code | CounterTrigger.cs](../Unity/Assets/Trigger/CounterTrigger.cs)
 
 Our code is now far more complex but can also do more stuff.

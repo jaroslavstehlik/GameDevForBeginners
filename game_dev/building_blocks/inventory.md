@@ -20,3 +20,5 @@ Inventory can be implemented as a single Array.
 - **Array**
 	- **Continuous**, elements are stored in continuous arrangement. First element is stored at first place in the array, Second element at the second place and so on.
 	- **Length**, An array has to specify its length or size so we can tell what is the maximum amount of elements an Array can hold.
+
+Work in progress...

@@ -10,6 +10,7 @@ important environmental queues.
 
 Worlds can be dissected in to several parts.
 
+- [Barriers](world_barriers.md)
 - [Terrain](world_terrain.md)
 - [Biomes](world_biomes.md)
 - [Landmarks](world_landmarks.md)

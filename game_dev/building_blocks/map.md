@@ -34,3 +34,5 @@ Some games visualise areas on map with different colours. Thos ereas can identif
 
 ***GTA San Andreas gang areas***\
 <img src="../../img/gtasanandreas_gangs.webp" alt="gta san andreas gangs" height="400"/>
+
+Work in progress...
