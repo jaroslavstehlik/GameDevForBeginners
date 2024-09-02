@@ -1,7 +1,8 @@
 [Main page](../../readme.md)
 
 # Teleports or portals
-Teleports and portals can save the player some time or they can transport the player to a totally different place on the map, which can cause disorientation and excitement.
+Teleports and portals can save the player some time or they can transport the player to a different place on the map, which can cause disorientation and excitement. The most common use case of a teleport is when player dies.
+When the player dies he needs to spawn at a certain location called spawn point.
 
 ***Portal, infinite portal***\
 <img src="../../img/portal.gif" alt="portal" height="400"/>

@@ -5,7 +5,11 @@ Without a proper camera in our game we would be unable to see the player or the 
 A camera is trying to mimic a physical camera in real world.
 It has a position, orientation, aspect ratio and field of view.
 
-Most common camera behaviours in games
+When we talk about cameras in games we usually refer to their behavior.
+Individual camera behaviors can change the whole genre of the game, therefore it can be coined
+as one of the most important building block in our game.
+
+Most common camera behaviors in games
 # Fixed camera
 
 ***Resident evil 2***\

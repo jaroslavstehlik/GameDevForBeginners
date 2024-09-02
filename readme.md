@@ -23,6 +23,7 @@ Each topic has a unity scene with examples.
 - [Quests](game_dev/building_blocks/quests.md)
 - [Inventory](game_dev/building_blocks/inventory.md)
 - [Map](game_dev/building_blocks/map.md)
+- [Chance](game_dev/building_blocks/chance.md)
 
 # Game dev programming
 
