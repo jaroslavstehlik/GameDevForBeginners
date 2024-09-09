@@ -1,9 +1,19 @@
 
 <img src="img/building_blocks_intro.webp" alt="game dev building blocks" height="400"/>
 
-This GitHub repository is dedicated to explain the fundamentals of game development to absolute beginners, with no prior experience required. The game engine we are using is Unity, but the concepts them selves are compatible across any game engines.
+This GitHub repository is dedicated to explain the fundamentals   
+of game development to absolute beginners, with no prior experience required.   
+The game engine we are using is Unity, but the concepts them selves  
+are compatible across any game engines.
 
-# Game dev building blocks
+# Theory
+
+This section is focusing on fundamental theory
+related to game development.
+
+- [Game Engines](game_dev/theory/game_engines.md)
+
+# Building blocks
 
 This section explains individual building blocks of most games.
 Individual chapters describe specific topic from game design perspective,
@@ -25,7 +35,7 @@ Each topic has a unity scene with examples.
 - [Map](game_dev/building_blocks/map.md)
 - [Chance](game_dev/building_blocks/chance.md)
 
-# Game dev programming
+# Programming
 
 This section is about basics of programming syntax, data types and functions.
 It is meant to explain very basic programming topics using the c# programming language.
