@@ -12,6 +12,7 @@ This section is focusing on fundamental theory
 related to game development.
 
 - [Game Engines](game_dev/theory/game_engines.md)
+- [Physics](game_dev/theory/physics.md)
 
 # Building blocks
 
