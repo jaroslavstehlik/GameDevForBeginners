@@ -16,5 +16,5 @@ Worlds can be dissected in to several parts.
 - [Landmarks](world_landmarks.md)
 
 [blocking](world_design_blocking.md)  
-[tools](world_design_tools.md)
+[tools](world_design_tools.md)  
 [level design](world_level_design.md)
