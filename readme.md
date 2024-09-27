@@ -13,6 +13,7 @@ related to game development.
 
 - [Game Engines](game_dev/theory/game_engines.md)
 - [Physics](game_dev/theory/physics.md)
+- [Time](game_dev/theory/time.md)
 
 # Building blocks
 
