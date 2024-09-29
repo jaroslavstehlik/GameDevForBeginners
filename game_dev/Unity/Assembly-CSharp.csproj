@@ -86,8 +86,10 @@
      <None Include="Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader" />
      <Folder Include="Assets/CharacterController" />
      <Folder Include="Assets/Counter" />
+     <Folder Include="Assets/CharacterController/Basic/CharacterControllerBasic" />
      <Folder Include="Assets/Inventory/InventoryItems/DoorKey" />
      <Folder Include="Assets/TextMesh Pro/Resources/Fonts &amp; Materials" />
+     <Folder Include="Assets/reflectionProbes" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro_Mobile.cginc" />
      <Folder Include="Assets/Teleport" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF SSD.shader" />
@@ -95,6 +97,7 @@
      <Folder Include="Assets/Scenes" />
      <Folder Include="Assets/CharacterController/Basic" />
      <Folder Include="Assets/Timer" />
+     <Folder Include="Assets/Settings" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Surface-Mobile.shader" />
      <Folder Include="Assets/TextMesh Pro" />
      <Folder Include="Assets/CharacterController/Runner" />
@@ -108,6 +111,7 @@
      <Folder Include="Assets/Chance" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile SSD.shader" />
      <None Include="Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt" />
+     <Folder Include="Assets/Rendering" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc" />
      <Folder Include="Assets/Trigger" />
      <Folder Include="Assets/Console" />
@@ -752,8 +756,14 @@
      <Reference Include="Unity.VSCode.Editor">
      <HintPath>/Users/jaroslavstehlik/Documents/GameDevForBeginners/game_dev/Unity/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.VisualScripting.Shared.Editor">
-     <HintPath>/Users/jaroslavstehlik/Documents/GameDevForBeginners/game_dev/Unity/Library/ScriptAssemblies/Unity.VisualScripting.Shared.Editor.dll</HintPath>
+     <Reference Include="Unity.RenderPipelines.Universal.Shaders">
+     <HintPath>/Users/jaroslavstehlik/Documents/GameDevForBeginners/game_dev/Unity/Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Shaders.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.RenderPipelines.Universal.Runtime">
+     <HintPath>/Users/jaroslavstehlik/Documents/GameDevForBeginners/game_dev/Unity/Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
+     </Reference>
+     <Reference Include="PPv2URPConverters">
+     <HintPath>/Users/jaroslavstehlik/Documents/GameDevForBeginners/game_dev/Unity/Library/ScriptAssemblies/PPv2URPConverters.dll</HintPath>
      </Reference>
      <Reference Include="Unity.TextMeshPro.Editor">
      <HintPath>/Users/jaroslavstehlik/Documents/GameDevForBeginners/game_dev/Unity/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
@@ -767,9 +777,6 @@
      <Reference Include="Unity.TestTools.CodeCoverage.Editor.OpenCover.Model">
      <HintPath>/Users/jaroslavstehlik/Documents/GameDevForBeginners/game_dev/Unity/Library/ScriptAssemblies/Unity.TestTools.CodeCoverage.Editor.OpenCover.Model.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.Timeline.Editor">
-     <HintPath>/Users/jaroslavstehlik/Documents/GameDevForBeginners/game_dev/Unity/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
-     </Reference>
      <Reference Include="Unity.Timeline">
      <HintPath>/Users/jaroslavstehlik/Documents/GameDevForBeginners/game_dev/Unity/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
      </Reference>
@@ -782,8 +789,17 @@
      <Reference Include="Unity.VisualScripting.State.Editor">
      <HintPath>/Users/jaroslavstehlik/Documents/GameDevForBeginners/game_dev/Unity/Library/ScriptAssemblies/Unity.VisualScripting.State.Editor.dll</HintPath>
      </Reference>
+     <Reference Include="Unity.Burst.Editor">
+     <HintPath>/Users/jaroslavstehlik/Documents/GameDevForBeginners/game_dev/Unity/Library/ScriptAssemblies/Unity.Burst.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Searcher.Editor">
+     <HintPath>/Users/jaroslavstehlik/Documents/GameDevForBeginners/game_dev/Unity/Library/ScriptAssemblies/Unity.Searcher.Editor.dll</HintPath>
+     </Reference>
      <Reference Include="Unity.VisualScripting.SettingsProvider.Editor">
      <HintPath>/Users/jaroslavstehlik/Documents/GameDevForBeginners/game_dev/Unity/Library/ScriptAssemblies/Unity.VisualScripting.SettingsProvider.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.RenderPipelines.Core.Runtime">
+     <HintPath>/Users/jaroslavstehlik/Documents/GameDevForBeginners/game_dev/Unity/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Runtime.dll</HintPath>
      </Reference>
      <Reference Include="Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection">
      <HintPath>/Users/jaroslavstehlik/Documents/GameDevForBeginners/game_dev/Unity/Library/ScriptAssemblies/Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection.dll</HintPath>
@@ -800,20 +816,53 @@
      <Reference Include="Unity.Rider.Editor">
      <HintPath>/Users/jaroslavstehlik/Documents/GameDevForBeginners/game_dev/Unity/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.TestTools.CodeCoverage.Editor">
-     <HintPath>/Users/jaroslavstehlik/Documents/GameDevForBeginners/game_dev/Unity/Library/ScriptAssemblies/Unity.TestTools.CodeCoverage.Editor.dll</HintPath>
+     <Reference Include="Unity.RenderPipelines.Core.ShaderLibrary">
+     <HintPath>/Users/jaroslavstehlik/Documents/GameDevForBeginners/game_dev/Unity/Library/ScriptAssemblies/Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
      </Reference>
      <Reference Include="UnityEngine.UI">
      <HintPath>/Users/jaroslavstehlik/Documents/GameDevForBeginners/game_dev/Unity/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.VisualScripting.State">
-     <HintPath>/Users/jaroslavstehlik/Documents/GameDevForBeginners/game_dev/Unity/Library/ScriptAssemblies/Unity.VisualScripting.State.dll</HintPath>
      </Reference>
      <Reference Include="Unity.VisualScripting.Core">
      <HintPath>/Users/jaroslavstehlik/Documents/GameDevForBeginners/game_dev/Unity/Library/ScriptAssemblies/Unity.VisualScripting.Core.dll</HintPath>
      </Reference>
      <Reference Include="Unity.EditorCoroutines.Editor">
      <HintPath>/Users/jaroslavstehlik/Documents/GameDevForBeginners/game_dev/Unity/Library/ScriptAssemblies/Unity.EditorCoroutines.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Mathematics">
+     <HintPath>/Users/jaroslavstehlik/Documents/GameDevForBeginners/game_dev/Unity/Library/ScriptAssemblies/Unity.Mathematics.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.ShaderGraph.Editor">
+     <HintPath>/Users/jaroslavstehlik/Documents/GameDevForBeginners/game_dev/Unity/Library/ScriptAssemblies/Unity.ShaderGraph.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Burst">
+     <HintPath>/Users/jaroslavstehlik/Documents/GameDevForBeginners/game_dev/Unity/Library/ScriptAssemblies/Unity.Burst.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.RenderPipelines.Universal.Editor">
+     <HintPath>/Users/jaroslavstehlik/Documents/GameDevForBeginners/game_dev/Unity/Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.VisualScripting.Shared.Editor">
+     <HintPath>/Users/jaroslavstehlik/Documents/GameDevForBeginners/game_dev/Unity/Library/ScriptAssemblies/Unity.VisualScripting.Shared.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
+     <HintPath>/Users/jaroslavstehlik/Documents/GameDevForBeginners/game_dev/Unity/Library/ScriptAssemblies/Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Timeline.Editor">
+     <HintPath>/Users/jaroslavstehlik/Documents/GameDevForBeginners/game_dev/Unity/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
+     <HintPath>/Users/jaroslavstehlik/Documents/GameDevForBeginners/game_dev/Unity/Library/ScriptAssemblies/Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Mathematics.Editor">
+     <HintPath>/Users/jaroslavstehlik/Documents/GameDevForBeginners/game_dev/Unity/Library/ScriptAssemblies/Unity.Mathematics.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.TestTools.CodeCoverage.Editor">
+     <HintPath>/Users/jaroslavstehlik/Documents/GameDevForBeginners/game_dev/Unity/Library/ScriptAssemblies/Unity.TestTools.CodeCoverage.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.RenderPipelines.Core.Editor">
+     <HintPath>/Users/jaroslavstehlik/Documents/GameDevForBeginners/game_dev/Unity/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.VisualScripting.State">
+     <HintPath>/Users/jaroslavstehlik/Documents/GameDevForBeginners/game_dev/Unity/Library/ScriptAssemblies/Unity.VisualScripting.State.dll</HintPath>
      </Reference>
   </ItemGroup>
   <ItemGroup>
