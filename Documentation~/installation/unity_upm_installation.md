@@ -1,4 +1,4 @@
-[Main page](../../../readme.md)
+[Main page](../../readme.md)
 
 ## Prerequisites
 - [Install the Git client (minimum version 2.14.0) on your computer.](https://git-scm.com/downloads)
@@ -12,7 +12,7 @@
 
 - Select Add package from git URL from the add menu.  
 - Fill the text box with URL:  
-git@github.com:jaroslavstehlik/GameDevForBeginners.git  
+`git@github.com:jaroslavstehlik/GameDevForBeginners.git`
 - Hit OK.  
 
 ## Prepare project
@@ -29,4 +29,4 @@ git@github.com:jaroslavstehlik/GameDevForBeginners.git
 - Apply physics preset
 <img src="img/physics_preset_apply.png" alt="git url"/>
 
-You are all set!
+You are now all set!
