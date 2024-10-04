@@ -6,6 +6,10 @@ of game development to absolute beginners, with no prior experience required.
 The game engine we are using is Unity, but the concepts them selves  
 are compatible across any game engines.
 
+# Installation
+
+- [Unity package installation](Documentation~/installation/unity_upm_installation.md)
+
 # Theory
 
 This section is focusing on fundamental theory
