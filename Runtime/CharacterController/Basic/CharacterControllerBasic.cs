@@ -124,17 +124,18 @@ public class CharacterControllerBasic : MonoBehaviour
 
         float closestNormalMaxDistance = 0.25f;
         float groundOffset = 0.1f;
-        float rayCastDistance = 10.0f;
+        float rayCastFloorDistance = 10.0f;
+        float rayCastCeilingDistance = 0.1f;
         Vector3 up = rotation * Vector3.up;
 
         Ray groundRay = new Ray(_rigidbody.position + up * _collider.radius + up * groundOffset, -up);
-        SphereCast(out _collisionState.groundInfo, groundRay, rayCastDistance, _collider.radius, environmentMask,
+        SphereCast(out _collisionState.groundInfo, groundRay, rayCastFloorDistance, _collider.radius, environmentMask,
             closestNormalMaxDistance);
 
         Ray ceilingRay = new Ray(
-            _rigidbody.position + up * _collider.height - up * _collider.radius - up * _collider.height * 0.5f,
+            _rigidbody.position + up * (_collider.height - _collider.radius - rayCastCeilingDistance),
             up);
-        SphereCast(out _collisionState.ceilingInfo, ceilingRay, rayCastDistance, _collider.radius, environmentMask,
+        SphereCast(out _collisionState.ceilingInfo, ceilingRay, rayCastCeilingDistance * 2, _collider.radius, environmentMask,
             closestNormalMaxDistance);
 
         // consume the queue and obtain latest playerInput
