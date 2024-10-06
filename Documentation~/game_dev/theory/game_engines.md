@@ -27,12 +27,12 @@ Those parts are:
 
 - Asset management: importing 3D models, materials, textures, sprites, animations, sounds, movie clips.
 - Physics: colliders, collision detection, rigid bodies, triggers, joints, cloth, ragdolls.
-- Scene/Level editor: scene graph for placing 3D models, cameras, lights, sounds, sprites, scripts, colliders.
-- Terrain editor: tools for creating rich virtual worlds, object scattering, terrain painting.
+- Scene/Level: scene graph for placing 3D models, cameras, lights, sounds, sprites, scripts, colliders.
+- Terrain: tools for creating rich virtual worlds, object scattering, terrain painting.
 - Scripting: node based or textual.
 - Animation: importing animations, skeletal animation, animation playback, animation state machines.
 - Rendering: render pipeline, cameras, lights, materials, meshes, shaders.
-- Sound engine: sound playback, sound mixer, sound effects.
+- Sound: sound playback, sound mixer, sound effects.
 - User Interface: layout engine, sprite renderer, text engine, event system.
 - Input system: keyboard, game-pad, vr-ar controllers, midi controllers.
 - AI: path-finding, state machines, decision trees.

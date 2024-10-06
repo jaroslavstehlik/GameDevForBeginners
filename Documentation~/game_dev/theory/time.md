@@ -5,7 +5,7 @@
 Games are considered one of the hardest discipline in computer science because they have to run in realtime.
 Realtime means that our game has to be responsive towards user input. If the game
 would take 1 second to respond to user input it would be still considered realtime application but
-from game perspective it would be unplayable.
+from game perspective it could be unplayable.
 
 # History
 
@@ -21,6 +21,16 @@ velocity, that means certain distance per second. This has the benefit that no m
 therefore how many FPS do we have, the game behaves almost the same.
 However, this makes the game development much more difficult because we need to be aware of
 this behavior, because if we don't understand what is happening we usually end up with undesired outcomes.
+
+# FPS
+
+Frames per second
+We measure the speed of our game in number of rendered frames per second.
+The more frames we render per second the faster our game runs.
+[Nvidia article about FPS in eSports](https://www.nvidia.com/en-us/geforce/news/what-is-fps-and-how-it-helps-you-win-games/)
+
+***Nvidia fps animation smoothness***\
+<img src="../../img/nvidia_high_fps.gif" alt="nvidia high fps" height="400"/>
 
 # One game, three devices
 
@@ -41,6 +51,8 @@ If our player would update its position 1 meter per frame
 - gaming console player would run 60 meters per second
 - high-end pc player would run 90 meters per second.
 
+<img src="../../img/fps_distance.png" alt="fps distance" height="400"/>
+
 That would be highly undesirable because with high end pc the difficulty of the game increases 3x.
 
 What if we instead make sure that our player runs always at the same speed?  
@@ -50,6 +62,8 @@ What if we instead make sure that our player runs always at the same speed?
 - high-end pc player has to run 1/90 meters per second.
 
 This way we can tell that the player always moves 1 meter per second on all devices.
+
+<img src="../../img/fps_distance_same.png" alt="fps distance same" height="400"/>
 
 But there is a catch...
 All those devices never run exactly at the same framerate.
