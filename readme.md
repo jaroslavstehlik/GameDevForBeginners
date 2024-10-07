@@ -18,6 +18,7 @@ related to game development.
 - [Game Engines](Documentation~/game_dev/theory/game_engines.md)
 - [Physics](Documentation~/game_dev/theory/physics.md)
 - [Time](Documentation~/game_dev/theory/time.md)
+- [Rendering](Documentation~/game_dev/theory/rendering.md)
 
 # Building blocks
 

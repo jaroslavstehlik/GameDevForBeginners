@@ -12,7 +12,7 @@
 
 - Select Add package from git URL from the add menu.  
 - Fill the text box with URL:  
-`git@github.com:jaroslavstehlik/GameDevForBeginners.git`
+`https://github.com/jaroslavstehlik/GameDevForBeginners.git`
 - Hit OK.  
 
 ## Prepare project
