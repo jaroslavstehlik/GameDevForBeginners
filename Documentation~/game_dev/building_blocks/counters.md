@@ -34,7 +34,7 @@ The game needs to be able to modify the counter during certain game events.
 - **Multiply**, special bonus in our game can double or triple our existing score.
 - **Divide**, our counter can also represent a negative effect, so diving its value would decrease that effect.
 
-## Readers
+## Listeners
 We often need to present score or currency to the player to inform about our progress.
 If we collect stars and do not see that a counter has increased the player does not understand that we keep track of it.
 
@@ -42,22 +42,6 @@ If we collect stars and do not see that a counter has increased the player does 
 - **Trigger**, can open doors for example when the counter has reached certain value.
 - **Merchant**, NPCs in games can trade goods with us, but without keeping track of currency we could be buying their entire inventory in just few seconds. 
 
-# Implementation
-Counter can be implemented as a single integer value.
-The important decision is where do we store the integer value.
+## Counter
 
-- **GameObject** on player for example will live only until our player script exists. During level loadings or player destruction our player will loose score.
-- **Project** the value will exist until the game quits. During level transitions we will not loose score, but when we quit the game the score will reset.
-- **PlayerPrefs**, the value will exist until next game launch and will be never cleared if we don't clear it our selves.
-
-## GameObject counter
-
-[source code | GameObjectCounter.cs](../../../Runtime/Counter/GameObjectCounter.cs)
-
-## Project counter
-
-[source code | ProjectCounter.cs](../../../Runtime/Counter/ProjectCounter.cs)
-
-## Save counter
-
-[source code | SaveCounter.cs](../../../Runtime/Counter/SaveCounter.cs)
+[source code | Counter.cs](../../../Runtime/Counter/Counter.cs)

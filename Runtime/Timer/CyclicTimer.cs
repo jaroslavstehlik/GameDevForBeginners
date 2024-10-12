@@ -17,16 +17,16 @@ public class CyclicTimer : MonoBehaviour
     public int cycles = 1;
     
     // Define coroutine so we can later stop it
-    private IEnumerator coroutine;
+    private IEnumerator _coroutine;
 
     // Keep track of the current timer cycle
-    private int currentCycle = 0;
+    private int _currentCycle = 0;
     
     // Monobehaviour calls this method when component is enabled in scene
     void OnEnable()
     {
         // Reset cycles
-        currentCycle = 0;
+        _currentCycle = 0;
         
         StartTimer();
     }
@@ -40,26 +40,26 @@ public class CyclicTimer : MonoBehaviour
     public void StartTimer()
     {
         // Store coroutine in to variable
-        coroutine = TimerCoroutine();
+        _coroutine = TimerCoroutine();
         
         // Start coroutine
-        StartCoroutine(coroutine);
+        StartCoroutine(_coroutine);
     }
 
     public void StopTimer()
     {
         // Stop coroutine
-        StopCoroutine(coroutine);
+        StopCoroutine(_coroutine);
         
         // Clear variable
-        coroutine = null;
+        _coroutine = null;
     }
 
     // The coroutine returns IEnumerator which tells Unity when to stop
     IEnumerator TimerCoroutine()
     {
         // We will execute the body of this cycle until the condition is true
-        while (currentCycle < cycles)
+        while (_currentCycle < cycles)
         {
             // Yield means that we want this function to run across multiple frames
             // WaitForSeconds means that the function will wait certain amount of time
@@ -72,7 +72,7 @@ public class CyclicTimer : MonoBehaviour
                 onTimerCycleFinished.Invoke();
             
             // increment curretCycle by 1
-            currentCycle++;
+            _currentCycle++;
         }
         
         // Check if anyone listens to our event

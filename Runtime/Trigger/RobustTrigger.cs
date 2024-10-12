@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -10,7 +11,13 @@ public class RobustTrigger : MonoBehaviour
 
     // Remember colliders inside the trigger
     private HashSet<int> colliders = new HashSet<int>();
-    
+
+    // Clear all colliders when disabling trigger
+    private void OnDisable()
+    {
+        colliders.Clear();
+    }
+
     // MonoBehaviour OnTriggerEnter function
     void OnTriggerEnter(Collider other)
     {

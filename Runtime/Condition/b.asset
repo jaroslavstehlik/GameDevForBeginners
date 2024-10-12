@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 901fa3cd41616462da84c492da7825d0, type: 3}
-  m_Name: ProjectScore
+  m_Name: b
   m_EditorClassIdentifier: 
-  onScoreChanged:
+  _defaultCount: 1
+  _wholeNumber: 1
+  onCountChanged:
     m_PersistentCalls:
       m_Calls: []
-  score: 0
