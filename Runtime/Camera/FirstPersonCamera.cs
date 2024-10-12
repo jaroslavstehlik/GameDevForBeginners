@@ -17,7 +17,7 @@ public class FirstPersonCamera : MonoBehaviour
         if (flipMouseY)
             mouseY *= -1f;
 
-        cameraPitch += mouseY * 10f * mouseSensitivity;
+        cameraPitch = Mathf.Clamp(cameraPitch + mouseY * 10f * mouseSensitivity, -90f, 90f);
 
         transform.position = target.position;
         transform.rotation = Quaternion.Euler(cameraPitch, cameraYaw, 0f);
