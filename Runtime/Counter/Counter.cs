@@ -22,9 +22,10 @@ public class Counter : ScriptableObject
     // The key to our counter, it has to be unique per whole game.
     [SerializeField] private string _saveKey = string.Empty;
     // public event
+    [HideInInspector]
     public UnityEvent<float> onCountChanged;
 
-    private DetectStackOverflow _detectStackOverflow = new DetectStackOverflow();
+    private DetectInfiniteLoop _detectInfiniteLoop = new DetectInfiniteLoop();
     
     private void OnEnable()
     {
@@ -79,7 +80,7 @@ public class Counter : ScriptableObject
             if(!string.IsNullOrEmpty(_saveKey))
                 PlayerPrefs.SetFloat(_saveKey, count);
 
-            if(!_detectStackOverflow.Detect())
+            if(!_detectInfiniteLoop.Detect(this))
                 onCountChanged?.Invoke(_count);
         }
     }

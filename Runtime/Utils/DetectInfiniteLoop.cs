@@ -1,17 +1,17 @@
 using UnityEngine;
 
-public class DetectStackOverflow 
+public class DetectInfiniteLoop 
 {
     private int _maxChangesPerFrame = 0;
     private int _currentFrameCounterChanges = 0;
     private int _lastCountChangeFrameIndex = 0;
-    
-    public DetectStackOverflow(int maxChangesPerFrame = 1000000)
+
+    public DetectInfiniteLoop(int maxChangesPerFrame = 1000)
     {
         _maxChangesPerFrame = maxChangesPerFrame;
     }
     
-    public bool Detect()
+    public bool Detect(UnityEngine.Object target)
     {
         if (_lastCountChangeFrameIndex != Time.frameCount)
         {
@@ -22,10 +22,10 @@ public class DetectStackOverflow
         
         if (_currentFrameCounterChanges >= _maxChangesPerFrame)
         {
-            Debug.LogError("Detected possible stack overflow!");
+            Debug.LogError("Detected possible infinite loop!", target);
             return true;
         }
-
+        
         _currentFrameCounterChanges++;
         return false;
     }

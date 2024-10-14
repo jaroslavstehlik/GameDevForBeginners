@@ -8,7 +8,7 @@ public class State : ScriptableObject
     [DrawHiddenFieldsAttribute] [SerializeField] private bool _dummy;
 
     [ShowInInspectorAttribute(false)]
-    private string _activeState = string.Empty;
+    private string _activeState;
     
     public string[] states = new []
     {
@@ -20,10 +20,15 @@ public class State : ScriptableObject
     private string _defaultState = "default";
     
     // The key to our counter, it has to be unique per whole game.
-    [SerializeField] private string _saveKey = string.Empty;
+    [SerializeField] 
+    private string _saveKey = string.Empty;
+    [HideInInspector]
     public UnityEvent<string> onStateChanged;
+
+    private string _lastState;
+    public string lastState => _lastState;
     
-    private DetectStackOverflow _detectStackOverflow = new DetectStackOverflow();
+    private DetectInfiniteLoop _detectInfiniteLoop = new DetectInfiniteLoop();
 
     private void OnEnable()
     {
@@ -82,18 +87,23 @@ public class State : ScriptableObject
                 Debug.LogError($"{name}, Unable to find state: {value}", this);
                 return;
             }
-        
+            
+            if(_activeState == stateCandidate)
+                return;
+
+            _lastState = _activeState;
             _activeState = stateCandidate;
-        
+            
             if(!isPlayingOrWillChangePlaymode)
                 return;
             
             if(!string.IsNullOrEmpty(_saveKey))
                 PlayerPrefs.SetString(_saveKey, _activeState);
-
-            Debug.Log($"{name}, SetActiveState: {_activeState}", this);
-            if (!_detectStackOverflow.Detect())
+            
+            if (!_detectInfiniteLoop.Detect(this))
+            {
                 onStateChanged?.Invoke(_activeState);
+            }
         }
     } 
     

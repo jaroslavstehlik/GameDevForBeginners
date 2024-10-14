@@ -121,11 +121,14 @@ public class CounterCondition : ScriptableObject
     [ShowInInspectorAttribute(false)]
     private string _conditionResult = String.Empty;
 
+    [HideInInspector]
     public UnityEvent onTrue;
+    [HideInInspector]
     public UnityEvent onFalse;
+    [HideInInspector]
     public UnityEvent onError;
 
-    private DetectStackOverflow _detectStackOverflow = new DetectStackOverflow();
+    private DetectInfiniteLoop _detectInfiniteLoop = new DetectInfiniteLoop();
 
     private void OnEnable()
     {
@@ -148,7 +151,7 @@ public class CounterCondition : ScriptableObject
     
     public bool Execute()
     {
-        if (_detectStackOverflow.Detect())
+        if (_detectInfiniteLoop.Detect(this))
             return false;
         
         ConditionResult conditionResult = conditionDescriptor.TryParse();

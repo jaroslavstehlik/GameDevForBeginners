@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class TeleportableRigidbody : MonoBehaviour
 {
-    public Rigidbody rigidbody;
+    public new Rigidbody rigidbody;
 }
