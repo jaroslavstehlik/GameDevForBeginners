@@ -5,17 +5,26 @@ using UnityEngine.Events;
 [CreateAssetMenu(fileName = "State", menuName = "GMD/State", order = 1)]
 public class State : ScriptableObject
 {
+    [DrawHiddenFieldsAttribute] [SerializeField] private bool _dummy;
+
+    [ShowInInspectorAttribute(false)]
+    private string _activeState = string.Empty;
+    
     public string[] states = new []
     {
         "default"
     };
     
-    [SerializeField] private string _defaultState = "default";
-    private string _activeState = string.Empty;
+    [State]
+    [SerializeField] 
+    private string _defaultState = "default";
+    
     // The key to our counter, it has to be unique per whole game.
     [SerializeField] private string _saveKey = string.Empty;
     public UnityEvent<string> onStateChanged;
     
+    private DetectStackOverflow _detectStackOverflow = new DetectStackOverflow();
+
     private void OnEnable()
     {
         if (isPlayingOrWillChangePlaymode &&
@@ -83,7 +92,8 @@ public class State : ScriptableObject
                 PlayerPrefs.SetString(_saveKey, _activeState);
 
             Debug.Log($"{name}, SetActiveState: {_activeState}", this);
-            onStateChanged?.Invoke(_activeState);
+            if (!_detectStackOverflow.Detect())
+                onStateChanged?.Invoke(_activeState);
         }
     } 
     

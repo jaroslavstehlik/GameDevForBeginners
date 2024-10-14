@@ -5,22 +5,27 @@ using UnityEngine.Serialization;
 
 // This field tells UnityEditor to create an asset menu
 // which creates a new scriptable object in project.
-[CreateAssetMenu(fileName = "Counter", menuName = "GMD/Counter", order = 1)]
+[CreateAssetMenu(fileName = "Counter", menuName = "GMD/Counter/Counter", order = 1)]
 
 // Scriptable object can be stored only in project
 // it can be referenced in scene
 // it is used mostly for holding game data
 public class Counter : ScriptableObject
 {
-    // counter variable
-    [SerializeField] private float _defaultCount = 0;
+    [DrawHiddenFieldsAttribute] [SerializeField] private bool _dummy;
+    
+    [ShowInInspectorAttribute(false)]
     private float _count = 0;
+    
+    [SerializeField] private float _defaultCount = 0;
     [SerializeField] private bool _wholeNumber = true;
     // The key to our counter, it has to be unique per whole game.
     [SerializeField] private string _saveKey = string.Empty;
     // public event
     public UnityEvent<float> onCountChanged;
 
+    private DetectStackOverflow _detectStackOverflow = new DetectStackOverflow();
+    
     private void OnEnable()
     {
         // Check if any counter has been saved before
@@ -70,11 +75,12 @@ public class Counter : ScriptableObject
 
             if(!isPlayingOrWillChangePlaymode)
                 return;
-            
+
             if(!string.IsNullOrEmpty(_saveKey))
                 PlayerPrefs.SetFloat(_saveKey, count);
-            
-            onCountChanged?.Invoke(_count);
+
+            if(!_detectStackOverflow.Detect())
+                onCountChanged?.Invoke(_count);
         }
     }
 
@@ -114,7 +120,7 @@ public class Counter : ScriptableObject
         count /= value;
     }
 
-    public static bool isPlayingOrWillChangePlaymode
+    static bool isPlayingOrWillChangePlaymode
     {
         get
         {

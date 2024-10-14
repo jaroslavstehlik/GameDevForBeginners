@@ -12,13 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b640b79ef3fa64b5c9e90faa1426f11b, type: 3}
   m_Name: Counter Condition
   m_EditorClassIdentifier: 
-  conditionDefinition:
+  _dummy: 0
+  conditionDescriptor:
     _variables:
     - {fileID: 11400000, guid: e270ba16576b649298e0d643c748e75f, type: 2}
     - {fileID: 11400000, guid: 8addd0c5a591345808b9d14e014f4938, type: 2}
     _condition: a < b
-  _parsedResult: 5 < 1
-  _conditionResult: 'False '
   onTrue:
     m_PersistentCalls:
       m_Calls: []

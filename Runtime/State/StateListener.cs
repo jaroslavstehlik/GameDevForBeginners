@@ -1,13 +1,10 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 public class StateListener : MonoBehaviour
 {
     [SerializeField] private State state;
+    [StateAttribute]
     [SerializeField] private string _targetState;
     [SerializeField] private bool _activateOnEnable = true;
 

@@ -2,30 +2,30 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using B83.LogicExpressionParser;
-using UnityEngine.Serialization;
+using MathParserTK;
 
-public enum ParseResultType
+public enum CalculatorResultType
 {
-    False,
-    True,
+    Value,
     Error
 }
 
-public struct ParseResult
+public struct CalculatorResult
 {
-    public ParseResultType resultType;
+    public CalculatorResultType resultType;
     public string errorMessage;
+    public float value;
     
-    public ParseResult(ParseResultType resultType, string errorMessage)
+    public CalculatorResult(CalculatorResultType resultType, float value, string errorMessage)
     {
         this.resultType = resultType;
+        this.value = value;
         this.errorMessage = errorMessage;
     }
 }
 
 [System.Serializable]
-public struct CounterConditionDefinition
+public struct CounterCalculatorDescriptor
 {
     [SerializeField]
     private Counter[] _variables;
@@ -61,7 +61,7 @@ public struct CounterConditionDefinition
     }
     
     [SerializeField] 
-    private string _condition;
+    private string _expression;
     private string _parsedString;
     public string parsedString => _parsedString;
 
@@ -84,58 +84,59 @@ public struct CounterConditionDefinition
         return true;
     }
     
-    public ParseResult TryParse()
+    public CalculatorResult TryParse()
     {
-        _parsedString = _condition;
+        _parsedString = _expression;
         foreach (var variable in _variables)
         {
             if(variable == null)
                 continue;
             _parsedString = _parsedString.Replace(variable.name, variable.count.ToString());
         }
-
-        Parser parser = new Parser();
-        LogicExpression logicExpression = null;
+        
+        float result = 0;
         try
         {
-            logicExpression = parser.Parse(_parsedString);
+            MathParser mathParser = new MathParser();
+            result = (float)mathParser.Parse(_parsedString);
         }
         catch (Exception e)
         {
-            return new ParseResult(ParseResultType.Error, e.Message);
+            return new CalculatorResult(CalculatorResultType.Error, 0, e.Message);
         }
-        return new ParseResult(logicExpression.GetResult() ? ParseResultType.True : ParseResultType.False, string.Empty);
+        return new CalculatorResult(CalculatorResultType.Value, result, string.Empty);
     }
 }
 
-[CreateAssetMenu(fileName = "Counter Condition", menuName = "GMD/Condition/Counter Condition", order = 1)]
-public class CounterCondition : ScriptableObject
+[CreateAssetMenu(fileName = "Counter Calculator", menuName = "GMD/Counter/Calculator", order = 1)]
+public class CounterCalculator : ScriptableObject
 {
+    [DrawHiddenFieldsAttribute] [SerializeField] private bool _dummy;
+
     [SerializeField]
-    private CounterConditionDefinition conditionDefinition;
+    private CounterCalculatorDescriptor calculatorDescriptor;
     
-    [SerializeField]
+    [ShowInInspectorAttribute(false)]
     private string _parsedResult = String.Empty;
 
-    [SerializeField]
+    [ShowInInspectorAttribute(false)]
     private string _conditionResult = String.Empty;
 
-    public UnityEvent onTrue;
-    public UnityEvent onFalse;
-    public UnityEvent onError;
-
+    [SerializeField]
+    private Counter _result;
+    
     private void OnEnable()
     {
         if(!isPlayingOrWillChangePlaymode)
             return;
-        conditionDefinition.RegisterVariables(OnCounterChanged);
+        calculatorDescriptor.RegisterVariables(OnCounterChanged);
     }
 
     private void OnDisable()
     {
         if(!isPlayingOrWillChangePlaymode)
             return;
-        conditionDefinition.UnregisterVariables(OnCounterChanged);
+        calculatorDescriptor.UnregisterVariables(OnCounterChanged);
     }
 
     void OnCounterChanged(float value)
@@ -145,33 +146,37 @@ public class CounterCondition : ScriptableObject
     
     public bool Execute()
     {
-        ParseResult parseResult = conditionDefinition.TryParse();
-        switch (parseResult.resultType)
+        CalculatorResult conditionResult = calculatorDescriptor.TryParse();
+        switch (conditionResult.resultType)
         {
-            case ParseResultType.True:
-                onTrue?.Invoke();
+            case CalculatorResultType.Value:
+                _result.count = conditionResult.value;
+                Debug.Log(conditionResult.value);
                 break;
-            case ParseResultType.False:
-                onFalse?.Invoke();
-                break;
-            case ParseResultType.Error:
-                onError?.Invoke();
+            case CalculatorResultType.Error:
                 break;
         }
-        return parseResult.resultType == ParseResultType.True;
+        return conditionResult.resultType == CalculatorResultType.Value;
     }
 
 #if UNITY_EDITOR
     void OnValidate()
     {
-        if (!conditionDefinition.Validate(out string variableName))
+        if (!calculatorDescriptor.Validate(out string variableName))
         {
             Debug.LogError($"{name}, variable: {variableName} already exists!", this);
         }
 
-        ParseResult parseResult = conditionDefinition.TryParse();
-        _parsedResult = conditionDefinition.parsedString;
-        _conditionResult = $"{parseResult.resultType.ToString()} {parseResult.errorMessage}";
+        CalculatorResult calculatorResult = calculatorDescriptor.TryParse();
+        _parsedResult = calculatorDescriptor.parsedString;
+        if (calculatorResult.resultType == CalculatorResultType.Value)
+        {
+            _conditionResult = $"{calculatorResult.value.ToString()}";    
+        }
+        else
+        {
+            _conditionResult = $"{calculatorResult.resultType.ToString()} {calculatorResult.errorMessage}";
+        }
     }
 #endif
     
