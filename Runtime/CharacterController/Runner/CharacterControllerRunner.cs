@@ -151,7 +151,13 @@ namespace Chc
             Vector3 gravityDirection = Physics.gravity.normalized;
             futureVelocity += gravityDirection * rampDistance / Time.fixedDeltaTime;
 
-            float cameraYaw = _cameraTransform.rotation.eulerAngles.y;
+            
+            float cameraYaw = _rigidbody.rotation.eulerAngles.y;
+            if (_cameraTransform != null)
+            {
+                cameraYaw = _cameraTransform.rotation.eulerAngles.y;
+            }
+
             _rigidbody.rotation = Quaternion.Euler(0f, cameraYaw, 0f);
             _rigidbody.velocity = futureVelocity;
         }

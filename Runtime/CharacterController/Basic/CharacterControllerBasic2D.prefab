@@ -206,6 +206,7 @@ GameObject:
   - component: {fileID: 1886810330802702060}
   - component: {fileID: 1886810330802701842}
   - component: {fileID: 1886810330802701843}
+  - component: {fileID: 1594501100796809437}
   m_Layer: 3
   m_Name: Renderer
   m_TagString: Untagged
@@ -279,6 +280,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1594501100796809437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1886810330802702061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 301d26a67b4ff47e7a175075f76b947c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rendererTransform: {fileID: 1886810330802702060}
+  rigidbody: {fileID: 1886810331709810074}
 --- !u!1 &1886810330850638109
 GameObject:
   m_ObjectHideFlags: 0
@@ -396,7 +411,7 @@ GameObject:
   - component: {fileID: 1886810331709810074}
   - component: {fileID: 1886810331709810075}
   m_Layer: 3
-  m_Name: CharacterControllerBasic
+  m_Name: CharacterControllerBasic2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -435,7 +450,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 112
+  m_Constraints: 120
   m_CollisionDetection: 1
 --- !u!114 &1886810331709810075
 MonoBehaviour:

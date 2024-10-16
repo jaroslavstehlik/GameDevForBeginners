@@ -260,7 +260,7 @@ public class CharacterControllerBasic : MonoBehaviour
             ApplyJump(ref futureVelocity, jumpProgress);
         }
 
-        float cameraYaw = 0f;
+        float cameraYaw = _rigidbody.rotation.eulerAngles.y;
         if (_cameraTransform != null)
         {
             cameraYaw = _cameraTransform.rotation.eulerAngles.y;
