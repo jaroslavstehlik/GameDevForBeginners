@@ -307,7 +307,7 @@ GameObject:
   - component: {fileID: 1896321884173556874}
   m_Layer: 7
   m_Name: TriggerCollider
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -365,7 +365,7 @@ GameObject:
   - component: {fileID: 1886810330877062944}
   m_Layer: 3
   m_Name: RigidbodyCollider
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -412,7 +412,7 @@ GameObject:
   - component: {fileID: 1886810331709810075}
   m_Layer: 3
   m_Name: CharacterControllerBasic2D
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

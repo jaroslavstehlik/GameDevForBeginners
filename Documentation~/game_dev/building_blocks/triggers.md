@@ -44,17 +44,11 @@ If our events would just enable and disable a wall for example, The wall would d
 
 - One of the solutions would be to make sure that only a single collider can enter and exit the trigger. But this would be very hard to achieve in the scene.
 - The other solution is to remember which colliders have entered and which colliders have left the trigger.
-## Robust trigger
-
-[source code | RobustTrigger.cs](../../../Runtime/Trigger/RobustTrigger.cs)
-
-This solution triggers enter only when at least single object enters the trigger
-and triggers exit only when all objects leave the trigger. 
-This trigger is pretty robust towards multiple object detection.
-However it might be more useful if we could trigger the events only when certain amount of objects enter or leave the trigger. 
 
 ## Counter trigger
 
 [source code | CounterTrigger.cs](../../../Runtime/Trigger/CounterTrigger.cs)
 
-Our code is now far more complex but can also do more stuff.
+This solution triggers enter only when at least single object enters the trigger
+and triggers exit only when all objects leave the trigger. 
+This trigger is pretty robust towards multiple object detection.

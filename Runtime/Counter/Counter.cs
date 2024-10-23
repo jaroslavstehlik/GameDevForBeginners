@@ -97,10 +97,20 @@ public class Counter : ScriptableObject
         count = value;
     }
     
+    public void Set(Counter counter)
+    {
+        count = counter.count;
+    }
+
     // Method for adding count
     public void Add(float value)
     {
         count += value;
+    }
+    
+    public void Add(Counter counter)
+    {
+        count += counter.count;
     }
 
     // Method for subtracting count
@@ -109,16 +119,31 @@ public class Counter : ScriptableObject
         count -= value;
     }
     
+    public void Subtract(Counter counter)
+    {
+        count -= counter.count;
+    }
+    
     // Method for multiplying count
     public void Multiply(float value)
     {
         count *= value;
     }
 
+    public void Multiply(Counter counter)
+    {
+        count *= counter.count;
+    }
+
     // Method for dividing count
     public void Divide(float value)
     {
         count /= value;
+    }
+    
+    public void Divide(Counter counter)
+    {
+        count /= counter.count;
     }
 
     static bool isPlayingOrWillChangePlaymode
