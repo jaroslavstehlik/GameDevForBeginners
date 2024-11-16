@@ -11,14 +11,14 @@ Quest needs a unique name so it can be easily understood by the player but also 
 
 ## Quest
 
-[source code | Quest.cs](../../../Runtime/Quest/Quest.cs)
+[![OpenScriptButton](https://img.shields.io/badge/Open%20script-4287f5?style=for-the-badge 'OpenScriptButton')](http://localhost:8081/?actionType=loadScript&value=Runtime/Quest/Quest.cs)
 
 This quest lives inside the project, therefore is unique per project.
 In order to react to changes to the quest we need a listener which lives in the scene.
 
 ## Quest Listener
 
-[source code | QuestListener.cs](../../../Runtime/Quest/QuestListener.cs)
+[![OpenScriptButton](https://img.shields.io/badge/Open%20script-4287f5?style=for-the-badge 'OpenScriptButton')](http://localhost:8081/?actionType=loadScript&value=Runtime/Quest/QuestListener.cs)
 
 ## Linear quests
 
@@ -28,7 +28,7 @@ This is usually the main storyline.
 
 ## Linear Quest Log
 
-[source code | LinearQuestLog.cs](../../../Runtime/Quest/LinearQuestLog.cs)
+[![OpenScriptButton](https://img.shields.io/badge/Open%20script-4287f5?style=for-the-badge 'OpenScriptButton')](http://localhost:8081/?actionType=loadScript&value=Runtime/Quest/LinearQuestLog.cs)
 
 The linear quest log lives again in our project.
 In order so we can react to changes to the quest log in our scene we
@@ -36,7 +36,7 @@ need to create a listener.
 
 ## Linear Quest Log Listener
 
-[source code | LinearQuestLogListener.cs](../../../Runtime/Quest/LinearQuestLogListener.cs)
+[![OpenSceneButton](https://img.shields.io/badge/Open%20scene-4287f5?style=for-the-badge 'OpenSceneButton')](http://localhost:8081/?actionType=loadScene&value=Quest.unity) [![OpenScriptButton](https://img.shields.io/badge/Open%20script-4287f5?style=for-the-badge 'OpenScriptButton')](http://localhost:8081/?actionType=loadScript&value=Runtime/Quest/LinearQuestLogListener.cs)
 
 ## Parallel quests
 

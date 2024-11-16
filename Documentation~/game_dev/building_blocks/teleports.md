@@ -19,7 +19,7 @@ Then we need a specific place on the map to which the teleport or portal will tr
 
 ## Teleport Transform
 
-[source code | TeleportTransform.cs](../../../Runtime/Teleport/TeleportTransform.cs)
+[![OpenScriptButton](https://img.shields.io/badge/Open%20script-4287f5?style=for-the-badge 'OpenScriptButton')](http://localhost:8081/?actionType=loadScript&value=Runtime/Teleport/TeleportTransform.cs)
 
 This is the simplest teleport we can make. However, it has a major flaw.
 If our object contains a RigidBody the teleportation might fail due to collision detection.
@@ -27,10 +27,6 @@ When we move RigidBodies around, they still have to detect collisions and if the
 
 ## Teleport Rigidbody
 
-[source code | TeleportRigidbody.cs](../../../Runtime/Teleport/TeleportRigidbody.cs)
+[![OpenSceneButton](https://img.shields.io/badge/Open%20scene-4287f5?style=for-the-badge 'OpenSceneButton')](http://localhost:8081/?actionType=loadScene&value=Teleport.unity) [![OpenScriptButton](https://img.shields.io/badge/Open%20script-4287f5?style=for-the-badge 'OpenScriptButton')](http://localhost:8081/?actionType=loadScript&value=Runtime/Teleport/TeleportRigidbody.cs)
 
 Now our teleport actually supports moving RigidBodies around. But we might want to filter only specific objects to be able to teleport. We can use object tag as a filter.
-
-## Teleport Tagged Rigidbody
-
-[source code | TeleportTaggedRigidbody.cs](../../../Runtime/Teleport/TeleportTaggedRigidbody.cs)

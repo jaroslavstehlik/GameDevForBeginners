@@ -9,6 +9,7 @@ are compatible across any game engines.
 # Installation
 
 - [Unity package installation](Documentation~/installation/unity_upm_installation.md)
+- [Interactive documentation](Documentation~/installation/unity_interactive_documentation.md)
 
 # Theory
 

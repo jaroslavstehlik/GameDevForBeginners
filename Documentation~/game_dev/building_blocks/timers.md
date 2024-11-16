@@ -24,8 +24,8 @@ The event which has to be triggered when the timer ends.
 
 ## Basic Timer
 
-[source code | BasicTimer.cs](../../../Runtime/Assets/Timer/BasicTimer.cs)
+[![OpenScriptButton](https://img.shields.io/badge/Open%20script-4287f5?style=for-the-badge 'OpenScriptButton')](http://localhost:8081/?actionType=loadScript&value=Runtime/Timer/BasicTimer.cs)
 
 ## Cyclic Timer
 
-[source code | CyclicTimer.cs](../../../Runtime/Assets/Timer/CyclicTimer.cs)
+[![OpenSceneButton](https://img.shields.io/badge/Open%20scene-4287f5?style=for-the-badge 'OpenSceneButton')](http://localhost:8081/?actionType=loadScene&value=Timer.unity) [![OpenScriptButton](https://img.shields.io/badge/Open%20script-4287f5?style=for-the-badge 'OpenScriptButton')](http://localhost:8081/?actionType=loadScript&value=Runtime/Timer/CyclicTimer.cs)

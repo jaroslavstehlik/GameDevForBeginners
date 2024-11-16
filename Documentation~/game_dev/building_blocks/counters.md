@@ -44,4 +44,4 @@ If we collect stars and do not see that a counter has increased the player does 
 
 ## Counter
 
-[source code | Counter.cs](../../../Runtime/Counter/Counter.cs)
+[![OpenSceneButton](https://img.shields.io/badge/Open%20scene-4287f5?style=for-the-badge 'OpenSceneButton')](http://localhost:8081/?actionType=loadScene&value=Counter.unity) [![OpenScriptButton](https://img.shields.io/badge/Open%20script-4287f5?style=for-the-badge 'OpenScriptButton')](http://localhost:8081/?actionType=loadScript&value=Runtime/Counter/Counter.cs)

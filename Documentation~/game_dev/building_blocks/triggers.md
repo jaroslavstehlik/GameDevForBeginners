@@ -30,7 +30,7 @@ MonoBehaviour class implements three trigger related messages.
 We will use only OnTriggerEnter and OnTriggerExit for now.  
 ## Naive trigger
 
-[source code | NaiveTrigger.cs](../../../Runtime/Trigger/NaiveTrigger.cs)
+[![OpenSceneButton](https://img.shields.io/badge/Open%20scene-4287f5?style=for-the-badge 'OpenSceneButton')](http://localhost:8081/?actionType=loadScene&value=NaiveTrigger.unity) [![OpenScriptButton](https://img.shields.io/badge/Open%20script-4287f5?style=for-the-badge 'OpenScriptButton')](http://localhost:8081/?actionType=loadScript&value=Runtime/Trigger/NaiveTrigger.cs)
 
 The code above will do most of its job but it is far from perfect. It is made as simple as possible but does not cover many different cases. One of the case is that if two objects enter and then single object exits we will get this sequence.
 
@@ -47,7 +47,7 @@ If our events would just enable and disable a wall for example, The wall would d
 
 ## Counter trigger
 
-[source code | CounterTrigger.cs](../../../Runtime/Trigger/CounterTrigger.cs)
+[![OpenSceneButton](https://img.shields.io/badge/Open%20scene-4287f5?style=for-the-badge 'OpenSceneButton')](http://localhost:8081/?actionType=loadScene&value=CounterTrigger.unity) [![OpenScriptButton](https://img.shields.io/badge/Open%20script-4287f5?style=for-the-badge 'OpenScriptButton')](http://localhost:8081/?actionType=loadScript&value=Runtime/Trigger/CounterTrigger.cs)
 
 This solution triggers enter only when at least single object enters the trigger
 and triggers exit only when all objects leave the trigger. 

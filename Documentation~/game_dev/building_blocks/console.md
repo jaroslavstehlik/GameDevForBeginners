@@ -12,7 +12,7 @@ for logging errors.
 
 Therefore a console is the biggest friend of any developer.
 
-[source code | Console.cs](../../../Runtime/Console/Console.cs)
+[![OpenScriptButton](https://img.shields.io/badge/Open%20script-4287f5?style=for-the-badge 'OpenScriptButton')](http://localhost:8081/?actionType=loadScript&value=Runtime/Console/Console.cs)
 
 This simple script will provide us a public function which can be used in the
 unity editor to debug custom messages or events. 

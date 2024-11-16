@@ -24,7 +24,7 @@ You just place your camera in the scene without any script
 
 Simplest camera which just follows the target with slight delay
 
-[source code | FollowCamera.cs](../../../Runtime/Camera/FollowCamera.cs)
+[![OpenScriptButton](https://img.shields.io/badge/Open%20script-4287f5?style=for-the-badge 'OpenScriptButton')](http://localhost:8081/?actionType=loadScript&value=Runtime/Camera/FollowCamera.cs)
 
 # First person camera
 
@@ -33,7 +33,7 @@ Simplest camera which just follows the target with slight delay
 
 Slightly advanced camera which allows the player to look around
 
-[source code | FirstPersonCamera.cs](../../../Runtime/Camera/FirstPersonCamera.cs)
+[![OpenScriptButton](https://img.shields.io/badge/Open%20script-4287f5?style=for-the-badge 'OpenScriptButton')](http://localhost:8081/?actionType=loadScript&value=Runtime/Camera/FirstPersonCamera.cs)
 
 # Third person camera
 
@@ -45,4 +45,4 @@ The movement of the camera is called camera orbit as it orbits around the player
 When the camera detects collision between player and camera it comes closer to prevent occlusion.
 It allows custom distance from player by using mouse scroll wheel.
 
-[source code | ThirdPersonCamera.cs](../../../Runtime/Camera/ThirdPersonCamera.cs)
+[![OpenScriptButton](https://img.shields.io/badge/Open%20script-4287f5?style=for-the-badge 'OpenScriptButton')](http://localhost:8081/?actionType=loadScript&value=Runtime/Camera/ThirdPersonCamera.cs)

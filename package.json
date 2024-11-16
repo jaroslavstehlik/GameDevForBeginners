@@ -1,13 +1,11 @@
 {
   "name": "digital.dream.gamedevforbeginners",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "displayName": "Game dev for beginners",
   "description": "This unity package is dedicated to teaching the fundamentals of game development to absolute beginners, with no prior experience required.",
   "unity": "2021.3",
   "unityRelease": "30f1",
   "documentationUrl": "https://github.com/jaroslavstehlik/GameDevForBeginners",
-  "changelogUrl": "CHANGELOG.md",
-  "licensesUrl": "LICENSE.md",
   "dependencies": {
     "com.unity.render-pipelines.universal": "12.1.12",
     "com.unity.textmeshpro": "3.0.6"

@@ -1,5 +1,8 @@
 [Main page](../../../readme.md)
 
+[Button Open Scene]: https://img.shields.io/badge/Open%20scene-4287f5?style=for-the-badge
+[Button Open Script]: https://img.shields.io/badge/Open%20script-4287f5?style=for-the-badge
+
 # Character controller
 Is the second most important element in most games. It can be as simple as a dot navigating on a grid and as complex as Assassin's Creed character which climbs and runs on walls or Spider man character which can swing from building to building. The main objective is design. We need to limit our character abilities to fit our level design.
 
@@ -10,7 +13,7 @@ Is the second most important element in most games. It can be as simple as a dot
 
 Our example character controller can walk, run and jump.
 
-[source code | CharacterControllerBasic.cs](../../../Runtime/CharacterController/Basic/CharacterControllerBasic.cs)
+[![OpenSceneButton](https://img.shields.io/badge/Open%20scene-4287f5?style=for-the-badge 'OpenSceneButton')](http://localhost:8081/?actionType=loadScene&value=CharacterControllerBasic.unity) [![OpenScriptButton](https://img.shields.io/badge/Open%20script-4287f5?style=for-the-badge 'OpenScriptButton')](http://localhost:8081/?actionType=loadScript&value=Runtime/CharacterController/Basic/CharacterControllerBasic.cs)
 
 More advanced character controllers could do a even more.
 
