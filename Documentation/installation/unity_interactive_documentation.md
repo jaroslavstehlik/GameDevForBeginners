@@ -1,3 +1,5 @@
+[Main page](../../../readme.md)
+
 # Interactive documentation
 
 ## how to enable interactive documentation

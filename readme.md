@@ -1,5 +1,5 @@
 
-<img src="Documentation~/img/building_blocks_intro.webp" alt="game dev building blocks" height="400"/>
+<img src="Documentation/img/building_blocks_intro.webp" alt="game dev building blocks" height="400"/>
 
 This GitHub repository is dedicated to explain the fundamentals   
 of game development to absolute beginners, with no prior experience required.   
