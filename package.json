@@ -1,6 +1,6 @@
 {
   "name": "digital.dream.gamedevforbeginners",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "displayName": "Game dev for beginners",
   "description": "This unity package is dedicated to teaching the fundamentals of game development to absolute beginners, with no prior experience required.",
   "unity": "2021.3",
