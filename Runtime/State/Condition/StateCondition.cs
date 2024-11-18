@@ -2,52 +2,51 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using MathParserTK;
+using B83.LogicExpressionParser;
 
 namespace GameDevForBeginners
 {
-    public enum CalculatorResultType
+    public enum StateResultType
     {
-        Value,
+        False,
+        True,
         Error
     }
 
-    public struct CalculatorResult
+    public struct StateResult
     {
-        public CalculatorResultType resultType;
+        public StateResultType resultType;
         public string errorMessage;
-        public float value;
 
-        public CalculatorResult(CalculatorResultType resultType, float value, string errorMessage)
+        public StateResult(StateResultType resultType, string errorMessage)
         {
             this.resultType = resultType;
-            this.value = value;
             this.errorMessage = errorMessage;
         }
     }
 
     [System.Serializable]
-    public struct CounterCalculatorDescriptor
+    public struct StateConditionDescriptor
     {
-        [SerializeField] private Counter[] _variables;
+        [SerializeField] private State[] _variables;
 
-        public void RegisterVariables(UnityAction<float> onCounterChanged)
+        public void RegisterVariables(UnityAction<string> onStateChanged)
         {
             foreach (var variable in _variables)
             {
                 if (variable == null)
                     continue;
-                variable.onCountChanged.AddListener(onCounterChanged);
+                variable.onStateChanged.AddListener(onStateChanged);
             }
         }
 
-        public void UnregisterVariables(UnityAction<float> onCounterChanged)
+        public void UnregisterVariables(UnityAction<string> onStateChanged)
         {
             foreach (var variable in _variables)
             {
                 if (variable == null)
                     continue;
-                variable.onCountChanged.RemoveListener(onCounterChanged);
+                variable.onStateChanged.RemoveListener(onStateChanged);
             }
         }
 
@@ -57,11 +56,11 @@ namespace GameDevForBeginners
             {
                 if (variable == null)
                     continue;
-                variable.onCountChanged.RemoveAllListeners();
+                variable.onStateChanged.RemoveAllListeners();
             }
         }
 
-        [SerializeField] private string _expression;
+        [SerializeField] private string _condition;
         private string _parsedString;
         public string parsedString => _parsedString;
 
@@ -84,98 +83,102 @@ namespace GameDevForBeginners
             return true;
         }
 
-        public CalculatorResult TryParse()
+        public ConditionResult TryParse()
         {
-            _parsedString = _expression;
+            _parsedString = _condition;
             foreach (var variable in _variables)
             {
                 if (variable == null)
                     continue;
-                _parsedString = _parsedString.Replace(variable.name, variable.count.ToString());
+                _parsedString = _parsedString.Replace(variable.name, variable.activeState);
             }
 
-            float result = 0;
+            Parser parser = new Parser();
+            LogicExpression logicExpression = null;
             try
             {
-                MathParser mathParser = new MathParser();
-                result = (float)mathParser.Parse(_parsedString);
+                logicExpression = parser.Parse(_parsedString);
             }
             catch (Exception e)
             {
-                return new CalculatorResult(CalculatorResultType.Error, 0, e.Message);
+                return new ConditionResult(ContitionResultType.Error, e.Message);
             }
 
-            return new CalculatorResult(CalculatorResultType.Value, result, string.Empty);
+            return new ConditionResult(
+                logicExpression.GetResult() ? ContitionResultType.True : ContitionResultType.False, string.Empty);
         }
     }
 
-    [CreateAssetMenu(fileName = "Counter Calculator", menuName = "GMD/Counter/Calculator", order = 1)]
-    public class CounterCalculator : ScriptableObject
+    [CreateAssetMenu(fileName = "State Condition", menuName = "GMD/State/Condition", order = 1)]
+    public class StateCondition : ScriptableObject
     {
         [DrawHiddenFieldsAttribute] [SerializeField]
         private bool _dummy;
 
-        [SerializeField] private CounterCalculatorDescriptor calculatorDescriptor;
+        [SerializeField] private StateConditionDescriptor conditionDescriptor;
 
         [ShowInInspectorAttribute(false)] private string _parsedResult = String.Empty;
 
         [ShowInInspectorAttribute(false)] private string _conditionResult = String.Empty;
 
-        [SerializeField] private Counter _result;
+        [HideInInspector] public UnityEvent onTrue;
+        [HideInInspector] public UnityEvent onFalse;
+        [HideInInspector] public UnityEvent onError;
+
+        private DetectInfiniteLoop _detectInfiniteLoop = new DetectInfiniteLoop();
 
         private void OnEnable()
         {
             if (!isPlayingOrWillChangePlaymode)
                 return;
-            calculatorDescriptor.RegisterVariables(OnCounterChanged);
+            conditionDescriptor.RegisterVariables(OnStateChanged);
         }
 
         private void OnDisable()
         {
             if (!isPlayingOrWillChangePlaymode)
                 return;
-            calculatorDescriptor.UnregisterVariables(OnCounterChanged);
+            conditionDescriptor.UnregisterVariables(OnStateChanged);
         }
 
-        void OnCounterChanged(float value)
+        void OnStateChanged(string value)
         {
             Execute();
         }
 
         public bool Execute()
         {
-            CalculatorResult conditionResult = calculatorDescriptor.TryParse();
+            if (_detectInfiniteLoop.Detect(this))
+                return false;
+
+            ConditionResult conditionResult = conditionDescriptor.TryParse();
             switch (conditionResult.resultType)
             {
-                case CalculatorResultType.Value:
-                    _result.count = conditionResult.value;
-                    Debug.Log(conditionResult.value);
+                case ContitionResultType.True:
+                    onTrue?.Invoke();
                     break;
-                case CalculatorResultType.Error:
+                case ContitionResultType.False:
+                    onFalse?.Invoke();
+                    break;
+                case ContitionResultType.Error:
+                    onError?.Invoke();
                     break;
             }
 
-            return conditionResult.resultType == CalculatorResultType.Value;
+            return conditionResult.resultType == ContitionResultType.True;
         }
 
 #if UNITY_EDITOR
         void OnValidate()
         {
-            if (!calculatorDescriptor.Validate(out string variableName))
+            if (!conditionDescriptor.Validate(out string variableName))
             {
                 Debug.LogError($"{name}, variable: {variableName} already exists!", this);
             }
 
-            CalculatorResult calculatorResult = calculatorDescriptor.TryParse();
-            _parsedResult = calculatorDescriptor.parsedString;
-            if (calculatorResult.resultType == CalculatorResultType.Value)
-            {
-                _conditionResult = $"{calculatorResult.value.ToString()}";
-            }
-            else
-            {
-                _conditionResult = $"{calculatorResult.resultType.ToString()} {calculatorResult.errorMessage}";
-            }
+            ConditionResult conditionResult = conditionDescriptor.TryParse();
+            _parsedResult = conditionDescriptor.parsedString;
+            _conditionResult = $"{conditionResult.resultType.ToString()} {conditionResult.errorMessage}";
         }
 #endif
 

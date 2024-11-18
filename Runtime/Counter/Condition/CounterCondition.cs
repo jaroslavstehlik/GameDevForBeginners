@@ -4,195 +4,194 @@ using UnityEngine;
 using UnityEngine.Events;
 using B83.LogicExpressionParser;
 
-public enum ContitionResultType
+namespace GameDevForBeginners
 {
-    False,
-    True,
-    Error
-}
-
-public struct ConditionResult
-{
-    public ContitionResultType resultType;
-    public string errorMessage;
-    
-    public ConditionResult(ContitionResultType resultType, string errorMessage)
+    public enum ContitionResultType
     {
-        this.resultType = resultType;
-        this.errorMessage = errorMessage;
+        False,
+        True,
+        Error
     }
-}
 
-[System.Serializable]
-public struct CounterConditionDescriptor
-{
-    [SerializeField]
-    private Counter[] _variables;
+    public struct ConditionResult
+    {
+        public ContitionResultType resultType;
+        public string errorMessage;
 
-    public void RegisterVariables(UnityAction<float> onCounterChanged)
-    {
-        foreach (var variable in _variables)
+        public ConditionResult(ContitionResultType resultType, string errorMessage)
         {
-            if(variable == null)
-                continue;
-            variable.onCountChanged.AddListener(onCounterChanged);
-        }
-    }
-    
-    public void UnregisterVariables(UnityAction<float> onCounterChanged)
-    {
-        foreach (var variable in _variables)
-        {
-            if(variable == null)
-                continue;
-            variable.onCountChanged.RemoveListener(onCounterChanged);
+            this.resultType = resultType;
+            this.errorMessage = errorMessage;
         }
     }
 
-    public void UnregisterAllVariables()
+    [System.Serializable]
+    public struct CounterConditionDescriptor
     {
-        foreach (var variable in _variables)
-        {
-            if(variable == null)
-                continue;
-            variable.onCountChanged.RemoveAllListeners();
-        }
-    }
-    
-    [SerializeField] 
-    private string _condition;
-    private string _parsedString;
-    public string parsedString => _parsedString;
+        [SerializeField] private Counter[] _variables;
 
-    public bool Validate(out string variableName)
-    {
-        HashSet<string> encounteredVariables = new HashSet<string>();
-        foreach (var variable in _variables)
+        public void RegisterVariables(UnityAction<float> onCounterChanged)
         {
-            if (variable == null)
-                continue;
-            
-            if (!encounteredVariables.Add(variable.name))
+            foreach (var variable in _variables)
             {
-                variableName = variable.name;
-                return false;
+                if (variable == null)
+                    continue;
+                variable.onCountChanged.AddListener(onCounterChanged);
             }
         }
 
-        variableName = string.Empty;
-        return true;
-    }
-    
-    public ConditionResult TryParse()
-    {
-        _parsedString = _condition;
-        foreach (var variable in _variables)
+        public void UnregisterVariables(UnityAction<float> onCounterChanged)
         {
-            if(variable == null)
-                continue;
-            _parsedString = _parsedString.Replace(variable.name, variable.count.ToString());
+            foreach (var variable in _variables)
+            {
+                if (variable == null)
+                    continue;
+                variable.onCountChanged.RemoveListener(onCounterChanged);
+            }
         }
 
-        Parser parser = new Parser();
-        LogicExpression logicExpression = null;
-        try
+        public void UnregisterAllVariables()
         {
-            logicExpression = parser.Parse(_parsedString);
+            foreach (var variable in _variables)
+            {
+                if (variable == null)
+                    continue;
+                variable.onCountChanged.RemoveAllListeners();
+            }
         }
-        catch (Exception e)
+
+        [SerializeField] private string _condition;
+        private string _parsedString;
+        public string parsedString => _parsedString;
+
+        public bool Validate(out string variableName)
         {
-            return new ConditionResult(ContitionResultType.Error, e.Message);
+            HashSet<string> encounteredVariables = new HashSet<string>();
+            foreach (var variable in _variables)
+            {
+                if (variable == null)
+                    continue;
+
+                if (!encounteredVariables.Add(variable.name))
+                {
+                    variableName = variable.name;
+                    return false;
+                }
+            }
+
+            variableName = string.Empty;
+            return true;
         }
-        return new ConditionResult(logicExpression.GetResult() ? ContitionResultType.True : ContitionResultType.False, string.Empty);
-    }
-}
 
-[CreateAssetMenu(fileName = "Counter Condition", menuName = "GMD/Counter/Condition", order = 1)]
-public class CounterCondition : ScriptableObject
-{
-    [DrawHiddenFieldsAttribute] [SerializeField] private bool _dummy;
-
-    [SerializeField]
-    private CounterConditionDescriptor conditionDescriptor;
-    
-    [ShowInInspectorAttribute(false)]
-    private string _parsedResult = String.Empty;
-
-    [ShowInInspectorAttribute(false)]
-    private string _conditionResult = String.Empty;
-
-    [HideInInspector]
-    public UnityEvent onTrue;
-    [HideInInspector]
-    public UnityEvent onFalse;
-    [HideInInspector]
-    public UnityEvent onError;
-
-    private DetectInfiniteLoop _detectInfiniteLoop = new DetectInfiniteLoop();
-
-    private void OnEnable()
-    {
-        if(!isPlayingOrWillChangePlaymode)
-            return;
-        conditionDescriptor.RegisterVariables(OnCounterChanged);
-    }
-
-    private void OnDisable()
-    {
-        if(!isPlayingOrWillChangePlaymode)
-            return;
-        conditionDescriptor.UnregisterVariables(OnCounterChanged);
-    }
-
-    void OnCounterChanged(float value)
-    {
-        Execute();
-    }
-    
-    public bool Execute()
-    {
-        if (_detectInfiniteLoop.Detect(this))
-            return false;
-        
-        ConditionResult conditionResult = conditionDescriptor.TryParse();
-        switch (conditionResult.resultType)
+        public ConditionResult TryParse()
         {
-            case ContitionResultType.True:
-                onTrue?.Invoke();
-                break;
-            case ContitionResultType.False:
-                onFalse?.Invoke();
-                break;
-            case ContitionResultType.Error:
-                onError?.Invoke();
-                break;
+            _parsedString = _condition;
+            foreach (var variable in _variables)
+            {
+                if (variable == null)
+                    continue;
+                _parsedString = _parsedString.Replace(variable.name, variable.count.ToString());
+            }
+
+            Parser parser = new Parser();
+            LogicExpression logicExpression = null;
+            try
+            {
+                logicExpression = parser.Parse(_parsedString);
+            }
+            catch (Exception e)
+            {
+                return new ConditionResult(ContitionResultType.Error, e.Message);
+            }
+
+            return new ConditionResult(
+                logicExpression.GetResult() ? ContitionResultType.True : ContitionResultType.False, string.Empty);
         }
-        return conditionResult.resultType == ContitionResultType.True;
     }
+
+    [CreateAssetMenu(fileName = "Counter Condition", menuName = "GMD/Counter/Condition", order = 1)]
+    public class CounterCondition : ScriptableObject
+    {
+        [DrawHiddenFieldsAttribute] [SerializeField]
+        private bool _dummy;
+
+        [SerializeField] private CounterConditionDescriptor conditionDescriptor;
+
+        [ShowInInspectorAttribute(false)] private string _parsedResult = String.Empty;
+
+        [ShowInInspectorAttribute(false)] private string _conditionResult = String.Empty;
+
+        [HideInInspector] public UnityEvent onTrue;
+        [HideInInspector] public UnityEvent onFalse;
+        [HideInInspector] public UnityEvent onError;
+
+        private DetectInfiniteLoop _detectInfiniteLoop = new DetectInfiniteLoop();
+
+        private void OnEnable()
+        {
+            if (!isPlayingOrWillChangePlaymode)
+                return;
+            conditionDescriptor.RegisterVariables(OnCounterChanged);
+        }
+
+        private void OnDisable()
+        {
+            if (!isPlayingOrWillChangePlaymode)
+                return;
+            conditionDescriptor.UnregisterVariables(OnCounterChanged);
+        }
+
+        void OnCounterChanged(float value)
+        {
+            Execute();
+        }
+
+        public bool Execute()
+        {
+            if (_detectInfiniteLoop.Detect(this))
+                return false;
+
+            ConditionResult conditionResult = conditionDescriptor.TryParse();
+            switch (conditionResult.resultType)
+            {
+                case ContitionResultType.True:
+                    onTrue?.Invoke();
+                    break;
+                case ContitionResultType.False:
+                    onFalse?.Invoke();
+                    break;
+                case ContitionResultType.Error:
+                    onError?.Invoke();
+                    break;
+            }
+
+            return conditionResult.resultType == ContitionResultType.True;
+        }
 
 #if UNITY_EDITOR
-    void OnValidate()
-    {
-        if (!conditionDescriptor.Validate(out string variableName))
+        void OnValidate()
         {
-            Debug.LogError($"{name}, variable: {variableName} already exists!", this);
-        }
+            if (!conditionDescriptor.Validate(out string variableName))
+            {
+                Debug.LogError($"{name}, variable: {variableName} already exists!", this);
+            }
 
-        ConditionResult conditionResult = conditionDescriptor.TryParse();
-        _parsedResult = conditionDescriptor.parsedString;
-        _conditionResult = $"{conditionResult.resultType.ToString()} {conditionResult.errorMessage}";
-    }
+            ConditionResult conditionResult = conditionDescriptor.TryParse();
+            _parsedResult = conditionDescriptor.parsedString;
+            _conditionResult = $"{conditionResult.resultType.ToString()} {conditionResult.errorMessage}";
+        }
 #endif
-    
-    public static bool isPlayingOrWillChangePlaymode
-    {
-        get
+
+        public static bool isPlayingOrWillChangePlaymode
         {
+            get
+            {
 #if UNITY_EDITOR
-            return UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode;
+                return UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode;
 #else
             return true;
 #endif
+            }
         }
     }
 }

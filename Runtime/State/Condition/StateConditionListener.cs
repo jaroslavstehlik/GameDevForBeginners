@@ -3,9 +3,9 @@ using UnityEngine.Events;
 
 namespace GameDevForBeginners
 {
-    public class CounterConditionListener : MonoBehaviour
+    public class StateConditionListener : MonoBehaviour
     {
-        [SerializeField] private CounterCondition counterCondition;
+        [SerializeField] private StateCondition stateCondition;
         [SerializeField] private bool _executeOnEnable = true;
 
         public UnityEvent onTrue;
@@ -14,18 +14,18 @@ namespace GameDevForBeginners
 
         private void OnEnable()
         {
-            counterCondition.onTrue.AddListener(OnTrue);
-            counterCondition.onFalse.AddListener(OnFalse);
-            counterCondition.onError.AddListener(OnError);
+            stateCondition.onTrue.AddListener(OnTrue);
+            stateCondition.onFalse.AddListener(OnFalse);
+            stateCondition.onError.AddListener(OnError);
             if (_executeOnEnable)
-                counterCondition.Execute();
+                stateCondition.Execute();
         }
 
         private void OnDisable()
         {
-            counterCondition.onTrue.RemoveListener(OnTrue);
-            counterCondition.onFalse.RemoveListener(OnFalse);
-            counterCondition.onError.RemoveListener(OnError);
+            stateCondition.onTrue.RemoveListener(OnTrue);
+            stateCondition.onFalse.RemoveListener(OnFalse);
+            stateCondition.onError.RemoveListener(OnError);
         }
 
         void OnTrue()
