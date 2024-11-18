@@ -125,6 +125,11 @@ namespace GameDevForBeginners
             activeState = stateName;
         }
 
+        public void Reset()
+        {
+            activeState = _defaultState;
+        }
+
         public static bool isPlayingOrWillChangePlaymode
         {
             get

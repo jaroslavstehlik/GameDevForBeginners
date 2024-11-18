@@ -155,6 +155,11 @@ namespace GameDevForBeginners
             count /= counter.count;
         }
 
+        public void Reset()
+        {
+            count = _defaultCount;
+        }
+
         static bool isPlayingOrWillChangePlaymode
         {
             get
