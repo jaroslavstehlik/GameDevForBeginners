@@ -3,14 +3,14 @@ using UnityEngine.Events;
 
 public class InstanceSpawner : MonoBehaviour
 {
-    // Public event when spawner spawns an object
-    public UnityEvent<GameObject> onSpawn;
-    
     // GameObject to spawn
     public GameObject spawnGameObject;
 
     // Where to place our spawned object
     public Transform spawnLocation;
+    
+    // Public event when spawner spawns an object
+    public UnityEvent<GameObject> onSpawn;
 
     public void Spawn()
     {

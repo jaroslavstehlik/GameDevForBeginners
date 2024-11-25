@@ -10,7 +10,7 @@ namespace GameDevForBeginners
 // Scriptable object can be stored only in project
 // it can be referenced in scene
 // it is used mostly for holding game data
-    public class Counter : ScriptableObject
+    public class Counter : ScriptableObject, ICountable
     {
         [DrawHiddenFieldsAttribute] [SerializeField]
         private bool _dummy;
@@ -18,8 +18,10 @@ namespace GameDevForBeginners
         [ShowInInspectorAttribute(false)] private float _count = 0;
 
         [SerializeField] private float _defaultCount = 0;
+        public float defaultCount => _defaultCount;
 
         [SerializeField] private bool _wholeNumber = true;
+        public bool wholeNumber => _wholeNumber;
 
         // The key to our counter, it has to be unique per whole game.
         [SerializeField] private string _saveKey = string.Empty;
@@ -51,9 +53,13 @@ namespace GameDevForBeginners
         }
 
 #if UNITY_EDITOR
-        private void OnValidate()
+        public void OnValidate()
         {
             _defaultCount = ValidateNumber(_defaultCount);
+            if (!isPlayingOrWillChangePlaymode)
+            {
+                count = _defaultCount;
+            }
         }
 #endif
 
@@ -64,17 +70,7 @@ namespace GameDevForBeginners
 
         public float count
         {
-#if UNITY_EDITOR
-            get
-            {
-                if (isPlayingOrWillChangePlaymode)
-                    return _count;
-
-                return _defaultCount;
-            }
-#else
-        get => _count;
-#endif
+            get => _count;
             set
             {
                 float candidate = ValidateNumber(value);

@@ -142,31 +142,27 @@ namespace GameDevForBeginners
             Execute();
         }
 
-        public bool Execute()
-        {
-            CalculatorResult conditionResult = calculatorDescriptor.TryParse();
-            switch (conditionResult.resultType)
-            {
-                case CalculatorResultType.Value:
-                    _result.count = conditionResult.value;
-                    Debug.Log(conditionResult.value);
-                    break;
-                case CalculatorResultType.Error:
-                    break;
-            }
-
-            return conditionResult.resultType == CalculatorResultType.Value;
-        }
-
-#if UNITY_EDITOR
-        void OnValidate()
+        public bool Execute(bool invokeEvents = true)
         {
             if (!calculatorDescriptor.Validate(out string variableName))
             {
                 Debug.LogError($"{name}, variable: {variableName} already exists!", this);
+                return false;
             }
-
+            
             CalculatorResult calculatorResult = calculatorDescriptor.TryParse();
+            if (invokeEvents)
+            {
+                switch (calculatorResult.resultType)
+                {
+                    case CalculatorResultType.Value:
+                        _result.count = calculatorResult.value;
+                        break;
+                    case CalculatorResultType.Error:
+                        break;
+                }
+            }
+#if UNITY_EDITOR
             _parsedResult = calculatorDescriptor.parsedString;
             if (calculatorResult.resultType == CalculatorResultType.Value)
             {
@@ -176,9 +172,18 @@ namespace GameDevForBeginners
             {
                 _conditionResult = $"{calculatorResult.resultType.ToString()} {calculatorResult.errorMessage}";
             }
+#endif
+            
+            return calculatorResult.resultType == CalculatorResultType.Value;
+        }
+
+#if UNITY_EDITOR
+        public void OnValidate()
+        {
+            Execute(false);
         }
 #endif
-
+        
         public static bool isPlayingOrWillChangePlaymode
         {
             get

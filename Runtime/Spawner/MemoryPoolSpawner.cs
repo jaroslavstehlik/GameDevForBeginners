@@ -3,9 +3,6 @@ using UnityEngine.Events;
 
 public class MemoryPoolSpawner : MonoBehaviour
 {
-    // Public event when spawner spawns an object
-    public UnityEvent<GameObject> onSpawn;
-    
     // maximum number of GameObjects to spawn
     public int maxSpawnCount = 10;
     
@@ -15,10 +12,13 @@ public class MemoryPoolSpawner : MonoBehaviour
     // Where to place our spawned object
     public Transform spawnLocation;
 
+    // Public event when spawner spawns an object
+    public UnityEvent<GameObject> onSpawn;
+
     private GameObject[] memoryPool;
 
     private int memoryPoolSpawnerIndex = 0;
-
+    
     private void Awake()
     {
         // Create an array representing our memory pool

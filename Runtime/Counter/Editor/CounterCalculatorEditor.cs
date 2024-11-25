@@ -1,4 +1,6 @@
+using System;
 using UnityEditor;
+using UnityEngine;
 
 namespace GameDevForBeginners
 {
@@ -8,6 +10,11 @@ namespace GameDevForBeginners
         public override bool RequiresConstantRepaint()
         {
             return true;
+        }
+
+        private void OnEnable()
+        {
+            ((CounterCalculator)target).OnValidate();
         }
     }
 }

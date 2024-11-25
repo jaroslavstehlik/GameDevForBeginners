@@ -50,7 +50,7 @@ namespace GameDevForBeginners
         }
 
 #if UNITY_EDITOR
-        private void OnValidate()
+        public void OnValidate()
         {
             HashSet<string> encounteredStates = new HashSet<string>();
             foreach (var state in states)
@@ -59,6 +59,10 @@ namespace GameDevForBeginners
                 {
                     Debug.LogError($"{name}, state: {state} already exists!", this);
                 }
+            }
+            if (!isPlayingOrWillChangePlaymode)
+            {
+                activeState = _defaultState;
             }
         }
 #endif

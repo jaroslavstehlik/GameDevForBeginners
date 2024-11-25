@@ -146,39 +146,43 @@ namespace GameDevForBeginners
             Execute();
         }
 
-        public bool Execute()
-        {
-            if (_detectInfiniteLoop.Detect(this))
-                return false;
-
-            ConditionResult conditionResult = conditionDescriptor.TryParse();
-            switch (conditionResult.resultType)
-            {
-                case ContitionResultType.True:
-                    onTrue?.Invoke();
-                    break;
-                case ContitionResultType.False:
-                    onFalse?.Invoke();
-                    break;
-                case ContitionResultType.Error:
-                    onError?.Invoke();
-                    break;
-            }
-
-            return conditionResult.resultType == ContitionResultType.True;
-        }
-
-#if UNITY_EDITOR
-        void OnValidate()
+        public bool Execute(bool invokeEvents = true)
         {
             if (!conditionDescriptor.Validate(out string variableName))
             {
                 Debug.LogError($"{name}, variable: {variableName} already exists!", this);
             }
 
+            if (_detectInfiniteLoop.Detect(this))
+                return false;
+
             ConditionResult conditionResult = conditionDescriptor.TryParse();
+            if (invokeEvents)
+            {
+                switch (conditionResult.resultType)
+                {
+                    case ContitionResultType.True:
+                        onTrue?.Invoke();
+                        break;
+                    case ContitionResultType.False:
+                        onFalse?.Invoke();
+                        break;
+                    case ContitionResultType.Error:
+                        onError?.Invoke();
+                        break;
+                }
+            }
+#if UNITY_EDITOR
             _parsedResult = conditionDescriptor.parsedString;
             _conditionResult = $"{conditionResult.resultType.ToString()} {conditionResult.errorMessage}";
+#endif
+            return conditionResult.resultType == ContitionResultType.True;
+        }
+
+#if UNITY_EDITOR
+        public void OnValidate()
+        {
+            Execute(false);
         }
 #endif
 

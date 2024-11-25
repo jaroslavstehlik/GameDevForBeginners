@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: b
   m_EditorClassIdentifier: 
   _dummy: 0
-  _defaultCount: 5
+  _defaultCount: 1
   _wholeNumber: 1
   _saveKey: 
   onCountChanged:

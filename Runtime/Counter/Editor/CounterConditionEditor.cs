@@ -9,5 +9,10 @@ namespace GameDevForBeginners
         {
             return true;
         }
+        
+        private void OnEnable()
+        {
+            ((CounterCondition)target).OnValidate();
+        }
     }
 }
