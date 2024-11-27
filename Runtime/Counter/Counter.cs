@@ -26,8 +26,8 @@ namespace GameDevForBeginners
         // The key to our counter, it has to be unique per whole game.
         [SerializeField] private string _saveKey = string.Empty;
 
-        // public event
-        [HideInInspector] public UnityEvent<float> onCountChanged;
+        [HideInInspector] [SerializeField] private UnityEvent<float> _onCountChanged;
+        public UnityEvent<float> onCountChanged => _onCountChanged;
 
         private DetectInfiniteLoop _detectInfiniteLoop = new DetectInfiniteLoop();
 
@@ -86,7 +86,7 @@ namespace GameDevForBeginners
                     PlayerPrefs.SetFloat(_saveKey, count);
 
                 if (!_detectInfiniteLoop.Detect(this))
-                    onCountChanged?.Invoke(_count);
+                    _onCountChanged?.Invoke(_count);
             }
         }
 

@@ -1,9 +1,13 @@
 using UnityEngine;
 
-public class Console : MonoBehaviour
+namespace GameDevForBeginners
 {
-    public void Log(string message)
+    [AddComponentMenu("GMD/Console/Console")]
+    public class Console : MonoBehaviour
     {
-        Debug.Log(message);
+        public void Log(string message)
+        {
+            Debug.Log(message);
+        }
     }
 }

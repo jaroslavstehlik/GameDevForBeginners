@@ -1,8 +1,10 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace GameDevForBeginners
 {
+    [AddComponentMenu("GMD/State/StateListener")]
     public class StateListener : MonoBehaviour
     {
         enum StateActive
@@ -12,7 +14,7 @@ namespace GameDevForBeginners
             True = 1
         }
 
-        [SerializeField] private State state;
+        [FormerlySerializedAs("state")] [SerializeField] private State _state;
         [StateAttribute] [SerializeField] private string _targetState;
         [SerializeField] private bool _activateOnEnable = true;
 
@@ -24,14 +26,14 @@ namespace GameDevForBeginners
 
         private void OnEnable()
         {
-            state.onStateChanged.AddListener(OnStateChanged);
+            _state.onStateChanged?.AddListener(OnStateChanged);
             if (_activateOnEnable)
-                OnStateChanged(state.activeState);
+                OnStateChanged(_state.activeState);
         }
 
         private void OnDisable()
         {
-            state.onStateChanged.RemoveListener(OnStateChanged);
+            _state.onStateChanged?.RemoveListener(OnStateChanged);
         }
 
         void OnStateChanged(string stateName)

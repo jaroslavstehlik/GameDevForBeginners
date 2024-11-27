@@ -3,6 +3,7 @@ using UnityEngine.Events;
 
 namespace GameDevForBeginners
 {
+    [AddComponentMenu("GMD/Counter/Condition/CounterConditionListener")]
     public class CounterConditionListener : MonoBehaviour
     {
         [SerializeField] private CounterCondition counterCondition;

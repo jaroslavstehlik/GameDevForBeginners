@@ -3,6 +3,7 @@ using UnityEngine.Events;
 
 namespace GameDevForBeginners
 {
+    [AddComponentMenu("GMD/State/Condition/StateConditionListener")]
     public class StateConditionListener : MonoBehaviour
     {
         [SerializeField] private StateCondition stateCondition;

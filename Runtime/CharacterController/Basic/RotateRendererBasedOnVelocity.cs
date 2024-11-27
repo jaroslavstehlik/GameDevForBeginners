@@ -1,20 +1,21 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class RotateRendererBasedOnVelocity : MonoBehaviour
+namespace GameDevForBeginners
 {
-    public Transform rendererTransform;
-    public Rigidbody rigidbody;
-
-    private void Update()
+    [AddComponentMenu("GMD/Character/RotateRendererBasedOnVelocity")]
+    public class RotateRendererBasedOnVelocity : MonoBehaviour
     {
-        Vector3 velocity = new Vector3(rigidbody.velocity.x, 0f, rigidbody.velocity.z);
-        if (velocity.sqrMagnitude > 0f)
+        public Transform rendererTransform;
+        public Rigidbody rigidbody;
+
+        private void Update()
         {
-            Quaternion targetRotation = Quaternion.LookRotation(velocity);
-            rendererTransform.rotation = Quaternion.Euler(0f, targetRotation.eulerAngles.y, 0f);
+            Vector3 velocity = new Vector3(rigidbody.velocity.x, 0f, rigidbody.velocity.z);
+            if (velocity.sqrMagnitude > 0f)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(velocity);
+                rendererTransform.rotation = Quaternion.Euler(0f, targetRotation.eulerAngles.y, 0f);
+            }
         }
     }
 }

@@ -1,10 +1,14 @@
+using UnityEngine.Events;
+
 namespace GameDevForBeginners
 {
     public interface ICountable
     {
+        public string name { get; }
         public float defaultCount { get; }
         public bool wholeNumber { get; }
         public float count { get; set; }
+        public UnityEvent<float> onCountChanged { get; }
 
         // Method for reading count
         public float Get();

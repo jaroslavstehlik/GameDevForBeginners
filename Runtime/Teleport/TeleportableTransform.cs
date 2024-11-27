@@ -1,6 +1,10 @@
 using UnityEngine;
 
-public class TeleportableTransform : MonoBehaviour
+namespace GameDevForBeginners
 {
-    public Transform target;
+    [AddComponentMenu("GMD/Teleport/TeleportableTransform")]
+    public class TeleportableTransform : MonoBehaviour
+    {
+        public Transform target;
+    }
 }

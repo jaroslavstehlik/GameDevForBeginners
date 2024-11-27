@@ -11,19 +11,34 @@ namespace GameDevForBeginners
             EditorGUI.PropertyField(position, property, new GUIContent(property.displayName));
         }
 
+        SerializedProperty FindStateProperty(SerializedProperty property)
+        {
+            SerializedProperty serializedProperty = null;
+            
+            serializedProperty = property.serializedObject.FindProperty("_state");
+            if (serializedProperty != null)
+                return serializedProperty;
+            
+            serializedProperty = property.serializedObject.FindProperty("_stateBehaviour");
+            if (serializedProperty != null)
+                return serializedProperty;
+
+            return serializedProperty;
+        }
+        
         string[] FindOptions(SerializedProperty property)
         {
-            SerializedProperty stateProperty = property.serializedObject.FindProperty("state");
+            SerializedProperty stateProperty = FindStateProperty(property);
             if (stateProperty != null)
             {
-                State state = stateProperty.objectReferenceValue as State;
+                IState state = stateProperty.objectReferenceValue as IState;
                 if (state != null)
                 {
                     return (string[])state.states.Clone();
                 }
             }
 
-            SerializedProperty statesProperty = property.serializedObject.FindProperty("states");
+            SerializedProperty statesProperty = property.serializedObject.FindProperty("_states");
             if (statesProperty != null)
             {
                 string[] options = new string[statesProperty.arraySize];

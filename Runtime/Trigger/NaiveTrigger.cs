@@ -1,40 +1,43 @@
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 
-public class NaiveTrigger : MonoBehaviour
+namespace GameDevForBeginners
 {
-    // Tag attribute renders editor field with available editor tags
-    [TagAttribute]
-    // Selected tags for filtering
-    public string[] filterTags;
-
-    // Public events 
-    public UnityEvent<Collider> onTriggerEnter;
-    public UnityEvent<Collider> onTriggerExit;
-
-    // MonoBehaviour OnTriggerEnter function
-    void OnTriggerEnter(Collider other)
+    [AddComponentMenu("GMD/Trigger/NaiveTrigger")]
+    public class NaiveTrigger : MonoBehaviour
     {
-        if (filterTags.Length > 0 && !filterTags.Contains(other.tag))
-            return;
+        // Tag attribute renders editor field with available editor tags
+        [TagAttribute]
+        // Selected tags for filtering
+        public string[] filterTags;
 
-        // Make sure someone listens to the event
-        if(onTriggerEnter != null)
-            // Trigger the event
-            onTriggerEnter.Invoke(other);
-    }
+        // Public events 
+        public UnityEvent<Collider> onTriggerEnter;
+        public UnityEvent<Collider> onTriggerExit;
 
-    // MonoBehaviour OnTriggerExit function
-    void OnTriggerExit(Collider other)
-    {
-        if (filterTags.Length > 0 && !filterTags.Contains(other.tag))
-            return;
+        // MonoBehaviour OnTriggerEnter function
+        void OnTriggerEnter(Collider other)
+        {
+            if (filterTags.Length > 0 && !filterTags.Contains(other.tag))
+                return;
 
-        // Make sure someone listens to the event
-        if(onTriggerExit != null)
-            // Trigger the event
-            onTriggerExit.Invoke(other);
+            // Make sure someone listens to the event
+            if (onTriggerEnter != null)
+                // Trigger the event
+                onTriggerEnter.Invoke(other);
+        }
+
+        // MonoBehaviour OnTriggerExit function
+        void OnTriggerExit(Collider other)
+        {
+            if (filterTags.Length > 0 && !filterTags.Contains(other.tag))
+                return;
+
+            // Make sure someone listens to the event
+            if (onTriggerExit != null)
+                // Trigger the event
+                onTriggerExit.Invoke(other);
+        }
     }
 }

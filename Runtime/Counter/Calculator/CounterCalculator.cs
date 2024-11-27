@@ -1,114 +1,11 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using MathParserTK;
 
 namespace GameDevForBeginners
 {
-    public enum CalculatorResultType
-    {
-        Value,
-        Error
-    }
-
-    public struct CalculatorResult
-    {
-        public CalculatorResultType resultType;
-        public string errorMessage;
-        public float value;
-
-        public CalculatorResult(CalculatorResultType resultType, float value, string errorMessage)
-        {
-            this.resultType = resultType;
-            this.value = value;
-            this.errorMessage = errorMessage;
-        }
-    }
-
-    [System.Serializable]
-    public struct CounterCalculatorDescriptor
-    {
-        [SerializeField] private Counter[] _variables;
-
-        public void RegisterVariables(UnityAction<float> onCounterChanged)
-        {
-            foreach (var variable in _variables)
-            {
-                if (variable == null)
-                    continue;
-                variable.onCountChanged.AddListener(onCounterChanged);
-            }
-        }
-
-        public void UnregisterVariables(UnityAction<float> onCounterChanged)
-        {
-            foreach (var variable in _variables)
-            {
-                if (variable == null)
-                    continue;
-                variable.onCountChanged.RemoveListener(onCounterChanged);
-            }
-        }
-
-        public void UnregisterAllVariables()
-        {
-            foreach (var variable in _variables)
-            {
-                if (variable == null)
-                    continue;
-                variable.onCountChanged.RemoveAllListeners();
-            }
-        }
-
-        [SerializeField] private string _expression;
-        private string _parsedString;
-        public string parsedString => _parsedString;
-
-        public bool Validate(out string variableName)
-        {
-            HashSet<string> encounteredVariables = new HashSet<string>();
-            foreach (var variable in _variables)
-            {
-                if (variable == null)
-                    continue;
-
-                if (!encounteredVariables.Add(variable.name))
-                {
-                    variableName = variable.name;
-                    return false;
-                }
-            }
-
-            variableName = string.Empty;
-            return true;
-        }
-
-        public CalculatorResult TryParse()
-        {
-            _parsedString = _expression;
-            foreach (var variable in _variables)
-            {
-                if (variable == null)
-                    continue;
-                _parsedString = _parsedString.Replace(variable.name, variable.count.ToString());
-            }
-
-            float result = 0;
-            try
-            {
-                MathParser mathParser = new MathParser();
-                result = (float)mathParser.Parse(_parsedString);
-            }
-            catch (Exception e)
-            {
-                return new CalculatorResult(CalculatorResultType.Error, 0, e.Message);
-            }
-
-            return new CalculatorResult(CalculatorResultType.Value, result, string.Empty);
-        }
-    }
-
+    // TODO: when calculator is not referenced in scene, it is never enabled
+    // therefore it does not react to changes
     [CreateAssetMenu(fileName = "Counter Calculator", menuName = "GMD/Counter/Calculator", order = 1)]
     public class CounterCalculator : ScriptableObject
     {
@@ -120,8 +17,9 @@ namespace GameDevForBeginners
         [ShowInInspectorAttribute(false)] private string _parsedResult = String.Empty;
 
         [ShowInInspectorAttribute(false)] private string _conditionResult = String.Empty;
-
-        [SerializeField] private Counter _result;
+        
+        [HideInInspector] [SerializeField] private UnityEvent<float> _onResultChanged;
+        public UnityEvent<float> OnResultChanged => _onResultChanged;
 
         private void OnEnable()
         {
@@ -156,7 +54,7 @@ namespace GameDevForBeginners
                 switch (calculatorResult.resultType)
                 {
                     case CalculatorResultType.Value:
-                        _result.count = calculatorResult.value;
+                        _onResultChanged?.Invoke(calculatorResult.value);
                         break;
                     case CalculatorResultType.Error:
                         break;

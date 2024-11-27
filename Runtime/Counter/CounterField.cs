@@ -5,11 +5,23 @@ using UnityEngine.Serialization;
 namespace GameDevForBeginners
 {
     [System.Serializable]
-    public struct CounterField : ICountable
+    public class CounterField : ICountable
     {
+        [SerializeField] private string _name;
+        public string name
+        {
+            get
+            {
+                if (_reference != null)
+                    return _reference.name;
+                return _name;
+            }
+        }
+
         [SerializeField] private Counter _reference;
         [SerializeField] private float _count;
-        [HideInInspector] public UnityEvent<float> onCountChanged;
+        [SerializeField] private UnityEvent<float> _onCountChanged;
+        public UnityEvent<float> onCountChanged => _onCountChanged; 
 
         public float defaultCount { get; }
         public bool wholeNumber { get; }
