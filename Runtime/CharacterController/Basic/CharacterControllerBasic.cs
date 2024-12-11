@@ -38,6 +38,8 @@ namespace GameDevForBeginners
         }
     }
 
+    // TODO: Support moving platforms
+    
     [AddComponentMenu("GMD/Character/CharacterControllerBasic")]
     public class CharacterControllerBasic : MonoBehaviour
     {

@@ -1,0 +1,5 @@
+Absence of state event listener dropdown selection.
+State condition optimisation.
+State check optimisation.
+Counter calculator optimisation.
+Counter condition optimisation.

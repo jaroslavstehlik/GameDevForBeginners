@@ -6,11 +6,100 @@ using B83.LogicExpressionParser;
 
 namespace GameDevForBeginners
 {
+    struct CounterConditionDescriptorCache
+    {
+        private static char[] operatorList = new char[]
+        {
+            '|',
+            '^',
+            '&',
+            '=',
+            '!',
+            '>',
+            '<',
+            '(',
+            ')',
+            ' '
+        };
+
+        int GetOperatorIndex(char letter)
+        {
+            for (int i = 0; i < operatorList.Length; i++)
+            {
+                if(operatorList[i] != letter)
+                    continue;
+                return i;
+            }
+
+            return -1;
+        }
+
+        private List<string> _cachedCondition;
+        private Dictionary<string, Counter> _cachedVariables;
+
+        public CounterConditionDescriptorCache(string condition, Counter[] variables)
+        {
+            _cachedCondition = new List<string>();
+            _cachedVariables = new Dictionary<string, Counter>();
+            foreach (var variable in variables)
+            {
+                _cachedVariables.TryAdd(variable.name, variable);
+            }
+            
+            string buffer = string.Empty;
+            string variableBuffer = string.Empty;
+            for (int i = 0; i < condition.Length; i++)
+            {
+                if(GetOperatorIndex(condition[i]) == -1)
+                {
+                    variableBuffer += condition[i];
+                    if (buffer != string.Empty)
+                    {
+                        _cachedCondition.Add(buffer);
+                        buffer = string.Empty;
+                    }
+                }
+                else
+                {
+                    buffer += condition[i];
+                    if (variableBuffer != string.Empty)
+                    {
+                        _cachedCondition.Add(variableBuffer);
+                        variableBuffer = string.Empty;
+                    }
+                }
+            }
+            
+            if (buffer != string.Empty)
+                _cachedCondition.Add(buffer);
+
+            if (variableBuffer != string.Empty)
+                _cachedCondition.Add(variableBuffer);
+        }
+        
+        public void ReplaceVariablesWithValues(out string replacedString)
+        {
+            replacedString = string.Empty;
+            foreach (var variable in _cachedCondition)
+            {
+                if (_cachedVariables.TryGetValue(variable, out Counter counter))
+                {
+                    replacedString += counter.count.ToString();
+                }
+                else
+                {
+                    replacedString += variable;
+                }
+            }
+        }
+    }
+    
     [System.Serializable]
     public struct CounterConditionDescriptor
     {
         [SerializeField] private Counter[] _variables;
-
+        private CounterConditionDescriptorCache _counterConditionDescriptorCache;
+        
         public void RegisterVariables(UnityAction<float> onCounterChanged)
         {
             foreach (var variable in _variables)
@@ -69,18 +158,8 @@ namespace GameDevForBeginners
 
         public ConditionResult TryParse()
         {
-            if (_variables == null)
-            {
-                return new ConditionResult(ContitionResultType.Error, "Variables is null!");
-            }
-            
-            _parsedString = _condition;
-            foreach (var variable in _variables)
-            {
-                if (variable == null)
-                    continue;
-                _parsedString = _parsedString.Replace(variable.name, variable.count.ToString());
-            }
+            _counterConditionDescriptorCache = new CounterConditionDescriptorCache(_condition, _variables);
+            _counterConditionDescriptorCache.ReplaceVariablesWithValues(out _parsedString);
 
             Parser parser = new Parser();
             LogicExpression logicExpression = null;

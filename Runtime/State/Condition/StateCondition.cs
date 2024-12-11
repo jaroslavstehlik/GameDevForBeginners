@@ -26,6 +26,7 @@ namespace GameDevForBeginners
         {
             if (!isPlayingOrWillChangePlaymode)
                 return;
+            
             conditionDescriptor.RegisterVariables(OnStateChanged);
         }
 
