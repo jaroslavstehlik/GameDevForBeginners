@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 
+// TODO: Add hash optimisation to prevent bruteforce string checks
 namespace GameDevForBeginners
 {
     [CreateAssetMenu(fileName = "State", menuName = "GMD/State/State", order = 1)]

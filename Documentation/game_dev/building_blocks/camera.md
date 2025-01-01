@@ -24,7 +24,7 @@ You just place your camera in the scene without any script
 
 Simplest camera which just follows the target with slight delay
 
-[![OpenScriptButton](https://img.shields.io/badge/Open%20script-4287f5?style=for-the-badge 'OpenScriptButton')](http://localhost:8081/?actionType=loadScript&value=Runtime/Camera/FollowCamera.cs)
+[![OpenSceneButton](https://img.shields.io/badge/Open%20scene-4287f5?style=for-the-badge 'OpenSceneButton')](http://localhost:8081/?actionType=loadScene&value=FollowCamera.unity) [![OpenScriptButton](https://img.shields.io/badge/Open%20script-4287f5?style=for-the-badge 'OpenScriptButton')](http://localhost:8081/?actionType=loadScript&value=Runtime/Camera/FollowCamera.cs)
 
 # First person camera
 
@@ -33,7 +33,7 @@ Simplest camera which just follows the target with slight delay
 
 Slightly advanced camera which allows the player to look around
 
-[![OpenScriptButton](https://img.shields.io/badge/Open%20script-4287f5?style=for-the-badge 'OpenScriptButton')](http://localhost:8081/?actionType=loadScript&value=Runtime/Camera/FirstPersonCamera.cs)
+[![OpenSceneButton](https://img.shields.io/badge/Open%20scene-4287f5?style=for-the-badge 'OpenSceneButton')](http://localhost:8081/?actionType=loadScene&value=FirstPersonCamera.unity) [![OpenScriptButton](https://img.shields.io/badge/Open%20script-4287f5?style=for-the-badge 'OpenScriptButton')](http://localhost:8081/?actionType=loadScript&value=Runtime/Camera/FirstPersonCamera.cs)
 
 # Third person camera
 
@@ -45,4 +45,4 @@ The movement of the camera is called camera orbit as it orbits around the player
 When the camera detects collision between player and camera it comes closer to prevent occlusion.
 It allows custom distance from player by using mouse scroll wheel.
 
-[![OpenScriptButton](https://img.shields.io/badge/Open%20script-4287f5?style=for-the-badge 'OpenScriptButton')](http://localhost:8081/?actionType=loadScript&value=Runtime/Camera/ThirdPersonCamera.cs)
+[![OpenSceneButton](https://img.shields.io/badge/Open%20scene-4287f5?style=for-the-badge 'OpenSceneButton')](http://localhost:8081/?actionType=loadScene&value=ThirdPersonCamera.unity) [![OpenScriptButton](https://img.shields.io/badge/Open%20script-4287f5?style=for-the-badge 'OpenScriptButton')](http://localhost:8081/?actionType=loadScript&value=Runtime/Camera/ThirdPersonCamera.cs)

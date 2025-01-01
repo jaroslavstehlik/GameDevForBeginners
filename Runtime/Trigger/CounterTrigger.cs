@@ -34,12 +34,12 @@ namespace GameDevForBeginners
         public UnityEvent onTriggerExit;
 
         // Remember colliders inside the trigger
-        private HashSet<int> colliders = new HashSet<int>();
+        private HashSet<int> _colliders = new HashSet<int>();
 
         // Clear all colliders when disabling trigger
         private void OnDisable()
         {
-            colliders.Clear();
+            _colliders.Clear();
         }
 
         bool IsConditionMet(int a, int b)
@@ -70,13 +70,13 @@ namespace GameDevForBeginners
                 return;
 
             // Check if collider has been already added
-            if (!colliders.Contains(other.GetInstanceID()))
+            if (!_colliders.Contains(other.GetInstanceID()))
             {
                 // Add collider to colliders
-                colliders.Add(other.GetInstanceID());
+                _colliders.Add(other.GetInstanceID());
 
                 // Did we met our minimum criteria? Trigger! 
-                if (IsConditionMet(colliders.Count, minObjectsCount))
+                if (IsConditionMet(_colliders.Count, minObjectsCount))
                 {
                     // Make sure someone listens to the event
                     if (onTriggerEnter != null)
@@ -93,13 +93,13 @@ namespace GameDevForBeginners
                 return;
 
             // Check if collider is in colliders
-            if (colliders.Contains(other.GetInstanceID()))
+            if (_colliders.Contains(other.GetInstanceID()))
             {
                 // Remove that collider
-                colliders.Remove(other.GetInstanceID());
+                _colliders.Remove(other.GetInstanceID());
 
                 // Only when we are one element below our requirement, Trigger! 
-                if (!IsConditionMet(colliders.Count, minObjectsCount))
+                if (!IsConditionMet(_colliders.Count, minObjectsCount))
                 {
                     // Make sure someone listens to the event
                     if (onTriggerExit != null)

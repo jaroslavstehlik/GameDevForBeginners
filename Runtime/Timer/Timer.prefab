@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2686498319898092012}
   - component: {fileID: 2273802396968771005}
   m_Layer: 0
-  m_Name: CyclicTimer
+  m_Name: Timer
   m_TagString: Untagged
   m_Icon: {fileID: 2800000, guid: b9a9879d736a14b1293534b490d88d46, type: 3}
   m_NavMeshLayer: 0

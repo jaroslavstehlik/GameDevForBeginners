@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: a
   m_EditorClassIdentifier: 
   _dummy: 0
-  _defaultCount: 6
+  _defaultCount: 1
   _wholeNumber: 1
   _saveKey: 
-  onCountChanged:
+  _onCountChanged:
     m_PersistentCalls:
       m_Calls: []

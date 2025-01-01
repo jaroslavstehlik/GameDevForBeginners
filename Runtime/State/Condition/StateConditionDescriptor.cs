@@ -6,6 +6,15 @@ using B83.LogicExpressionParser;
 
 namespace GameDevForBeginners
 {
+    /*
+    todo: find strings
+    "this is a string"
+    todo: find variables
+    variable
+    todo: find operators
+    && || ! == !=
+    */
+    
     struct StateConditionDescriptorCache
     {
         private static char[] operatorList = new char[]

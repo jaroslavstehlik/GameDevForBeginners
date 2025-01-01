@@ -676,6 +676,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7366879486696804664, guid: 1cc34e6add9fc42a99f37e46956c4b80,
         type: 3}
+      propertyPath: maxSpawnCount
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7366879486696804664, guid: 1cc34e6add9fc42a99f37e46956c4b80,
+        type: 3}
       propertyPath: spawnLocation
       value: 
       objectReference: {fileID: 2072517840}

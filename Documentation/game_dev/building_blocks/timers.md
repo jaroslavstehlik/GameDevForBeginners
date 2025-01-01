@@ -10,22 +10,18 @@ Timers play an essential role in many aspects of game play. Spawner has a timer 
 ## Duration
 Timers have duration in seconds at which the timer has to trigger an event.
 
-# Cycles
+## Cycles
 Timers can repeat them selves or they can be a one time event.
 They can be specified by the number of cycles.
 
-# Events
+## Events
 The event which has to be triggered when the timer ends.
 
-# Implementation
+## Implementation
 - Duration in seconds
 - Coroutine which waits for duration before it executes event.
 - Event, trigger an even when the timer ends.
 
-## Basic Timer
+## Timer
 
-[![OpenScriptButton](https://img.shields.io/badge/Open%20script-4287f5?style=for-the-badge 'OpenScriptButton')](http://localhost:8081/?actionType=loadScript&value=Runtime/Timer/BasicTimer.cs)
-
-## Cyclic Timer
-
-[![OpenSceneButton](https://img.shields.io/badge/Open%20scene-4287f5?style=for-the-badge 'OpenSceneButton')](http://localhost:8081/?actionType=loadScene&value=Timer.unity) [![OpenScriptButton](https://img.shields.io/badge/Open%20script-4287f5?style=for-the-badge 'OpenScriptButton')](http://localhost:8081/?actionType=loadScript&value=Runtime/Timer/CyclicTimer.cs)
+[![OpenSceneButton](https://img.shields.io/badge/Open%20scene-4287f5?style=for-the-badge 'OpenSceneButton')](http://localhost:8081/?actionType=loadScene&value=Timer.unity) [![OpenScriptButton](https://img.shields.io/badge/Open%20script-4287f5?style=for-the-badge 'OpenScriptButton')](http://localhost:8081/?actionType=loadScript&value=Runtime/Timer/Timer.cs)

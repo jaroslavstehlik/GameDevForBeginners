@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2521585503224994514}
   - component: {fileID: 7871515000766186639}
   - component: {fileID: 2559762804688433446}
-  - component: {fileID: 8288301369951427333}
+  - component: {fileID: 7824943726962013091}
   m_Layer: 0
   m_Name: SpawnedGameObjectSelfDestroy
   m_TagString: Untagged
@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ab28656d127a47488f7050b00c68b46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8288301369951427333
+--- !u!114 &7824943726962013091
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -137,14 +137,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1932475559845613664}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2369959ccad5c42d6ab94c05465fac15, type: 3}
+  m_Script: {fileID: 11500000, guid: 1aa71a8980ff549628b083e280ee0622, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _dummy: 0
+  onTimerCycleFinished:
+    m_PersistentCalls:
+      m_Calls: []
   onTimerFinished:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2559762804688433446}
-        m_TargetAssemblyTypeName: GameObjectUtils, Assembly-CSharp
+        m_TargetAssemblyTypeName: GameObjectUtils, Digital.Dream.GameDevForBeginners
         m_MethodName: DestroyGO
         m_Mode: 2
         m_Arguments:
@@ -155,5 +159,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  duration: 3
-  repeat: 0
+  infiniteCycles: 0
+  cycles: 1
+  duration: 5

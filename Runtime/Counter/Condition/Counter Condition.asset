@@ -17,7 +17,8 @@ MonoBehaviour:
     _variables:
     - {fileID: 11400000, guid: e270ba16576b649298e0d643c748e75f, type: 2}
     - {fileID: 11400000, guid: 8addd0c5a591345808b9d14e014f4938, type: 2}
-    _condition: a < b
+    - {fileID: 11400000, guid: a9312f6ead3964d64bbde62a0a1bd256, type: 2}
+    _condition: (a < b) && (a < aa)
   onTrue:
     m_PersistentCalls:
       m_Calls: []

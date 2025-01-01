@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 901fa3cd41616462da84c492da7825d0, type: 3}
   m_Name: b
   m_EditorClassIdentifier: 
-  _defaultCount: 1
+  _dummy: 0
+  _defaultCount: 3
   _wholeNumber: 1
-  onCountChanged:
+  _saveKey: 
+  _onCountChanged:
     m_PersistentCalls:
       m_Calls: []

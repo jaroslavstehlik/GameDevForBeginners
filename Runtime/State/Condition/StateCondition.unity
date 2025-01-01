@@ -1662,7 +1662,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 950ab241b010c4394b563a2b326a0ffc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: {fileID: 11400000, guid: 613d3dc3a7afe497ab3df43dd7b2bde7, type: 2}
+  _state: {fileID: 11400000, guid: 613d3dc3a7afe497ab3df43dd7b2bde7, type: 2}
   _targetState: true
   _activateOnEnable: 1
   onStateActivate:
@@ -1730,7 +1730,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 950ab241b010c4394b563a2b326a0ffc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: {fileID: 11400000, guid: 67fca3891efca4a51b4579401343521f, type: 2}
+  _state: {fileID: 11400000, guid: 67fca3891efca4a51b4579401343521f, type: 2}
   _targetState: true
   _activateOnEnable: 1
   onStateActivate:
@@ -1781,7 +1781,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c76ceae8512641909911edb0017ad31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stateCondition: {fileID: 11400000, guid: 7aa2a82e9d51f4e44af89af144923243, type: 2}
+  stateCondition: {fileID: 11400000, guid: 019c067438e5c4020b77847f03b21363, type: 2}
   _executeOnEnable: 1
   onTrue:
     m_PersistentCalls:
