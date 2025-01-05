@@ -44,16 +44,12 @@ namespace GameDevForBeginners
         }
 
         private List<string> _cachedCondition;
-        private Dictionary<string, State> _cachedVariables;
+        private Dictionary<string, State> _variables;
 
-        public StateConditionDescriptorCache(string condition, State[] variables)
+        public StateConditionDescriptorCache(string condition, Dictionary<string, State> variables)
         {
             _cachedCondition = new List<string>();
-            _cachedVariables = new Dictionary<string, State>();
-            foreach (var variable in variables)
-            {
-                _cachedVariables.TryAdd(variable.name, variable);
-            }
+            _variables = variables;
             
             string buffer = string.Empty;
             string variableBuffer = string.Empty;
@@ -89,9 +85,12 @@ namespace GameDevForBeginners
         public void ReplaceVariablesWithValues(out string replacedString)
         {
             replacedString = string.Empty;
+            if(_variables == null)
+                return;
+
             foreach (var variable in _cachedCondition)
             {
-                if (_cachedVariables.TryGetValue(variable, out State state))
+                if (_variables.TryGetValue(variable, out State state) && state != null)
                 {
                     replacedString += state.activeState;
                 }
@@ -108,68 +107,52 @@ namespace GameDevForBeginners
     public struct StateConditionDescriptor
     {
         [SerializeField] private State[] _variables;
-        private StateConditionDescriptorCache _stateConditionDescriptorCache;
-        
-        public void RegisterVariables(UnityAction<string> onStateChanged)
-        {
-            foreach (var variable in _variables)
-            {
-                if (variable == null)
-                    continue;
-                variable.onStateChanged?.AddListener(onStateChanged);
-            }
-        }
-
-        public void UnregisterVariables(UnityAction<string> onStateChanged)
-        {
-            foreach (var variable in _variables)
-            {
-                if (variable == null)
-                    continue;
-                variable.onStateChanged?.RemoveListener(onStateChanged);
-            }
-        }
-
-        public void UnregisterAllVariables()
-        {
-            foreach (var variable in _variables)
-            {
-                if (variable == null)
-                    continue;
-                variable.onStateChanged?.RemoveAllListeners();
-            }
-        }
-
+        [HideInInspector] public UnityEvent<string> onStateConditionChanged;
+        private Dictionary<string, State> _runtimeVariables;
         [SerializeField] private string _condition;
         private string _parsedString;
         public string parsedString => _parsedString;
 
-        public bool Validate(out string variableName)
+        
+        private void AddVariablesToRuntimeVariables()
         {
-            if (_variables != null)
+            foreach (var variable in _variables)
             {
-                HashSet<string> encounteredVariables = new HashSet<string>();
-                foreach (var variable in _variables)
-                {
-                    if (variable == null)
-                        continue;
-
-                    if (!encounteredVariables.Add(variable.name))
-                    {
-                        variableName = variable.name;
-                        return false;
-                    }
-                }
+                AddRuntimeVariable(variable);
             }
-
-            variableName = string.Empty;
+        }
+        
+        public bool AddRuntimeVariable(State state)
+        {
+            if (_runtimeVariables == null)
+                _runtimeVariables = new Dictionary<string, State>();
+            
+            if (!_runtimeVariables.TryAdd(state.name, state))
+                return false;
+            
+            state.onStateChanged.AddListener(OnStateChanged);
+            state.onDestroy.AddListener(OnStateDestroyed);
             return true;
         }
 
+        public bool RemoveRuntimeVariable(State state)
+        {
+            if (_runtimeVariables == null)
+                return false;
+
+            if (!_runtimeVariables.Remove(state.name))
+                return false;
+            
+            state.onStateChanged.RemoveListener(OnStateChanged);
+            state.onDestroy.RemoveListener(OnStateDestroyed);
+            return true;
+        }
+        
         public ConditionResult TryParse()
         {
-            _stateConditionDescriptorCache = new StateConditionDescriptorCache(_condition, _variables);
-            _stateConditionDescriptorCache.ReplaceVariablesWithValues(out _parsedString);
+            AddVariablesToRuntimeVariables();
+            StateConditionDescriptorCache stateConditionDescriptorCache = new StateConditionDescriptorCache(_condition, _runtimeVariables);
+            stateConditionDescriptorCache.ReplaceVariablesWithValues(out _parsedString);
             
             Parser parser = new Parser();
             LogicExpression logicExpression = null;
@@ -185,6 +168,16 @@ namespace GameDevForBeginners
 
             return new ConditionResult(
                 logicExpression.GetResult() ? ContitionResultType.True : ContitionResultType.False, string.Empty);
+        }
+        
+        private void OnStateChanged(string value)
+        {
+            onStateConditionChanged?.Invoke(value);
+        }
+
+        private void OnStateDestroyed(State state)
+        {
+            RemoveRuntimeVariable(state);
         }
     }
 }

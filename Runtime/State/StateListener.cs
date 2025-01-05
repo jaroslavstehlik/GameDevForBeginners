@@ -26,14 +26,47 @@ namespace GameDevForBeginners
 
         private void OnEnable()
         {
+            if(_state == null)
+                return;
+
             _state.onStateChanged?.AddListener(OnStateChanged);
+            _state.onDestroy?.AddListener(OnStateDestroyed);
             if (_activateOnEnable)
                 OnStateChanged(_state.activeState);
         }
 
         private void OnDisable()
         {
+            if(_state == null)
+                return;
+
             _state.onStateChanged?.RemoveListener(OnStateChanged);
+            _state.onDestroy?.RemoveListener(OnStateDestroyed);
+        }
+
+        public State state
+        {
+            get
+            {
+                return _state;
+            }
+            set
+            {
+                if (_state != null)
+                {
+                    _state.onStateChanged?.RemoveListener(OnStateChanged);
+                    _state.onDestroy?.RemoveListener(OnStateDestroyed);
+                }
+
+                _state = value;
+
+                if (isActiveAndEnabled && _state != null)
+                {
+                    _state.onStateChanged?.AddListener(OnStateChanged);
+                    _state.onDestroy?.AddListener(OnStateDestroyed);
+                    OnStateChanged(_state.activeState);
+                }
+            }
         }
 
         void OnStateChanged(string stateName)
@@ -56,6 +89,19 @@ namespace GameDevForBeginners
             }
 
             onStateActivate?.Invoke();
+        }
+        private void OnStateDestroyed(State state)
+        {
+            if(state == null)
+                return;
+            
+            state.onStateChanged?.RemoveListener(OnStateChanged);
+            state.onDestroy?.RemoveListener(OnStateDestroyed);
+
+            if (_state == state)
+            {
+                _state = null;
+            }
         }
     }
 }

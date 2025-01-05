@@ -17,4 +17,16 @@ MonoBehaviour:
     _variables:
     - {fileID: 11400000, guid: 67fca3891efca4a51b4579401343521f, type: 2}
     - {fileID: 11400000, guid: 613d3dc3a7afe497ab3df43dd7b2bde7, type: 2}
-    _condition: a || b
+    onStateConditionChanged:
+      m_PersistentCalls:
+        m_Calls: []
+    _condition: 'a || b '
+  onTrue:
+    m_PersistentCalls:
+      m_Calls: []
+  onFalse:
+    m_PersistentCalls:
+      m_Calls: []
+  onError:
+    m_PersistentCalls:
+      m_Calls: []

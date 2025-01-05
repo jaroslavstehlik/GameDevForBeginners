@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using MathParserTK;
+using UnityEngine.Serialization;
 
 namespace GameDevForBeginners
 {
@@ -10,68 +11,57 @@ namespace GameDevForBeginners
     public struct CounterCalculatorDescriptor
     {
         [SerializeField] private Counter[] _variables;
-
-        public void RegisterVariables(UnityAction<float> onCounterChanged)
-        {
-            foreach (var variable in _variables)
-            {
-                if (variable == null)
-                    continue;
-                variable.onCountChanged?.AddListener(onCounterChanged);
-            }
-        }
-
-        public void UnregisterVariables(UnityAction<float> onCounterChanged)
-        {
-            foreach (var variable in _variables)
-            {
-                if (variable == null)
-                    continue;
-                variable.onCountChanged?.RemoveListener(onCounterChanged);
-            }
-        }
-
-        public void UnregisterAllVariables()
-        {
-            foreach (var variable in _variables)
-            {
-                if (variable == null)
-                    continue;
-                variable.onCountChanged?.RemoveAllListeners();
-            }
-        }
+        [HideInInspector] public UnityEvent<float> onCounterCalculatorChanged;
+        private Dictionary<string, Counter> _runtimeVariables;
 
         [SerializeField] private string _expression;
         private string _parsedString;
         public string parsedString => _parsedString;
 
-        public bool Validate(out string variableName)
+        private void AddVariablesToRuntimeVariables()
         {
-            HashSet<string> encounteredVariables = new HashSet<string>();
             foreach (var variable in _variables)
             {
-                if (variable == null)
-                    continue;
-
-                if (!encounteredVariables.Add(variable.name))
-                {
-                    variableName = variable.name;
-                    return false;
-                }
+                AddRuntimeVariable(variable);
             }
+        }
+        
+        public bool AddRuntimeVariable(Counter counter)
+        {
+            if (_runtimeVariables == null)
+                _runtimeVariables = new Dictionary<string, Counter>();
+            
+            if (!_runtimeVariables.TryAdd(counter.name, counter))
+                return false;
+            
+            counter.onCountChanged.AddListener(OnCounterChanged);
+            counter.onDestroy.AddListener(OnCounterDestroyed);
+            return true;
+        }
 
-            variableName = string.Empty;
+        public bool RemoveRuntimeVariable(Counter counter)
+        {
+            if (_runtimeVariables == null)
+                return false;
+
+            if (!_runtimeVariables.Remove(counter.name))
+                return false;
+            
+            counter.onCountChanged.RemoveListener(OnCounterChanged);
+            counter.onDestroy.RemoveListener(OnCounterDestroyed);
             return true;
         }
 
         public CalculatorResult TryParse()
         {
+            AddVariablesToRuntimeVariables();
             _parsedString = _expression;
-            foreach (var variable in _variables)
+            
+            foreach (var variable in _runtimeVariables)
             {
-                if (variable == null)
+                if (variable.Value == null)
                     continue;
-                _parsedString = _parsedString.Replace(variable.name, variable.count.ToString());
+                _parsedString = _parsedString.Replace(variable.Key, variable.Value.count.ToString());
             }
 
             float result = 0;
@@ -86,6 +76,16 @@ namespace GameDevForBeginners
             }
 
             return new CalculatorResult(CalculatorResultType.Value, result, string.Empty);
+        }
+        
+        private void OnCounterChanged(float value)
+        {
+            onCounterCalculatorChanged?.Invoke(value);
+        }
+        
+        private void OnCounterDestroyed(Counter counter)
+        {
+            RemoveRuntimeVariable(counter);
         }
     }
 

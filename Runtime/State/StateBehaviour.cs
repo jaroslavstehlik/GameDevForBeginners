@@ -1,7 +1,6 @@
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 namespace GameDevForBeginners
 {
@@ -11,101 +10,96 @@ namespace GameDevForBeginners
         [DrawHiddenFieldsAttribute] [SerializeField]
         private bool _dummy;
 
-        [ShowInInspectorAttribute(false)] private string _activeState;
-        
-        [FormerlySerializedAs("states")] [SerializeField] private string[] _states = new[]
+        [SerializeField] private StateDescriptor _stateDescriptor = new StateDescriptor()
         {
-            "default"
+            name = string.Empty,
+            defaultState = "default",
+            states = new string[]{"default"},
+            saveKey = string.Empty
         };
-        public string[] states => _states;
 
-        [State] [SerializeField] private string _defaultState = "default";
-        public string defaultState => _defaultState;
+        [SerializeField] private UnityEvent<State> _onStateCreated;
+        public UnityEvent<State> onStateCreated => _onStateCreated;
         
         [SerializeField] private UnityEvent<string> _onStateChanged;
         public UnityEvent<string> onStateChanged => _onStateChanged;
 
-        private string _lastState;
-        public string lastState => _lastState;
+        public string[] states
+        {
+            get
+            {
+                if (_state == null)
+                    return Array.Empty<string>();
 
-        private DetectInfiniteLoop _detectInfiniteLoop = new DetectInfiniteLoop();
+                return _state.states;
+            }
+        }
+
+        public string defaultState
+        {
+            get
+            {
+                if (_state == null)
+                    return string.Empty;
+
+                return _state.defaultState;
+            }
+        }
+
+        public string lastState
+        {
+            get
+            {
+                if (_state == null)
+                    return string.Empty;
+
+                return _state.lastState;
+            }
+        }
+
+        private State _state;
+        public State state => _state;
+
+        private State GetOrCreateState()
+        {
+            if (_state == null)
+            {
+                _state = State.CreateState(_stateDescriptor);
+                _onStateCreated?.Invoke(_state);
+            }
+
+            return _state;
+        }
 
         private void Awake()
         {
-            activeState = _defaultState;
+            _ = GetOrCreateState();
         }
 
-#if UNITY_EDITOR
-        public void OnValidate()
+        private void OnDestroy()
         {
-            if (states != null)
-            {
-                HashSet<string> encounteredStates = new HashSet<string>();
-                foreach (var state in states)
-                {
-                    if (!encounteredStates.Add(state))
-                    {
-                        Debug.LogError($"{name}, state: {state} already exists!", this);
-                    }
-                }
-            }
-
-            if (!isPlayingOrWillChangePlaymode)
-            {
-                activeState = _defaultState;
-            }
+            Destroy(_state);
+            _state = null;
         }
-#endif
+
         public string activeState
         {
-#if UNITY_EDITOR
             get
             {
-                if (isPlayingOrWillChangePlaymode)
-                    return _activeState;
+                if (_state == null)
+                    return string.Empty;
 
-                return _defaultState;
+                return _state.activeState;
             }
-#else
-        get => _activeState;
-#endif
             set
             {
-                if (states == null)
+                if (_state == null)
                     return;
 
-                string stateCandidate = null;
-                foreach (var state in states)
-                {
-                    if (state != value)
-                        continue;
-
-                    stateCandidate = state;
-                    break;
-                }
-
-                if (stateCandidate == null)
-                {
-                    Debug.LogError($"{name}, Unable to find state: {value}", this);
-                    return;
-                }
-
-                if (_activeState == stateCandidate)
-                    return;
-
-                _lastState = _activeState;
-                _activeState = stateCandidate;
-
-                if (!isPlayingOrWillChangePlaymode)
-                    return;
-
-                if (!_detectInfiniteLoop.Detect(this))
-                {
-                    onStateChanged?.Invoke(_activeState);
-                }
+                _state.activeState = value;
             }
         }
-
+        
         public string GetActiveState()
         {
             return activeState;
@@ -118,19 +112,10 @@ namespace GameDevForBeginners
 
         public void Reset()
         {
-            activeState = _defaultState;
-        }
-
-        public static bool isPlayingOrWillChangePlaymode
-        {
-            get
-            {
-#if UNITY_EDITOR
-                return UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode;
-#else
-            return true;
-#endif
-            }
+            if(_state == null)
+                return;
+            
+            activeState = _state.defaultState;
         }
     }
 }

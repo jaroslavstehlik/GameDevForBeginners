@@ -4,8 +4,6 @@ using UnityEngine.Events;
 
 namespace GameDevForBeginners
 {
-    // TODO: when calculator is not referenced in scene, it is never enabled
-    // therefore it does not react to changes
     [CreateAssetMenu(fileName = "Counter Calculator", menuName = "GMD/Counter/Calculator", order = 1)]
     public class CounterCalculator : ScriptableObject
     {
@@ -25,14 +23,14 @@ namespace GameDevForBeginners
         {
             if (!isPlayingOrWillChangePlaymode)
                 return;
-            calculatorDescriptor.RegisterVariables(OnCounterChanged);
+            calculatorDescriptor.onCounterCalculatorChanged?.AddListener(OnCounterChanged);
         }
 
         private void OnDisable()
         {
             if (!isPlayingOrWillChangePlaymode)
                 return;
-            calculatorDescriptor.UnregisterVariables(OnCounterChanged);
+            calculatorDescriptor.onCounterCalculatorChanged?.RemoveListener(OnCounterChanged);
         }
 
         void OnCounterChanged(float value)
@@ -40,14 +38,18 @@ namespace GameDevForBeginners
             Execute();
         }
 
+        public void AddRuntimeVariable(Counter counter)
+        {
+            calculatorDescriptor.AddRuntimeVariable(counter);
+        }
+
+        public void RemoveRuntimeVariable(Counter counter)
+        {
+            calculatorDescriptor.RemoveRuntimeVariable(counter);
+        }
+
         public bool Execute(bool invokeEvents = true)
         {
-            if (!calculatorDescriptor.Validate(out string variableName))
-            {
-                Debug.LogError($"{name}, variable: {variableName} already exists!", this);
-                return false;
-            }
-            
             CalculatorResult calculatorResult = calculatorDescriptor.TryParse();
             if (invokeEvents)
             {

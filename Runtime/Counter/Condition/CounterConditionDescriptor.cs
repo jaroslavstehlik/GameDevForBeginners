@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using B83.LogicExpressionParser;
+using UnityEngine.Serialization;
 
 namespace GameDevForBeginners
 {
@@ -35,16 +36,12 @@ namespace GameDevForBeginners
         }
 
         private List<string> _cachedCondition;
-        private Dictionary<string, Counter> _cachedVariables;
+        private Dictionary<string, Counter> _variables;
 
-        public CounterConditionDescriptorCache(string condition, Counter[] variables)
+        public CounterConditionDescriptorCache(string condition, Dictionary<string, Counter> variables)
         {
             _cachedCondition = new List<string>();
-            _cachedVariables = new Dictionary<string, Counter>();
-            foreach (var variable in variables)
-            {
-                _cachedVariables.TryAdd(variable.name, variable);
-            }
+            _variables = variables;
             
             string buffer = string.Empty;
             string variableBuffer = string.Empty;
@@ -80,9 +77,12 @@ namespace GameDevForBeginners
         public void ReplaceVariablesWithValues(out string replacedString)
         {
             replacedString = string.Empty;
+            if(_variables == null)
+                return;
+            
             foreach (var variable in _cachedCondition)
             {
-                if (_cachedVariables.TryGetValue(variable, out Counter counter))
+                if (_variables.TryGetValue(variable, out Counter counter) && counter != null)
                 {
                     replacedString += counter.count.ToString();
                 }
@@ -98,68 +98,52 @@ namespace GameDevForBeginners
     public struct CounterConditionDescriptor
     {
         [SerializeField] private Counter[] _variables;
-        private CounterConditionDescriptorCache _counterConditionDescriptorCache;
+        [HideInInspector] public UnityEvent<float> onCounterConditionChanged;
+        private Dictionary<string, Counter> _runtimeVariables;
         
-        public void RegisterVariables(UnityAction<float> onCounterChanged)
-        {
-            foreach (var variable in _variables)
-            {
-                if (variable == null)
-                    continue;
-                variable.onCountChanged?.AddListener(onCounterChanged);
-            }
-        }
-
-        public void UnregisterVariables(UnityAction<float> onCounterChanged)
-        {
-            foreach (var variable in _variables)
-            {
-                if (variable == null)
-                    continue;
-                variable.onCountChanged?.RemoveListener(onCounterChanged);
-            }
-        }
-
-        public void UnregisterAllVariables()
-        {
-            foreach (var variable in _variables)
-            {
-                if (variable == null)
-                    continue;
-                variable.onCountChanged?.RemoveAllListeners();
-            }
-        }
-
         [SerializeField] private string _condition;
         private string _parsedString;
         public string parsedString => _parsedString;
 
-        public bool Validate(out string variableName)
+        private void AddVariablesToRuntimeVariables()
         {
-            if (_variables != null)
+            foreach (var variable in _variables)
             {
-                HashSet<string> encounteredVariables = new HashSet<string>();
-                foreach (var variable in _variables)
-                {
-                    if (variable == null)
-                        continue;
-
-                    if (!encounteredVariables.Add(variable.name))
-                    {
-                        variableName = variable.name;
-                        return false;
-                    }
-                }
+                AddRuntimeVariable(variable);
             }
+        }
+        
+        public bool AddRuntimeVariable(Counter counter)
+        {
+            if (_runtimeVariables == null)
+                _runtimeVariables = new Dictionary<string, Counter>();
+            
+            if (!_runtimeVariables.TryAdd(counter.name, counter))
+                return false;
+            
+            counter.onCountChanged.AddListener(OnCounterChanged);
+            counter.onDestroy.AddListener(OnCounterDestroyed);
+            return true;
+        }
 
-            variableName = string.Empty;
+        public bool RemoveRuntimeVariable(Counter counter)
+        {
+            if (_runtimeVariables == null)
+                return false;
+
+            if (!_runtimeVariables.Remove(counter.name))
+                return false;
+            
+            counter.onCountChanged.RemoveListener(OnCounterChanged);
+            counter.onDestroy.RemoveListener(OnCounterDestroyed);
             return true;
         }
 
         public ConditionResult TryParse()
         {
-            _counterConditionDescriptorCache = new CounterConditionDescriptorCache(_condition, _variables);
-            _counterConditionDescriptorCache.ReplaceVariablesWithValues(out _parsedString);
+            AddVariablesToRuntimeVariables();
+            CounterConditionDescriptorCache counterConditionDescriptorCache = new CounterConditionDescriptorCache(_condition, _runtimeVariables);
+            counterConditionDescriptorCache.ReplaceVariablesWithValues(out _parsedString);
 
             Parser parser = new Parser();
             LogicExpression logicExpression = null;
@@ -175,6 +159,15 @@ namespace GameDevForBeginners
             return new ConditionResult(
                 logicExpression.GetResult() ? ContitionResultType.True : ContitionResultType.False, string.Empty);
         }
-    }
 
+        private void OnCounterChanged(float value)
+        {
+            onCounterConditionChanged?.Invoke(value);
+        }
+
+        private void OnCounterDestroyed(Counter counter)
+        {
+            RemoveRuntimeVariable(counter);
+        }
+    }
 }

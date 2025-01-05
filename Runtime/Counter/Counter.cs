@@ -3,6 +3,15 @@ using UnityEngine.Events;
 
 namespace GameDevForBeginners
 {
+    [System.Serializable]
+    public struct CounterDescriptor
+    {
+        public string name;
+        public float defaultCount;
+        public bool wholeNumber;
+        public string saveKey;
+    }
+    
 // This field tells UnityEditor to create an asset menu
 // which creates a new scriptable object in project.
     [CreateAssetMenu(fileName = "Counter", menuName = "GMD/Counter/Counter", order = 1)]
@@ -29,8 +38,25 @@ namespace GameDevForBeginners
         [HideInInspector] [SerializeField] private UnityEvent<float> _onCountChanged;
         public UnityEvent<float> onCountChanged => _onCountChanged;
 
+        [HideInInspector] [SerializeField] private UnityEvent<Counter> _onDestroy;
+        public UnityEvent<Counter> onDestroy => _onDestroy;
+        
         private DetectInfiniteLoop _detectInfiniteLoop = new DetectInfiniteLoop();
 
+        public static Counter CreateCounter(CounterDescriptor counterDescriptor)
+        {
+            Counter counter = CreateInstance<Counter>();
+            counter._onCountChanged = new UnityEvent<float>();
+            counter._onDestroy = new UnityEvent<Counter>();
+            counter._defaultCount = counterDescriptor.defaultCount;
+            counter._count = counterDescriptor.defaultCount;
+            counter._wholeNumber = counterDescriptor.wholeNumber;
+            counter._saveKey = counterDescriptor.saveKey;
+            counter.name = counterDescriptor.name;
+            counter.OnEnable();
+            return counter;
+        }
+        
         private void OnEnable()
         {
             // Check if any counter has been saved before
@@ -62,6 +88,11 @@ namespace GameDevForBeginners
             }
         }
 #endif
+
+        private void OnDestroy()
+        {
+            _onDestroy?.Invoke(this);
+        }
 
         float ValidateNumber(float value)
         {

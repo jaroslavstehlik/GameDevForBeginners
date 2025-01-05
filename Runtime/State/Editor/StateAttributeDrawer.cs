@@ -3,6 +3,13 @@ using UnityEngine;
 
 namespace GameDevForBeginners
 {
+    enum StatePropertyType
+    {
+        Unknown,
+        State,
+        StateDescriptor
+    }
+    
     [CustomPropertyDrawer(typeof(StateAttribute))]
     public class StateAttributeDrawer : PropertyDrawer
     {
@@ -11,45 +18,76 @@ namespace GameDevForBeginners
             EditorGUI.PropertyField(position, property, new GUIContent(property.displayName));
         }
 
-        SerializedProperty FindStateProperty(SerializedProperty property)
+        SerializedProperty FindStateProperty(SerializedProperty property, out StatePropertyType statePropertyType)
         {
             SerializedProperty serializedProperty = null;
             
             serializedProperty = property.serializedObject.FindProperty("_state");
             if (serializedProperty != null)
+            {
+                statePropertyType = StatePropertyType.State;
                 return serializedProperty;
-            
-            serializedProperty = property.serializedObject.FindProperty("_stateBehaviour");
-            if (serializedProperty != null)
-                return serializedProperty;
+            }
 
+            serializedProperty = property.serializedObject.FindProperty("_stateDescriptor");
+            if (serializedProperty != null)
+            {
+                statePropertyType = StatePropertyType.StateDescriptor;
+                return serializedProperty;
+            }
+
+            statePropertyType = StatePropertyType.Unknown;
             return serializedProperty;
         }
         
         string[] FindOptions(SerializedProperty property)
         {
-            SerializedProperty stateProperty = FindStateProperty(property);
+            if (property.serializedObject.targetObject as IState != null)
+            {
+                SerializedProperty statesProperty = property.serializedObject.FindProperty("_states");
+                if (statesProperty != null)
+                {
+                    string[] options = new string[statesProperty.arraySize];
+                    for (int i = 0; i < options.Length; i++)
+                    {
+                        options[i] = statesProperty.GetArrayElementAtIndex(i).stringValue;
+                    }
+
+                    return options;
+                }
+            }
+            
+            SerializedProperty stateProperty = FindStateProperty(property, out StatePropertyType statePropertyType);
             if (stateProperty != null)
             {
-                IState state = stateProperty.objectReferenceValue as IState;
-                if (state != null)
+                switch (statePropertyType)
                 {
-                    return (string[])state.states.Clone();
+                    case StatePropertyType.State:
+                    {
+                        IState state = stateProperty.objectReferenceValue as IState;
+                        if (state != null)
+                        {
+                            return (string[])state.states.Clone();
+                        }
+                        break;
+                    }
+                    case StatePropertyType.StateDescriptor:
+                    {
+                        SerializedProperty statesProperty = stateProperty.FindPropertyRelative("states");
+                        if (statesProperty != null)
+                        {
+                            string[] options = new string[statesProperty.arraySize];
+                            for (int i = 0; i < options.Length; i++)
+                            {
+                                options[i] = statesProperty.GetArrayElementAtIndex(i).stringValue;
+                            }
+
+                            return options;
+                        }
+                        break;
+                    }
                 }
             }
-
-            SerializedProperty statesProperty = property.serializedObject.FindProperty("_states");
-            if (statesProperty != null)
-            {
-                string[] options = new string[statesProperty.arraySize];
-                for (int i = 0; i < options.Length; i++)
-                {
-                    options[i] = statesProperty.GetArrayElementAtIndex(i).stringValue;
-                }
-
-                return options;
-            }
-
             return null;
         }
 

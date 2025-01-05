@@ -17,5 +17,10 @@ MonoBehaviour:
     _variables:
     - {fileID: 11400000, guid: ee24d5fb83a5b4bd2a27a3bc467cadaf, type: 2}
     - {fileID: 11400000, guid: 46a00f381f09c4169b04696477754957, type: 2}
+    onCounterCalculatorChanged:
+      m_PersistentCalls:
+        m_Calls: []
     _expression: (a + b) * 2
-  _result: {fileID: 11400000, guid: 5531fae0a005a49408ffd0ca13c3c291, type: 2}
+  _onResultChanged:
+    m_PersistentCalls:
+      m_Calls: []

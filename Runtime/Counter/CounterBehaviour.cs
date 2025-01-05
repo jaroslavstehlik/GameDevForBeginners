@@ -1,63 +1,120 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace GameDevForBeginners
 {
     [AddComponentMenu("GMD/Counter/CounterBehaviour")]
     public class CounterBehaviour : MonoBehaviour, ICountable
     {
+
+    /*
+     * TODO:
+     * Scriptable Objects can be created during runtime.
+     * If we create scriptable objects during runtime, we can reference them everywhere
+     * during runtime as well, without the need to differentiate runtime and non runtime objects.
+     * The complexity arises from several elements.
+     * Runtime scriptable objects need descriptors in order to have initial state.
+     * In order so they can be created during runtime, mono behaviour has to create them.
+     * In order to properly link runtime scriptable objects to other scriptable objects we need
+     * to dynamically link them after they have been properly initialized with a descriptor.
+     * How does the dynamic linking actually look like? We cant reference the scriptable object it self
+     * before it has been created during runtime, so we need to identify them ahead of time differently.
+     * Probably identifying them by their owner who has created them.
+     *
+     *
+     * The objects which would benefit from runtime instancing.
+     * Counters, Counter conditions, Counter calculators
+     * States, State conditions,
+     *
+     * Counter condition and counter calculator can reference runtime and non runtime objects.
+     * State conditions can reference runtime and non runtime objects as well.
+     */
+
+    // Counter behaviour
+    // Descriptor
+    // Injector
+
         [DrawHiddenFieldsAttribute] [SerializeField]
         private bool _dummy;
 
-        [ShowInInspectorAttribute(false)] private float _count = 0;
-
-        [SerializeField] private float _defaultCount = 0;
-        public float defaultCount { get; }
+        [SerializeField] private CounterDescriptor _counterDescriptor = new CounterDescriptor()
+        {
+            name = string.Empty,
+            defaultCount = 0,
+            saveKey = string.Empty,
+            wholeNumber = true
+        };
         
-        [SerializeField] private bool _wholeNumber = true;
-        public bool wholeNumber { get; }
+        [SerializeField] private UnityEvent<Counter> _onCounterCreated;
+        public UnityEvent<Counter> onCounterCreated => _onCounterCreated;
         
         [SerializeField] private UnityEvent<float> _onCountChanged;
         public UnityEvent<float> onCountChanged => _onCountChanged;
+        
+        private Counter _counter;
+        public Counter counter => _counter;
+        
+        private Counter GetOrCreateCounter()
+        {
+            if (_counter == null)
+            {
+                _counter = Counter.CreateCounter(_counterDescriptor);
+                _onCounterCreated?.Invoke(_counter);
+            }
 
-        private DetectInfiniteLoop _detectInfiniteLoop = new DetectInfiniteLoop();
+            return _counter;
+        }
 
         private void Awake()
         {
-            count = _defaultCount;
+            _ = GetOrCreateCounter();
         }
 
-#if UNITY_EDITOR
-        public void OnValidate()
+        private void OnDestroy()
         {
-            _defaultCount = ValidateNumber(_defaultCount);
-            if (!isPlayingOrWillChangePlaymode)
+            Destroy(_counter);
+            _counter = null;
+        }
+
+        public float defaultCount
+        {
+            get
             {
-                count = _defaultCount;
+                if (_counter == null)
+                    return 0;
+                
+                return _counter.defaultCount;
             }
         }
-#endif
-        float ValidateNumber(float value)
-        {
-            return _wholeNumber ? (int)value : value;
-        }
 
+        public bool wholeNumber
+        {
+            get
+            {
+                if (_counter == null)
+                    return false;
+
+                return _counter.wholeNumber;
+            }
+        }
+        
         public float count
         {
-            get => _count;
+            get
+            {
+                if (_counter == null)
+                    return 0;
+                
+                return _counter.count;
+            }
             set
             {
-                float candidate = ValidateNumber(value);
-                if (_count == candidate)
+                if (_counter == null)
                     return;
 
-                _count = candidate;
-
-                if (!isPlayingOrWillChangePlaymode)
-                    return;
-
-                if (!_detectInfiniteLoop.Detect(this))
-                    onCountChanged?.Invoke(_count);
+                _counter.count = value;
             }
         }
 
@@ -124,19 +181,8 @@ namespace GameDevForBeginners
 
         public void Reset()
         {
-            count = _defaultCount;
-        }
-
-        static bool isPlayingOrWillChangePlaymode
-        {
-            get
-            {
-#if UNITY_EDITOR
-                return UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode;
-#else
-            return true;
-#endif
-            }
+            if(_counter != null)
+                count = _counter.defaultCount;
         }
     }
 }

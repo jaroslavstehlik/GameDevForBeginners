@@ -12,19 +12,66 @@ namespace GameDevForBeginners
 
         private void OnEnable()
         {
+            if(_counter == null)
+                return;
+            
             _counter.onCountChanged?.AddListener(OnCountChanged);
+            _counter.onDestroy?.AddListener(OnCounterDestroyed);
             if (_activateOnEnable)
                 OnCountChanged(_counter.count);
         }
 
         private void OnDisable()
         {
+            if(_counter == null)
+                return;
+
             _counter.onCountChanged?.RemoveListener(OnCountChanged);
+            _counter.onDestroy?.RemoveListener(OnCounterDestroyed);
         }
 
+        public Counter counter
+        {
+            get
+            {
+                return _counter;
+            }
+            set
+            {
+                if (_counter != null)
+                {
+                    _counter.onCountChanged?.RemoveListener(OnCountChanged);
+                    _counter.onDestroy?.RemoveListener(OnCounterDestroyed);
+                }
+
+                _counter = value;
+
+                if (isActiveAndEnabled && _counter != null)
+                {
+                    _counter.onCountChanged?.AddListener(OnCountChanged);
+                    _counter.onDestroy?.AddListener(OnCounterDestroyed);
+                    OnCountChanged(_counter.count);
+                }
+            }
+        }
+        
         private void OnCountChanged(float count)
         {
             onCountChanged?.Invoke(count);
+        }
+
+        private void OnCounterDestroyed(Counter counter)
+        {
+            if(counter == null)
+                return;
+            
+            counter.onCountChanged?.RemoveListener(OnCountChanged);
+            counter.onDestroy?.RemoveListener(OnCounterDestroyed);
+
+            if (_counter == counter)
+            {
+                _counter = null;
+            }
         }
     }
 }

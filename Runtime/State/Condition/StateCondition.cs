@@ -27,14 +27,15 @@ namespace GameDevForBeginners
             if (!isPlayingOrWillChangePlaymode)
                 return;
             
-            conditionDescriptor.RegisterVariables(OnStateChanged);
+            conditionDescriptor.onStateConditionChanged?.AddListener(OnStateChanged);
         }
 
         private void OnDisable()
         {
             if (!isPlayingOrWillChangePlaymode)
                 return;
-            conditionDescriptor.UnregisterVariables(OnStateChanged);
+            
+            conditionDescriptor.onStateConditionChanged?.RemoveListener(OnStateChanged);
         }
 
         void OnStateChanged(string value)
@@ -42,14 +43,18 @@ namespace GameDevForBeginners
             Execute();
         }
 
+        public void AddRuntimeVariable(State state)
+        {
+            conditionDescriptor.AddRuntimeVariable(state);
+        }
+
+        public void RemoveRuntimeVariable(State state)
+        {
+            conditionDescriptor.RemoveRuntimeVariable(state);
+        }
+
         public bool Execute(bool invokeEvents = true)
         {
-            if (!conditionDescriptor.Validate(out string variableName))
-            {
-                Debug.LogError($"{name}, variable: {variableName} already exists!", this);
-                return false;
-            }
-
             if (_detectInfiniteLoop.Detect(this))
                 return false;
 

@@ -6,6 +6,15 @@ using UnityEngine.Serialization;
 // TODO: Add hash optimisation to prevent bruteforce string checks
 namespace GameDevForBeginners
 {
+    [System.Serializable]
+    public struct StateDescriptor
+    {
+        public string name;
+        [State] public string defaultState;
+        public string[] states;
+        public string saveKey;
+    }
+    
     [CreateAssetMenu(fileName = "State", menuName = "GMD/State/State", order = 1)]
     public class State : ScriptableObject, IState
     {
@@ -27,11 +36,28 @@ namespace GameDevForBeginners
         [SerializeField] private string _saveKey = string.Empty;
         [HideInInspector] [SerializeField] private UnityEvent<string> _onStateChanged;
         public UnityEvent<string> onStateChanged => _onStateChanged;
+        
+        [HideInInspector] [SerializeField] private UnityEvent<State> _onDestroy;
+        public UnityEvent<State> onDestroy => _onDestroy;
 
         private string _lastState;
         public string lastState => _lastState;
 
         private DetectInfiniteLoop _detectInfiniteLoop = new DetectInfiniteLoop();
+
+        public static State CreateState(StateDescriptor stateDescriptor)
+        {
+            State state = CreateInstance<State>();
+            state._onStateChanged = new UnityEvent<string>();
+            state._onDestroy = new UnityEvent<State>();
+            state._states = stateDescriptor.states;
+            state._defaultState = stateDescriptor.defaultState;
+            state._activeState = stateDescriptor.defaultState;
+            state._saveKey = stateDescriptor.saveKey;
+            state.name = stateDescriptor.name;
+            state.OnEnable();
+            return state;
+        }
 
         private void OnEnable()
         {
@@ -75,6 +101,11 @@ namespace GameDevForBeginners
         }
 #endif
 
+        private void OnDestroy()
+        {
+            _onDestroy?.Invoke(this);
+        }
+
         public string activeState
         {
 #if UNITY_EDITOR
@@ -92,7 +123,7 @@ namespace GameDevForBeginners
             {
                 if (_states == null)
                     return;
-
+                
                 string stateCandidate = null;
                 foreach (var state in _states)
                 {
