@@ -16,6 +16,8 @@ namespace GameDevForBeginners
 
         [ShowInInspectorAttribute(false)] private string _conditionResult = String.Empty;
 
+        [SerializeField] private bool _executeOnStateChanged = true;
+        
         [HideInInspector] public UnityEvent onTrue;
         [HideInInspector] public UnityEvent onFalse;
         [HideInInspector] public UnityEvent onError;
@@ -40,7 +42,8 @@ namespace GameDevForBeginners
 
         void OnStateChanged(string value)
         {
-            Execute();
+            if(_executeOnStateChanged)
+                Execute();
         }
 
         public void AddRuntimeVariable(State state)
@@ -53,10 +56,15 @@ namespace GameDevForBeginners
             conditionDescriptor.RemoveRuntimeVariable(state);
         }
 
-        public bool Execute(bool invokeEvents = true)
+        public void Execute()
+        {
+            Execute(true);
+        }
+        
+        private void Execute(bool invokeEvents)
         {
             if (_detectInfiniteLoop.Detect(this))
-                return false;
+                return;
 
             ConditionResult conditionResult = conditionDescriptor.TryParse();
             if (invokeEvents)
@@ -78,7 +86,6 @@ namespace GameDevForBeginners
             _parsedResult = conditionDescriptor.parsedString;
             _conditionResult = $"{conditionResult.resultType.ToString()} {conditionResult.errorMessage}";
 #endif
-            return conditionResult.resultType == ContitionResultType.True;
         }
 
 #if UNITY_EDITOR

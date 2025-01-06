@@ -30,7 +30,7 @@ namespace GameDevForBeginners
             ')',
             ' '
         };
-
+        
         int GetOperatorIndex(char letter)
         {
             for (int i = 0; i < operatorList.Length; i++)
