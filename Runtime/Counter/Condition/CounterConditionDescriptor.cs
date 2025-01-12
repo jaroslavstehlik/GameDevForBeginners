@@ -36,9 +36,9 @@ namespace GameDevForBeginners
         }
 
         private List<string> _cachedCondition;
-        private Dictionary<string, Counter> _variables;
+        private Dictionary<string, ScriptableValue> _variables;
 
-        public CounterConditionDescriptorCache(string condition, Dictionary<string, Counter> variables)
+        public CounterConditionDescriptorCache(string condition, Dictionary<string, ScriptableValue> variables)
         {
             _cachedCondition = new List<string>();
             _variables = variables;
@@ -82,9 +82,9 @@ namespace GameDevForBeginners
             
             foreach (var variable in _cachedCondition)
             {
-                if (_variables.TryGetValue(variable, out Counter counter) && counter != null)
+                if (_variables.TryGetValue(variable, out ScriptableValue scriptableValue) && scriptableValue != null)
                 {
-                    replacedString += counter.count.ToString();
+                    replacedString += scriptableValue.GetValue();
                 }
                 else
                 {
@@ -97,9 +97,9 @@ namespace GameDevForBeginners
     [System.Serializable]
     public struct CounterConditionDescriptor
     {
-        [SerializeField] private Counter[] _variables;
-        [HideInInspector] public UnityEvent<float> onCounterConditionChanged;
-        private Dictionary<string, Counter> _runtimeVariables;
+        [SerializeField] private ScriptableValue[] _variables;
+        [HideInInspector] public UnityEvent<string> onConditionValueChanged;
+        private Dictionary<string, ScriptableValue> _runtimeVariables;
         
         [SerializeField] private string _condition;
         private string _parsedString;
@@ -113,20 +113,20 @@ namespace GameDevForBeginners
             }
         }
         
-        public bool AddRuntimeVariable(Counter counter)
+        public bool AddRuntimeVariable(ScriptableValue counter)
         {
             if (_runtimeVariables == null)
-                _runtimeVariables = new Dictionary<string, Counter>();
+                _runtimeVariables = new Dictionary<string, ScriptableValue>();
             
             if (!_runtimeVariables.TryAdd(counter.name, counter))
                 return false;
             
-            counter.onCountChanged.AddListener(OnCounterChanged);
-            counter.onDestroy.AddListener(OnCounterDestroyed);
+            counter.onValueChanged.AddListener(OnValueChanged);
+            counter.onDestroy.AddListener(OnDestroyed);
             return true;
         }
 
-        public bool RemoveRuntimeVariable(Counter counter)
+        public bool RemoveRuntimeVariable(ScriptableValue counter)
         {
             if (_runtimeVariables == null)
                 return false;
@@ -134,8 +134,8 @@ namespace GameDevForBeginners
             if (!_runtimeVariables.Remove(counter.name))
                 return false;
             
-            counter.onCountChanged.RemoveListener(OnCounterChanged);
-            counter.onDestroy.RemoveListener(OnCounterDestroyed);
+            counter.onValueChanged.RemoveListener(OnValueChanged);
+            counter.onDestroy.RemoveListener(OnDestroyed);
             return true;
         }
 
@@ -160,14 +160,14 @@ namespace GameDevForBeginners
                 logicExpression.GetResult() ? ContitionResultType.True : ContitionResultType.False, string.Empty);
         }
 
-        private void OnCounterChanged(float value)
+        private void OnValueChanged(ScriptableValue scriptableValue)
         {
-            onCounterConditionChanged?.Invoke(value);
+            onConditionValueChanged?.Invoke(scriptableValue.GetValue());
         }
 
-        private void OnCounterDestroyed(Counter counter)
+        private void OnDestroyed(ScriptableValue scriptableValue)
         {
-            RemoveRuntimeVariable(counter);
+            RemoveRuntimeVariable(scriptableValue);
         }
     }
 }

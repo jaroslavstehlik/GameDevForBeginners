@@ -90,15 +90,16 @@ namespace GameDevForBeginners
 
             onStateActivate?.Invoke();
         }
-        private void OnStateDestroyed(State state)
+        private void OnStateDestroyed(ScriptableValue scriptableValue)
         {
-            if(state == null)
+            State destroyedState = scriptableValue as State;
+            if(destroyedState == null)
                 return;
             
-            state.onStateChanged?.RemoveListener(OnStateChanged);
-            state.onDestroy?.RemoveListener(OnStateDestroyed);
+            destroyedState.onStateChanged?.RemoveListener(OnStateChanged);
+            destroyedState.onDestroy?.RemoveListener(OnStateDestroyed);
 
-            if (_state == state)
+            if (_state == destroyedState)
             {
                 _state = null;
             }

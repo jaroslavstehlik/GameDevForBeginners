@@ -16,7 +16,7 @@ namespace GameDevForBeginners
     }
     
     [CreateAssetMenu(fileName = "State", menuName = "GMD/State/State", order = 1)]
-    public class State : ScriptableObject, IState
+    public class State : ScriptableValue, IState
     {
         [DrawHiddenFieldsAttribute] [SerializeField]
         private bool _dummy;
@@ -37,9 +37,6 @@ namespace GameDevForBeginners
         [HideInInspector] [SerializeField] private UnityEvent<string> _onStateChanged;
         public UnityEvent<string> onStateChanged => _onStateChanged;
         
-        [HideInInspector] [SerializeField] private UnityEvent<State> _onDestroy;
-        public UnityEvent<State> onDestroy => _onDestroy;
-
         private string _lastState;
         public string lastState => _lastState;
 
@@ -48,8 +45,9 @@ namespace GameDevForBeginners
         public static State CreateState(StateDescriptor stateDescriptor)
         {
             State state = CreateInstance<State>();
+            state._onValueChanged = new UnityEvent<ScriptableValue>();
             state._onStateChanged = new UnityEvent<string>();
-            state._onDestroy = new UnityEvent<State>();
+            state._onDestroy = new UnityEvent<ScriptableValue>();
             state._states = stateDescriptor.states;
             state._defaultState = stateDescriptor.defaultState;
             state._activeState = stateDescriptor.defaultState;
@@ -101,9 +99,14 @@ namespace GameDevForBeginners
         }
 #endif
 
-        private void OnDestroy()
+        public override ScriptableValueType GetValueType()
         {
-            _onDestroy?.Invoke(this);
+            return ScriptableValueType.State;
+        }
+
+        public override string GetValue()
+        {
+            return activeState.ToString();
         }
 
         public string activeState
@@ -154,6 +157,7 @@ namespace GameDevForBeginners
 
                 if (!_detectInfiniteLoop.Detect(this))
                 {
+                    _onValueChanged?.Invoke(this);
                     _onStateChanged?.Invoke(_activeState);
                 }
             }

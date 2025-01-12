@@ -23,14 +23,14 @@ namespace GameDevForBeginners
         {
             if (!isPlayingOrWillChangePlaymode)
                 return;
-            calculatorDescriptor.onCounterCalculatorChanged?.AddListener(OnCounterChanged);
+            calculatorDescriptor.onCalculatorValueChanged?.AddListener(OnCounterChanged);
         }
 
         private void OnDisable()
         {
             if (!isPlayingOrWillChangePlaymode)
                 return;
-            calculatorDescriptor.onCounterCalculatorChanged?.RemoveListener(OnCounterChanged);
+            calculatorDescriptor.onCalculatorValueChanged?.RemoveListener(OnCounterChanged);
         }
 
         void OnCounterChanged(float value)

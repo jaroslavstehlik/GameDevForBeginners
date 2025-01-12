@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using B83.LogicExpressionParser;
+using UnityEngine.Serialization;
 
 namespace GameDevForBeginners
 {
@@ -44,9 +45,9 @@ namespace GameDevForBeginners
         }
 
         private List<string> _cachedCondition;
-        private Dictionary<string, State> _variables;
+        private Dictionary<string, ScriptableValue> _variables;
 
-        public StateConditionDescriptorCache(string condition, Dictionary<string, State> variables)
+        public StateConditionDescriptorCache(string condition, Dictionary<string, ScriptableValue> variables)
         {
             _cachedCondition = new List<string>();
             _variables = variables;
@@ -90,9 +91,9 @@ namespace GameDevForBeginners
 
             foreach (var variable in _cachedCondition)
             {
-                if (_variables.TryGetValue(variable, out State state) && state != null)
+                if (_variables.TryGetValue(variable, out ScriptableValue scriptableValue) && scriptableValue != null)
                 {
-                    replacedString += state.activeState;
+                    replacedString += scriptableValue.GetValue();
                 }
                 else
                 {
@@ -106,9 +107,9 @@ namespace GameDevForBeginners
     [System.Serializable]
     public struct StateConditionDescriptor
     {
-        [SerializeField] private State[] _variables;
-        [HideInInspector] public UnityEvent<string> onStateConditionChanged;
-        private Dictionary<string, State> _runtimeVariables;
+        [SerializeField] private ScriptableValue[] _variables;
+        [HideInInspector] public UnityEvent<string> onConditionValueChanged;
+        private Dictionary<string, ScriptableValue> _runtimeVariables;
         [SerializeField] private string _condition;
         private string _parsedString;
         public string parsedString => _parsedString;
@@ -122,29 +123,29 @@ namespace GameDevForBeginners
             }
         }
         
-        public bool AddRuntimeVariable(State state)
+        public bool AddRuntimeVariable(ScriptableValue state)
         {
             if (_runtimeVariables == null)
-                _runtimeVariables = new Dictionary<string, State>();
+                _runtimeVariables = new Dictionary<string, ScriptableValue>();
             
             if (!_runtimeVariables.TryAdd(state.name, state))
                 return false;
             
-            state.onStateChanged.AddListener(OnStateChanged);
-            state.onDestroy.AddListener(OnStateDestroyed);
+            state.onValueChanged.AddListener(OnValueChanged);
+            state.onDestroy.AddListener(OnDestroyed);
             return true;
         }
 
-        public bool RemoveRuntimeVariable(State state)
+        public bool RemoveRuntimeVariable(ScriptableValue scriptableValue)
         {
             if (_runtimeVariables == null)
                 return false;
 
-            if (!_runtimeVariables.Remove(state.name))
+            if (!_runtimeVariables.Remove(scriptableValue.name))
                 return false;
             
-            state.onStateChanged.RemoveListener(OnStateChanged);
-            state.onDestroy.RemoveListener(OnStateDestroyed);
+            scriptableValue.onValueChanged.RemoveListener(OnValueChanged);
+            scriptableValue.onDestroy.RemoveListener(OnDestroyed);
             return true;
         }
         
@@ -170,14 +171,14 @@ namespace GameDevForBeginners
                 logicExpression.GetResult() ? ContitionResultType.True : ContitionResultType.False, string.Empty);
         }
         
-        private void OnStateChanged(string value)
+        private void OnValueChanged(ScriptableValue scriptableValue)
         {
-            onStateConditionChanged?.Invoke(value);
+            onConditionValueChanged?.Invoke(scriptableValue.GetValue());
         }
 
-        private void OnStateDestroyed(State state)
+        private void OnDestroyed(ScriptableValue scriptableValue)
         {
-            RemoveRuntimeVariable(state);
+            RemoveRuntimeVariable(scriptableValue);
         }
     }
 }

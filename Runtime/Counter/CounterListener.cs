@@ -60,15 +60,16 @@ namespace GameDevForBeginners
             onCountChanged?.Invoke(count);
         }
 
-        private void OnCounterDestroyed(Counter counter)
+        private void OnCounterDestroyed(ScriptableValue scriptableValue)
         {
-            if(counter == null)
+            Counter destroyedCounter = scriptableValue as Counter;
+            if(destroyedCounter == null)
                 return;
             
-            counter.onCountChanged?.RemoveListener(OnCountChanged);
-            counter.onDestroy?.RemoveListener(OnCounterDestroyed);
+            destroyedCounter.onCountChanged?.RemoveListener(OnCountChanged);
+            destroyedCounter.onDestroy?.RemoveListener(OnCounterDestroyed);
 
-            if (_counter == counter)
+            if (_counter == destroyedCounter)
             {
                 _counter = null;
             }

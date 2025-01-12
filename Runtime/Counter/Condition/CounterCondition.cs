@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace GameDevForBeginners
 {
@@ -16,6 +17,8 @@ namespace GameDevForBeginners
 
         [ShowInInspectorAttribute(false)] private string _conditionResult = String.Empty;
 
+        [SerializeField] private bool _executeOnValueChanged = true;
+        
         [HideInInspector] public UnityEvent onTrue;
         [HideInInspector] public UnityEvent onFalse;
         [HideInInspector] public UnityEvent onError;
@@ -27,7 +30,7 @@ namespace GameDevForBeginners
             if (!isPlayingOrWillChangePlaymode)
                 return;
             
-            conditionDescriptor.onCounterConditionChanged?.AddListener(OnCounterChanged);
+            conditionDescriptor.onConditionValueChanged?.AddListener(OnValueChanged);
         }
 
         private void OnDisable()
@@ -35,22 +38,23 @@ namespace GameDevForBeginners
             if (!isPlayingOrWillChangePlaymode)
                 return;
             
-            conditionDescriptor.onCounterConditionChanged?.RemoveListener(OnCounterChanged);
+            conditionDescriptor.onConditionValueChanged?.RemoveListener(OnValueChanged);
         }
 
-        private void OnCounterChanged(float value)
+        private void OnValueChanged(string value)
         {
-            Execute();
+            if(_executeOnValueChanged)
+                Execute();
         }
 
-        public void AddRuntimeVariable(Counter counter)
+        public void AddRuntimeVariable(ScriptableValue scriptableValue)
         {
-            conditionDescriptor.AddRuntimeVariable(counter);
+            conditionDescriptor.AddRuntimeVariable(scriptableValue);
         }
 
-        public void RemoveRuntimeVariable(Counter counter)
+        public void RemoveRuntimeVariable(ScriptableValue scriptableValue)
         {
-            conditionDescriptor.RemoveRuntimeVariable(counter);
+            conditionDescriptor.RemoveRuntimeVariable(scriptableValue);
         }
 
         public bool Execute(bool invokeEvents = true)

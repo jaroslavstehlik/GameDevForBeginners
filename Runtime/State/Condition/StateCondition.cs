@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace GameDevForBeginners
 {
@@ -16,7 +17,7 @@ namespace GameDevForBeginners
 
         [ShowInInspectorAttribute(false)] private string _conditionResult = String.Empty;
 
-        [SerializeField] private bool _executeOnStateChanged = true;
+        [FormerlySerializedAs("_executeOnStateChanged")] [SerializeField] private bool _executeOnValueChanged = true;
         
         [HideInInspector] public UnityEvent onTrue;
         [HideInInspector] public UnityEvent onFalse;
@@ -29,7 +30,7 @@ namespace GameDevForBeginners
             if (!isPlayingOrWillChangePlaymode)
                 return;
             
-            conditionDescriptor.onStateConditionChanged?.AddListener(OnStateChanged);
+            conditionDescriptor.onConditionValueChanged?.AddListener(OnValueChanged);
         }
 
         private void OnDisable()
@@ -37,23 +38,23 @@ namespace GameDevForBeginners
             if (!isPlayingOrWillChangePlaymode)
                 return;
             
-            conditionDescriptor.onStateConditionChanged?.RemoveListener(OnStateChanged);
+            conditionDescriptor.onConditionValueChanged?.RemoveListener(OnValueChanged);
         }
 
-        void OnStateChanged(string value)
+        void OnValueChanged(string value)
         {
-            if(_executeOnStateChanged)
+            if(_executeOnValueChanged)
                 Execute();
         }
 
-        public void AddRuntimeVariable(State state)
+        public void AddRuntimeVariable(ScriptableValue scriptableValue)
         {
-            conditionDescriptor.AddRuntimeVariable(state);
+            conditionDescriptor.AddRuntimeVariable(scriptableValue);
         }
 
-        public void RemoveRuntimeVariable(State state)
+        public void RemoveRuntimeVariable(ScriptableValue scriptableValue)
         {
-            conditionDescriptor.RemoveRuntimeVariable(state);
+            conditionDescriptor.RemoveRuntimeVariable(scriptableValue);
         }
 
         public void Execute()

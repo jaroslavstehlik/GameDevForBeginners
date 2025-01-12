@@ -11,7 +11,7 @@ namespace GameDevForBeginners
     public struct CounterCalculatorDescriptor
     {
         [SerializeField] private Counter[] _variables;
-        [HideInInspector] public UnityEvent<float> onCounterCalculatorChanged;
+        [HideInInspector] public UnityEvent<float> onCalculatorValueChanged;
         private Dictionary<string, Counter> _runtimeVariables;
 
         [SerializeField] private string _expression;
@@ -34,21 +34,21 @@ namespace GameDevForBeginners
             if (!_runtimeVariables.TryAdd(counter.name, counter))
                 return false;
             
-            counter.onCountChanged.AddListener(OnCounterChanged);
+            counter.onValueChanged.AddListener(OnValueChanged);
             counter.onDestroy.AddListener(OnCounterDestroyed);
             return true;
         }
 
-        public bool RemoveRuntimeVariable(Counter counter)
+        public bool RemoveRuntimeVariable(ScriptableValue scriptableValue)
         {
             if (_runtimeVariables == null)
                 return false;
 
-            if (!_runtimeVariables.Remove(counter.name))
+            if (!_runtimeVariables.Remove(scriptableValue.name))
                 return false;
             
-            counter.onCountChanged.RemoveListener(OnCounterChanged);
-            counter.onDestroy.RemoveListener(OnCounterDestroyed);
+            scriptableValue.onValueChanged.RemoveListener(OnValueChanged);
+            scriptableValue.onDestroy.RemoveListener(OnCounterDestroyed);
             return true;
         }
 
@@ -78,14 +78,18 @@ namespace GameDevForBeginners
             return new CalculatorResult(CalculatorResultType.Value, result, string.Empty);
         }
         
-        private void OnCounterChanged(float value)
+        private void OnValueChanged(ScriptableValue scriptableValue)
         {
-            onCounterCalculatorChanged?.Invoke(value);
+            if(scriptableValue.GetValueType() != ScriptableValueType.Counter)
+                return;
+            if(!float.TryParse(scriptableValue.GetValue(), out float value))
+                return;
+            onCalculatorValueChanged?.Invoke(value);
         }
         
-        private void OnCounterDestroyed(Counter counter)
+        private void OnCounterDestroyed(ScriptableValue scriptableValue)
         {
-            RemoveRuntimeVariable(counter);
+            RemoveRuntimeVariable(scriptableValue);
         }
     }
 

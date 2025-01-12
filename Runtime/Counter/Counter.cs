@@ -19,7 +19,7 @@ namespace GameDevForBeginners
 // Scriptable object can be stored only in project
 // it can be referenced in scene
 // it is used mostly for holding game data
-    public class Counter : ScriptableObject, ICountable
+    public class Counter : ScriptableValue, ICountable
     {
         [DrawHiddenFieldsAttribute] [SerializeField]
         private bool _dummy;
@@ -37,9 +37,6 @@ namespace GameDevForBeginners
 
         [HideInInspector] [SerializeField] private UnityEvent<float> _onCountChanged;
         public UnityEvent<float> onCountChanged => _onCountChanged;
-
-        [HideInInspector] [SerializeField] private UnityEvent<Counter> _onDestroy;
-        public UnityEvent<Counter> onDestroy => _onDestroy;
         
         private DetectInfiniteLoop _detectInfiniteLoop = new DetectInfiniteLoop();
 
@@ -47,7 +44,8 @@ namespace GameDevForBeginners
         {
             Counter counter = CreateInstance<Counter>();
             counter._onCountChanged = new UnityEvent<float>();
-            counter._onDestroy = new UnityEvent<Counter>();
+            counter._onValueChanged = new UnityEvent<ScriptableValue>();
+            counter._onDestroy = new UnityEvent<ScriptableValue>();
             counter._defaultCount = counterDescriptor.defaultCount;
             counter._count = counterDescriptor.defaultCount;
             counter._wholeNumber = counterDescriptor.wholeNumber;
@@ -89,9 +87,14 @@ namespace GameDevForBeginners
         }
 #endif
 
-        private void OnDestroy()
+        public override ScriptableValueType GetValueType()
         {
-            _onDestroy?.Invoke(this);
+            return ScriptableValueType.Counter;
+        }
+
+        public override string GetValue()
+        {
+            return count.ToString();
         }
 
         float ValidateNumber(float value)
@@ -117,7 +120,10 @@ namespace GameDevForBeginners
                     PlayerPrefs.SetFloat(_saveKey, count);
 
                 if (!_detectInfiniteLoop.Detect(this))
+                {
+                    _onValueChanged?.Invoke(this);
                     _onCountChanged?.Invoke(_count);
+                }
             }
         }
 
