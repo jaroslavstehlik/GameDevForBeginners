@@ -1,9 +1,10 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace GameDevForBeginners
 {
-    [AddComponentMenu("GMD/Counter/Condition/CounterConditionListener")]
+    [Obsolete]
     public class CounterConditionListener : MonoBehaviour
     {
         [SerializeField] private CounterCondition counterCondition;

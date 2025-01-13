@@ -2,8 +2,8 @@ using UnityEditor;
 
 namespace GameDevForBeginners
 {
-    [CustomEditor(typeof(CounterCondition))]
-    public class CounterConditionEditor : Editor
+    [CustomEditor(typeof(Condition))]
+    public class ConditionEditor : Editor
     {
         public override bool RequiresConstantRepaint()
         {
@@ -12,7 +12,7 @@ namespace GameDevForBeginners
         
         private void OnEnable()
         {
-            ((CounterCondition)target).OnValidate();
+            ((Condition)target).OnValidate();
         }
     }
 }

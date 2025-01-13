@@ -3,10 +3,10 @@ using UnityEngine.Events;
 
 namespace GameDevForBeginners
 {
-    [AddComponentMenu("GMD/State/Condition/StateConditionListener")]
-    public class StateConditionListener : MonoBehaviour
+    [AddComponentMenu("GMD/Condition/ConditionListener")]
+    public class ConditionListener : MonoBehaviour
     {
-        [SerializeField] private StateCondition stateCondition;
+        [SerializeField] private Condition condition;
         [SerializeField] private bool _executeOnEnable = true;
 
         public UnityEvent onTrue;
@@ -15,18 +15,18 @@ namespace GameDevForBeginners
 
         private void OnEnable()
         {
-            stateCondition.onTrue.AddListener(OnTrue);
-            stateCondition.onFalse.AddListener(OnFalse);
-            stateCondition.onError.AddListener(OnError);
+            condition.onTrue.AddListener(OnTrue);
+            condition.onFalse.AddListener(OnFalse);
+            condition.onError.AddListener(OnError);
             if (_executeOnEnable)
-                stateCondition.Execute();
+                condition.Execute();
         }
 
         private void OnDisable()
         {
-            stateCondition.onTrue.RemoveListener(OnTrue);
-            stateCondition.onFalse.RemoveListener(OnFalse);
-            stateCondition.onError.RemoveListener(OnError);
+            condition.onTrue.RemoveListener(OnTrue);
+            condition.onFalse.RemoveListener(OnFalse);
+            condition.onError.RemoveListener(OnError);
         }
 
         void OnTrue()

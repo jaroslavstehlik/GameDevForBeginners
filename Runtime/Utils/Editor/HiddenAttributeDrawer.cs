@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor;
@@ -9,11 +10,9 @@ public class HiddenDrawer : PropertyDrawer {
     public override void OnGUI ( Rect position, SerializedProperty property, GUIContent label ) {
         var fieldsToDraw = GetDrawnFields( property );
 
-
         var obj = property.serializedObject.targetObject;
-
         position.height = EditorGUIUtility.singleLineHeight;
-
+        
         foreach( (FieldInfo, bool) f in fieldsToDraw )
         {
             FieldInfo fieldInfo = f.Item1;
@@ -67,17 +66,32 @@ public class HiddenDrawer : PropertyDrawer {
     }
 
     private static List<(FieldInfo, bool)> GetDrawnFields ( SerializedProperty property ) {
-        var baseType = property.serializedObject.targetObject.GetType();
-
-        var fields = baseType.GetFields( BindingFlags.Instance | BindingFlags.NonPublic );
-
+        
+        var targetType = property.serializedObject.targetObject.GetType();
+        Type[] types;
+        if (targetType != targetType.BaseType)
+        {
+            types = new Type[]{targetType, targetType.BaseType};
+        }
+        else
+        {
+            types = new Type[]{targetType};
+        }
+        
         var fieldsToDraw = new List<(FieldInfo, bool)>();
+        
+        foreach (Type type in types)
+        {
+            var fields = type.GetFields(BindingFlags.Instance | BindingFlags.NonPublic);
 
-        foreach( var f in fields ) {
-            ShowInInspectorAttribute[] attr = (ShowInInspectorAttribute[])f.GetCustomAttributes( typeof( ShowInInspectorAttribute ), true );
-            if( attr.Length > 0 ) 
+            foreach (var f in fields)
             {
-                fieldsToDraw.Add((f , attr[0].editable));
+                ShowInInspectorAttribute[] attr =
+                    (ShowInInspectorAttribute[])f.GetCustomAttributes(typeof(ShowInInspectorAttribute), true);
+                if (attr.Length > 0)
+                {
+                    fieldsToDraw.Add((f, attr[0].editable));
+                }
             }
         }
 

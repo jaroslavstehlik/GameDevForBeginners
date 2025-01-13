@@ -5,19 +5,19 @@ using UnityEngine.Serialization;
 
 namespace GameDevForBeginners
 {
-    [CreateAssetMenu(fileName = "Counter Condition", menuName = "GMD/Counter/Condition", order = 1)]
-    public class CounterCondition : ScriptableObject
+    [CreateAssetMenu(fileName = "Condition", menuName = "GMD/Condition/Condition", order = 1)]
+    public class Condition : ScriptableObject
     {
         [DrawHiddenFieldsAttribute] [SerializeField]
         private bool _dummy;
 
-        [SerializeField] private CounterConditionDescriptor conditionDescriptor;
+        [SerializeField] private ConditionDescriptor conditionDescriptor;
 
         [ShowInInspectorAttribute(false)] private string _parsedResult = String.Empty;
 
         [ShowInInspectorAttribute(false)] private string _conditionResult = String.Empty;
 
-        [SerializeField] private bool _executeOnValueChanged = true;
+        [FormerlySerializedAs("_executeOnStateChanged")] [SerializeField] private bool _executeOnValueChanged = true;
         
         [HideInInspector] public UnityEvent onTrue;
         [HideInInspector] public UnityEvent onFalse;
@@ -57,10 +57,15 @@ namespace GameDevForBeginners
             conditionDescriptor.RemoveRuntimeVariable(scriptableValue);
         }
 
-        public bool Execute(bool invokeEvents = true)
+        public void Execute()
+        {
+            Execute(true);
+        }
+        
+        private void Execute(bool invokeEvents)
         {
             if (_detectInfiniteLoop.Detect(this))
-                return false;
+                return;
 
             ConditionResult conditionResult = conditionDescriptor.TryParse();
             if (invokeEvents)
@@ -82,7 +87,6 @@ namespace GameDevForBeginners
             _parsedResult = conditionDescriptor.parsedString;
             _conditionResult = $"{conditionResult.resultType.ToString()} {conditionResult.errorMessage}";
 #endif
-            return conditionResult.resultType == ContitionResultType.True;
         }
 
 #if UNITY_EDITOR
