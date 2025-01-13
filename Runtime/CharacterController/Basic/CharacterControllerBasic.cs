@@ -27,6 +27,16 @@ namespace GameDevForBeginners
         public bool crouch;
         public bool sprint;
 
+        public void ResetJump()
+        {
+            jump = false;
+        }
+        
+        public void ResetMovement()
+        {
+            move = Vector2.zero;
+        }
+
         public static PlayerInput Empty
         {
             get { return new PlayerInput() { move = Vector2.zero, jump = false, sprint = false }; }
@@ -38,6 +48,8 @@ namespace GameDevForBeginners
         }
     }
 
+    // TODO: Low framerate affect player speed
+    // TODO: Unable to jump when directly touching stairs from side
     // TODO: Support moving platforms
     
     [AddComponentMenu("GMD/Character/CharacterControllerBasic")]
@@ -57,8 +69,8 @@ namespace GameDevForBeginners
         public bool visualiseDebug = true;
         public bool showGroundHit = true;
         public bool showCeilingHit = true;
-
-        private Queue<PlayerInput> _playerInputQueue = new Queue<PlayerInput>();
+        
+        private PlayerInput _playerInput;
         private CollisionState _collisionState;
         private float jumpTimeRemaining = 0f;
 
@@ -78,42 +90,40 @@ namespace GameDevForBeginners
 
         private void Update()
         {
-            PlayerInput playerInput = PlayerInput.Empty;
-
+            _playerInput.ResetMovement();
+            
             if (Input.GetKey(KeyCode.W))
             {
-                playerInput.move.y = 1f;
+                _playerInput.move.y = 1f;
             }
             else if (Input.GetKey(KeyCode.S))
             {
-                playerInput.move.y = -1f;
+                _playerInput.move.y = -1f;
             }
             else
             {
-                playerInput.move.y = 0f;
+                _playerInput.move.y = 0f;
             }
 
             if (Input.GetKey(KeyCode.A))
             {
-                playerInput.move.x = -1f;
+                _playerInput.move.x = -1f;
             }
             else if (Input.GetKey(KeyCode.D))
             {
-                playerInput.move.x = 1f;
+                _playerInput.move.x = 1f;
             }
             else
             {
-                playerInput.move.x = 0f;
+                _playerInput.move.x = 0f;
             }
 
-            playerInput.jump = Input.GetKeyDown(KeyCode.Space);
-            playerInput.sprint = Input.GetKey(KeyCode.LeftShift);
-            playerInput.crouch = Input.GetKey(KeyCode.LeftControl);
-
-            if (!playerInput.isEmpty)
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                _playerInputQueue.Enqueue(playerInput);
+                _playerInput.jump = true;
             }
+            _playerInput.sprint = Input.GetKey(KeyCode.LeftShift);
+            _playerInput.crouch = Input.GetKey(KeyCode.LeftControl);
         }
 
         void FixedUpdate()
@@ -141,28 +151,17 @@ namespace GameDevForBeginners
                 environmentMask,
                 closestNormalMaxDistance);
 
-            // consume the queue and obtain latest playerInput
-            PlayerInput playerInput = new PlayerInput();
-            while (_playerInputQueue.Count > 0)
-            {
-                PlayerInput newPlayerInput = _playerInputQueue.Dequeue();
-                playerInput.jump |= newPlayerInput.jump;
-                playerInput.sprint |= newPlayerInput.sprint;
-                playerInput.crouch |= newPlayerInput.crouch;
-                playerInput.move = newPlayerInput.move;
-            }
-
             float playerSpeed = moveSpeed;
-            if (playerInput.crouch)
+            if (_playerInput.crouch)
             {
                 playerSpeed *= crouchMultiplier;
             }
-            else if (playerInput.sprint)
+            else if (_playerInput.sprint)
             {
                 playerSpeed *= sprintMultiplier;
             }
 
-            Vector3 playerInputDirection = new Vector3(playerInput.move.x, 0f, playerInput.move.y).normalized;
+            Vector3 playerInputDirection = new Vector3(_playerInput.move.x, 0f, _playerInput.move.y).normalized;
             float playerInputMagnitude = Mathf.Clamp(playerInputDirection.magnitude, 0f, 1f) * playerSpeed;
 
             Vector3 localGroundNormal =
@@ -234,7 +233,7 @@ namespace GameDevForBeginners
                     }
 
                     // about to jump
-                    else if (playerInput.jump)
+                    else if (_playerInput.jump)
                     {
                         jumpTimeRemaining = jumpDuration;
                         fallTimeRemaining = 0f;
@@ -274,6 +273,8 @@ namespace GameDevForBeginners
 
             _rigidbody.rotation = Quaternion.Euler(0f, cameraYaw, 0f);
             _rigidbody.velocity = futureVelocity;
+            
+            _playerInput.ResetJump();
         }
 
         void ResetGravity(ref Vector3 gravityVelocity)
