@@ -1,3 +1,16 @@
 {
-	"name": "Digital.Dream.GameDevForBeginners"
+    "name": "Digital.Dream.GameDevForBeginners",
+    "rootNamespace": "",
+    "references": [
+        "Unity.Splines"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

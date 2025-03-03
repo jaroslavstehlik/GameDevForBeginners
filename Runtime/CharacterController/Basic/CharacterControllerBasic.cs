@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace GameDevForBeginners
@@ -20,41 +19,13 @@ namespace GameDevForBeginners
         public SphereCastInfo groundInfo;
     }
 
-    struct PlayerInput
-    {
-        public Vector2 move;
-        public bool jump;
-        public bool crouch;
-        public bool sprint;
-
-        public void ResetJump()
-        {
-            jump = false;
-        }
-        
-        public void ResetMovement()
-        {
-            move = Vector2.zero;
-        }
-
-        public static PlayerInput Empty
-        {
-            get { return new PlayerInput() { move = Vector2.zero, jump = false, sprint = false }; }
-        }
-
-        public bool isEmpty
-        {
-            get { return move == Vector2.zero && jump == false && sprint == false; }
-        }
-    }
-
-    // TODO: Low framerate affect player speed
     // TODO: Unable to jump when directly touching stairs from side
     // TODO: Support moving platforms
     
     [AddComponentMenu("GMD/Character/CharacterControllerBasic")]
     public class CharacterControllerBasic : MonoBehaviour
     {
+        [SerializeField] private PlayerInputController _playerInputController;
         [SerializeField] private Transform _cameraTransform;
         [SerializeField] private CapsuleCollider _collider;
         [SerializeField] private Rigidbody _rigidbody;
@@ -70,9 +41,10 @@ namespace GameDevForBeginners
         public bool showGroundHit = true;
         public bool showCeilingHit = true;
         
-        private PlayerInput _playerInput;
         private CollisionState _collisionState;
         private float jumpTimeRemaining = 0f;
+
+        private PlayerInput _playerInput;
 
         public float jumpProgress
         {
@@ -88,44 +60,26 @@ namespace GameDevForBeginners
 
         private Vector3 gravityVelocity = Vector3.zero;
 
-        private void Update()
+        private void OnEnable()
         {
-            _playerInput.ResetMovement();
-            
-            if (Input.GetKey(KeyCode.W))
-            {
-                _playerInput.move.y = 1f;
-            }
-            else if (Input.GetKey(KeyCode.S))
-            {
-                _playerInput.move.y = -1f;
-            }
-            else
-            {
-                _playerInput.move.y = 0f;
-            }
-
-            if (Input.GetKey(KeyCode.A))
-            {
-                _playerInput.move.x = -1f;
-            }
-            else if (Input.GetKey(KeyCode.D))
-            {
-                _playerInput.move.x = 1f;
-            }
-            else
-            {
-                _playerInput.move.x = 0f;
-            }
-
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                _playerInput.jump = true;
-            }
-            _playerInput.sprint = Input.GetKey(KeyCode.LeftShift);
-            _playerInput.crouch = Input.GetKey(KeyCode.LeftControl);
+            _playerInputController.onPlayerInputChanged += OnPlayerInputChanged;
         }
 
+        private void OnDisable()
+        {
+            _playerInputController.onPlayerInputChanged -= OnPlayerInputChanged;
+        }
+
+        void OnPlayerInputChanged(PlayerInput playerInput)
+        {
+            _playerInput.move = playerInput.move;
+            _playerInput.sprint = playerInput.sprint;
+            _playerInput.crouch = playerInput.crouch;
+            
+            if(playerInput.jump)
+                _playerInput.jump = playerInput.jump;
+        }
+        
         void FixedUpdate()
         {
             Vector3 position = _rigidbody.position;
