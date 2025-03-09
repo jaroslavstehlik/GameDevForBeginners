@@ -28,6 +28,7 @@ namespace Chc
         private Vector3 _up = Vector3.up;
         private Ray _groundRay;
         private float _groundDistance = 0f;
+        private Vector3 _groundDirection;
 
         private Ray _groundRayFront;
         private RaycastHit _frontRaycastHit;
@@ -38,8 +39,8 @@ namespace Chc
         private RaycastHit _leftRaycastHit;
         private Ray _groundRayRight;
         private RaycastHit _rightRaycastHit;
-        private Ray _groundRayCenter;
-        private RaycastHit _centerRaycastHit;
+
+        private Vector3 _groundPosition;
 
         private void OnEnable()
         {
@@ -65,17 +66,24 @@ namespace Chc
         {
             Vector3 position = _rigidbody.position;
             Quaternion rotation = _rigidbody.rotation;
+            float playerRadius = _collider.radius;
+            
+            Vector3 playerUp = _rigidbody.rotation * Vector3.up;
+            Vector3 playerDown = -playerUp;
+            Vector3 playerForward = _rigidbody.rotation * Vector3.forward;
+            Vector3 playerBack = -playerForward;
+            Vector3 playerRight = _rigidbody.rotation * Vector3.right;
+            Vector3 playerLeft = -playerRight;
             
             float groundOffset = 0.1f;
             float rayCastDistance = _collider.radius * 10f;
            
-            Vector3 upOffset = rotation * Vector3.up;
-            float spread = _collider.radius;
-            _groundRayFront = new Ray(position + upOffset + rotation * Vector3.forward * spread, rotation * Vector3.down);
-            _groundRayBack = new Ray(position + upOffset + rotation * -Vector3.forward * spread, rotation * Vector3.down);
-            _groundRayLeft = new Ray(position + upOffset + rotation * Vector3.right * spread, rotation * Vector3.down);
-            _groundRayRight = new Ray(position + upOffset + rotation * -Vector3.right * spread, rotation * Vector3.down);
-            _groundRayCenter = new Ray(position, rotation * Vector3.down);
+            Vector3 upOffset = playerUp;
+            float spread = playerRadius;
+            _groundRayFront = new Ray(position + upOffset + playerForward * spread, playerDown);
+            _groundRayBack = new Ray(position + upOffset + playerBack * spread, playerDown);
+            _groundRayLeft = new Ray(position + upOffset + playerLeft * spread, playerDown);
+            _groundRayRight = new Ray(position + upOffset + playerRight * spread, playerDown);
             
             bool front = Physics.Raycast(_groundRayFront, out _frontRaycastHit, rayCastDistance, environmentMask,
                 QueryTriggerInteraction.Ignore);
@@ -88,21 +96,22 @@ namespace Chc
             
             bool right = Physics.Raycast(_groundRayRight, out _rightRaycastHit, rayCastDistance, environmentMask,
                 QueryTriggerInteraction.Ignore);
-            
-            bool center = Physics.Raycast(_groundRayCenter, out _centerRaycastHit, rayCastDistance, environmentMask,
-                QueryTriggerInteraction.Ignore);
 
-            bool isGrounded = front || back || left || right;
+            bool ground = FindPlayerGround(position, playerUp, playerRadius, rayCastDistance, environmentMask,
+                out _groundPosition);
+            
+            bool isGrounded = front || back || left || right || ground;
             bool isStable = front && back && left && right;
             
             Vector3 fakeForward = (_frontRaycastHit.point - _backRaycastHit.point).normalized;
-            Vector3 fakeRight = (_leftRaycastHit.point - _rightRaycastHit.point).normalized;
+            Vector3 fakeRight = (_rightRaycastHit.point- _leftRaycastHit.point).normalized;
             Vector3 fakeUp = Vector3.Cross(fakeForward, fakeRight);
 
             if (isStable)
             {
                 _up = fakeUp;
-                _groundDistance = center ? _centerRaycastHit.distance : 0f;
+                float groundDot = Vector3.Dot((_groundPosition - position).normalized, playerUp);
+                _groundDistance = (ground && groundDot < 0f) ? Vector3.Distance(_groundPosition, position) : 0f;
             }
             
             Vector3 forward;
@@ -133,11 +142,33 @@ namespace Chc
             Vector3 futurePlayerVelocity = playerWorldRotation * playerLocalMove;
             if (isGrounded)
             {
-                futurePlayerVelocity += _up * -_groundDistance;
+                futurePlayerVelocity += (-_up * _groundDistance) / Time.fixedDeltaTime;
             }
             
             _rigidbody.rotation = playerWorldRotation;
             _rigidbody.velocity = futurePlayerVelocity;
+        }
+        
+        static bool FindPlayerGround(Vector3 position, Vector3 up, float radius, float maxDistance, int layerMask, out Vector3 groundPosition)
+        {
+            Ray ray = new Ray(position + up, -up);
+            if (!Physics.SphereCast(ray, radius, out RaycastHit raycastHit, maxDistance, layerMask,
+                    QueryTriggerInteraction.Ignore))
+            {
+                groundPosition = Vector3.zero;
+                return false;
+            }
+
+            Vector3 localPoint = raycastHit.point - ray.origin;
+            Vector3 closestPoint = ray.origin + Vector3.Project(localPoint, ray.direction);
+            groundPosition = closestPoint;
+            return true;
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.DrawWireSphere(_rigidbody.position, 0.1f);
+            Gizmos.DrawWireSphere(_groundPosition, 0.05f);
         }
     }
 }

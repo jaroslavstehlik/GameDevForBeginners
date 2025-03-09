@@ -29,7 +29,7 @@ namespace GameDevForBeginners
             float pitchDelta = mouseY * 10f * mouseSensitivity;
             
             // clamp horizon
-            cameraPitch = Mathf.Clamp(cameraPitch + pitchDelta, -90, 90);
+            cameraPitch = Mathf.Clamp(cameraPitch + pitchDelta, -89.9f, 89.9f);
             Vector3 up = Vector3.up;
             if (useTargetUpDirection)
             {
