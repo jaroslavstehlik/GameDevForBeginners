@@ -1,6 +1,6 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Chc
 {
@@ -17,17 +17,21 @@ namespace Chc
         [SerializeField] private Transform _cameraTransform;
         [SerializeField] private CapsuleCollider _collider;
         [SerializeField] private Rigidbody _rigidbody;
+        
         public LayerMask environmentMask = int.MaxValue;
         public float moveSpeed = 5f;
         public float sprintMultiplier = 2f;
         public float crouchMultiplier = 0.5f;
-
-        private Queue<PlayerInput> _playerInputQueue = new Queue<PlayerInput>();
+        [Range(0f, 1f)]
+        public float magnetism = 0.1f;
+        [Range(0f, 1f)]
+        public float stickiness = 0.1f;
+        public float levitationHeight = 0.1f;
+        
         private PlayerInput _playerInput;
         private CollisionInfo _collisionInfo;
         private Vector3 _up = Vector3.up;
         private Ray _groundRay;
-        private float _groundDistance = 0f;
         private Vector3 _groundDirection;
 
         private Ray _groundRayFront;
@@ -68,15 +72,14 @@ namespace Chc
             Quaternion rotation = _rigidbody.rotation;
             float playerRadius = _collider.radius;
             
-            Vector3 playerUp = _rigidbody.rotation * Vector3.up;
+            Vector3 playerUp = rotation * Vector3.up;
             Vector3 playerDown = -playerUp;
-            Vector3 playerForward = _rigidbody.rotation * Vector3.forward;
+            Vector3 playerForward = rotation * Vector3.forward;
             Vector3 playerBack = -playerForward;
-            Vector3 playerRight = _rigidbody.rotation * Vector3.right;
+            Vector3 playerRight = rotation * Vector3.right;
             Vector3 playerLeft = -playerRight;
             
-            float groundOffset = 0.1f;
-            float rayCastDistance = _collider.radius * 10f;
+            float rayCastDistance = playerRadius * 10f;
            
             Vector3 upOffset = playerUp;
             float spread = playerRadius;
@@ -109,9 +112,7 @@ namespace Chc
 
             if (isStable)
             {
-                _up = fakeUp;
-                float groundDot = Vector3.Dot((_groundPosition - position).normalized, playerUp);
-                _groundDistance = (ground && groundDot < 0f) ? Vector3.Distance(_groundPosition, position) : 0f;
+                _up = Vector3.Lerp(_up, fakeUp, stickiness);
             }
             
             Vector3 forward;
@@ -142,7 +143,9 @@ namespace Chc
             Vector3 futurePlayerVelocity = playerWorldRotation * playerLocalMove;
             if (isGrounded)
             {
-                futurePlayerVelocity += (-_up * _groundDistance) / Time.fixedDeltaTime;
+                Vector3 groundLevitation = (_groundPosition + playerUp * levitationHeight);
+                Vector3 groundDirection = groundLevitation - position;
+                futurePlayerVelocity += (groundDirection / Time.fixedDeltaTime) * magnetism;
             }
             
             _rigidbody.rotation = playerWorldRotation;

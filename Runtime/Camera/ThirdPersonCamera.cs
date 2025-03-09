@@ -7,6 +7,7 @@ namespace GameDevForBeginners
     {
         public Transform target;
         public Vector2 minMaxDistance = new Vector2(0.25f, 5f);
+        public Vector2 minMaxPitch = new Vector2(-89f, 89f);
         public float mouseSensitivity = 1f;
         public float mouseScrollWheelSensitivity = 1f;
         public bool flipMouseY = true;
@@ -29,7 +30,7 @@ namespace GameDevForBeginners
             float pitchDelta = mouseY * 10f * mouseSensitivity;
             
             // clamp horizon
-            cameraPitch = Mathf.Clamp(cameraPitch + pitchDelta, -89.9f, 89.9f);
+            cameraPitch = Mathf.Clamp(cameraPitch + pitchDelta, minMaxPitch.x, minMaxPitch.y);
             Vector3 up = Vector3.up;
             if (useTargetUpDirection)
             {
