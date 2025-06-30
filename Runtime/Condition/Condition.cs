@@ -6,31 +6,65 @@ using UnityEngine.Serialization;
 namespace GameDevForBeginners
 {
     [CreateAssetMenu(fileName = "Condition", menuName = "GMD/Condition/Condition", order = 1)]
-    public class Condition : ScriptableObject
+    public class Condition : ScriptableObject, ICondition
     {
         [DrawHiddenFieldsAttribute] [SerializeField]
         private bool _dummy;
 
         [SerializeField] private ConditionDescriptor conditionDescriptor;
-
         [ShowInInspectorAttribute(false)] private string _parsedResult = String.Empty;
-
         [ShowInInspectorAttribute(false)] private string _conditionResult = String.Empty;
 
-        [FormerlySerializedAs("_executeOnStateChanged")] [SerializeField] private bool _executeOnValueChanged = true;
+        [SerializeField] private bool _executeOnValueChanged = true;
         
-        [HideInInspector] public UnityEvent onTrue;
-        [HideInInspector] public UnityEvent onFalse;
-        [HideInInspector] public UnityEvent onError;
+        [HideInInspector]
+        [SerializeField]
+        private UnityEvent<IScriptableValue> _onCreate; 
+        public UnityEvent<IScriptableValue> onCreate => _onCreate;
+
+        [HideInInspector]
+        [SerializeField]
+        private UnityEvent<IScriptableValue> _onValueChanged; 
+        public UnityEvent<IScriptableValue> onValueChanged => _onValueChanged;
+        
+        [HideInInspector]
+        [SerializeField]
+        private UnityEvent<IScriptableValue> _onDestroy; 
+        public UnityEvent<IScriptableValue> onDestroy => _onDestroy;
+
+        private UnityEvent _onTrue = new UnityEvent();
+        [HideInInspector] public UnityEvent onTrue => _onTrue;
+        private UnityEvent _onFalse = new UnityEvent();
+        [HideInInspector] public UnityEvent onFalse => _onFalse;
+        private UnityEvent _onError = new UnityEvent();
+        [HideInInspector] public UnityEvent onError => _onError;
 
         private DetectInfiniteLoop _detectInfiniteLoop = new DetectInfiniteLoop();
+
+        public ScriptableValueType GetValueType()
+        {
+            return ScriptableValueType.Bool;
+        }
+        
+        public string GetValue()
+        {
+            switch (Execute(false).resultType)
+            {
+                case ContitionResultType.True:
+                    return true.ToString();
+                case ContitionResultType.False:
+                    return false.ToString();
+                    default:
+                    return "error";
+            }
+        }
 
         private void OnEnable()
         {
             if (!isPlayingOrWillChangePlaymode)
                 return;
             
-            conditionDescriptor.onConditionValueChanged?.AddListener(OnValueChanged);
+            conditionDescriptor.onValueChanged?.AddListener(OnValueChanged);
         }
 
         private void OnDisable()
@@ -38,7 +72,7 @@ namespace GameDevForBeginners
             if (!isPlayingOrWillChangePlaymode)
                 return;
             
-            conditionDescriptor.onConditionValueChanged?.RemoveListener(OnValueChanged);
+            conditionDescriptor.onValueChanged?.RemoveListener(OnValueChanged);
         }
 
         private void OnValueChanged(string value)
@@ -47,12 +81,12 @@ namespace GameDevForBeginners
                 Execute();
         }
 
-        public void AddRuntimeVariable(ScriptableValue scriptableValue)
+        public void AddRuntimeVariable(IScriptableValue scriptableValue)
         {
             conditionDescriptor.AddRuntimeVariable(scriptableValue);
         }
 
-        public void RemoveRuntimeVariable(ScriptableValue scriptableValue)
+        public void RemoveRuntimeVariable(IScriptableValue scriptableValue)
         {
             conditionDescriptor.RemoveRuntimeVariable(scriptableValue);
         }
@@ -60,12 +94,13 @@ namespace GameDevForBeginners
         public void Execute()
         {
             Execute(true);
+            _onValueChanged?.Invoke(this);
         }
         
-        private void Execute(bool invokeEvents)
+        private ConditionResult Execute(bool invokeEvents)
         {
             if (_detectInfiniteLoop.Detect(this))
-                return;
+                return new ConditionResult(ContitionResultType.Error, "Infinite loop");
 
             ConditionResult conditionResult = conditionDescriptor.TryParse();
             if (invokeEvents)
@@ -87,6 +122,7 @@ namespace GameDevForBeginners
             _parsedResult = conditionDescriptor.parsedString;
             _conditionResult = $"{conditionResult.resultType.ToString()} {conditionResult.errorMessage}";
 #endif
+            return conditionResult;
         }
 
 #if UNITY_EDITOR

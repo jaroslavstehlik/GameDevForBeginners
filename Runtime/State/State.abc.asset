@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17f75a4fb0de8417eba7455c38fa56d1, type: 3}
+  m_Name: State.abc
+  m_EditorClassIdentifier: 
+  _dummy: 0
+  _options: {fileID: 11400000, guid: 0df9a64da1c4845b0b51db1191c5faee, type: 2}
+  _defaultOption: {fileID: 6398116226808025314, guid: 0df9a64da1c4845b0b51db1191c5faee,
+    type: 2}
+  _saveKey: 
+  _onStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  _onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+  _onValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  _onDestroy:
+    m_PersistentCalls:
+      m_Calls: []

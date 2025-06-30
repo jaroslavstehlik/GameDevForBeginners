@@ -3,31 +3,40 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using B83.LogicExpressionParser;
+using UnityEngine.Serialization;
 
 namespace GameDevForBeginners
 {
     [System.Serializable]
     public struct ConditionDescriptor
     {
-        [SerializeField] private ScriptableValue[] _variables;
-        [HideInInspector] public UnityEvent<string> onConditionValueChanged;
-        private Dictionary<string, ScriptableValue> _runtimeVariables;
+        [SerializedInterface(new [] {typeof(State), typeof(StateBehaviour), typeof(Counter), typeof(CounterBehaviour)}, true)]
+        [SerializeField] private SerializedInterface<IScriptableValue>[] _variables;
+        
+        [HideInInspector] public UnityEvent<string> onValueChanged;
+        private Dictionary<string, IScriptableValue> _runtimeVariables;
         [SerializeField] private string _condition;
         private string _parsedString;
         public string parsedString => _parsedString;
 
         private void AddVariablesToRuntimeVariables()
         {
+            if(_variables == null)
+                return;
+            
             foreach (var variable in _variables)
             {
-                AddRuntimeVariable(variable);
+                AddRuntimeVariable(variable.value);
             }
         }
         
-        public bool AddRuntimeVariable(ScriptableValue scriptableValue)
+        public bool AddRuntimeVariable(IScriptableValue scriptableValue)
         {
+            if (scriptableValue == null)
+                return false;
+            
             if (_runtimeVariables == null)
-                _runtimeVariables = new Dictionary<string, ScriptableValue>();
+                _runtimeVariables = new Dictionary<string, IScriptableValue>();
             
             if (!_runtimeVariables.TryAdd(scriptableValue.name, scriptableValue))
                 return false;
@@ -37,7 +46,7 @@ namespace GameDevForBeginners
             return true;
         }
 
-        public bool RemoveRuntimeVariable(ScriptableValue scriptableValue)
+        public bool RemoveRuntimeVariable(IScriptableValue scriptableValue)
         {
             if (_runtimeVariables == null)
                 return false;
@@ -71,12 +80,12 @@ namespace GameDevForBeginners
                 logicExpression.GetResult() ? ContitionResultType.True : ContitionResultType.False, string.Empty);
         }
 
-        private void OnValueChanged(ScriptableValue scriptableValue)
+        private void OnValueChanged(IScriptableValue scriptableValue)
         {
-            onConditionValueChanged?.Invoke(scriptableValue.GetValue());
+            onValueChanged?.Invoke(scriptableValue.GetValue());
         }
 
-        private void OnDestroyed(ScriptableValue scriptableValue)
+        private void OnDestroyed(IScriptableValue scriptableValue)
         {
             RemoveRuntimeVariable(scriptableValue);
         }

@@ -6,7 +6,9 @@ namespace GameDevForBeginners
     [AddComponentMenu("GMD/Condition/ConditionListener")]
     public class ConditionListener : MonoBehaviour
     {
-        [SerializeField] private Condition condition;
+        [SerializedInterface(new [] {typeof(Condition), typeof(ConditionBehaviour)}, true)]
+        [SerializeField] private SerializedInterface<ICondition> _condition;
+
         [SerializeField] private bool _executeOnEnable = true;
 
         public UnityEvent onTrue;
@@ -15,18 +17,24 @@ namespace GameDevForBeginners
 
         private void OnEnable()
         {
-            condition.onTrue.AddListener(OnTrue);
-            condition.onFalse.AddListener(OnFalse);
-            condition.onError.AddListener(OnError);
-            if (_executeOnEnable)
-                condition.Execute();
+            if (_condition.value != null)
+            {
+                _condition.value.onTrue.AddListener(OnTrue);
+                _condition.value.onFalse.AddListener(OnFalse);
+                _condition.value.onError.AddListener(OnError);
+                if (_executeOnEnable)
+                    _condition.value.Execute();
+            }
         }
 
         private void OnDisable()
         {
-            condition.onTrue.RemoveListener(OnTrue);
-            condition.onFalse.RemoveListener(OnFalse);
-            condition.onError.RemoveListener(OnError);
+            if (_condition.value != null)
+            {
+                _condition.value.onTrue.RemoveListener(OnTrue);
+                _condition.value.onFalse.RemoveListener(OnFalse);
+                _condition.value.onError.RemoveListener(OnError);
+            }
         }
 
         void OnTrue()

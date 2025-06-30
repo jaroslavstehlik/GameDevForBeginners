@@ -31,33 +31,36 @@ namespace GameDevForBeginners
         }
 
         private List<string> _cachedCondition;
-        private Dictionary<string, ScriptableValue> _variables;
+        private Dictionary<string, IScriptableValue> _variables;
 
-        public ConditionDescriptorCache(string condition, Dictionary<string, ScriptableValue> variables)
+        public ConditionDescriptorCache(string condition, Dictionary<string, IScriptableValue> variables)
         {
             _cachedCondition = new List<string>();
             _variables = variables;
 
             string buffer = string.Empty;
             string variableBuffer = string.Empty;
-            for (int i = 0; i < condition.Length; i++)
+            if (!string.IsNullOrEmpty(condition))
             {
-                if (GetOperatorIndex(condition[i]) == -1)
+                for (int i = 0; i < condition.Length; i++)
                 {
-                    variableBuffer += condition[i];
-                    if (buffer != string.Empty)
+                    if (GetOperatorIndex(condition[i]) == -1)
                     {
-                        _cachedCondition.Add(buffer);
-                        buffer = string.Empty;
+                        variableBuffer += condition[i];
+                        if (buffer != string.Empty)
+                        {
+                            _cachedCondition.Add(buffer);
+                            buffer = string.Empty;
+                        }
                     }
-                }
-                else
-                {
-                    buffer += condition[i];
-                    if (variableBuffer != string.Empty)
+                    else
                     {
-                        _cachedCondition.Add(variableBuffer);
-                        variableBuffer = string.Empty;
+                        buffer += condition[i];
+                        if (variableBuffer != string.Empty)
+                        {
+                            _cachedCondition.Add(variableBuffer);
+                            variableBuffer = string.Empty;
+                        }
                     }
                 }
             }
@@ -77,7 +80,7 @@ namespace GameDevForBeginners
 
             foreach (var variable in _cachedCondition)
             {
-                if (_variables.TryGetValue(variable, out ScriptableValue scriptableValue) && scriptableValue != null)
+                if (_variables.TryGetValue(variable, out IScriptableValue scriptableValue) && scriptableValue != null)
                 {
                     replacedString += scriptableValue.GetValue();
                 }

@@ -2,7 +2,7 @@ using UnityEngine.Events;
 
 namespace GameDevForBeginners
 {
-    public interface ICountable
+    public interface ICountable : IScriptableValue
     {
         public string name { get; }
         public float defaultCount { get; }

@@ -6,19 +6,21 @@ namespace GameDevForBeginners
     [AddComponentMenu("GMD/Counter/CounterListener")]
     public class CounterListener : MonoBehaviour
     {
-        [SerializeField] private Counter _counter;
+        [SerializedInterface(new [] {typeof(Counter), typeof(CounterBehaviour)}, true)]
+        [SerializeField] private SerializedInterface<ICountable> _counter;
+
         [SerializeField] private bool _activateOnEnable = true;
         public UnityEvent<float> onCountChanged;
 
         private void OnEnable()
         {
-            if(_counter == null)
+            if(_counter.value == null)
                 return;
             
-            _counter.onCountChanged?.AddListener(OnCountChanged);
-            _counter.onDestroy?.AddListener(OnCounterDestroyed);
+            _counter.value.onCountChanged?.AddListener(OnCountChanged);
+            _counter.value.onDestroy?.AddListener(OnCounterDestroyed);
             if (_activateOnEnable)
-                OnCountChanged(_counter.count);
+                OnCountChanged(_counter.value.count);
         }
 
         private void OnDisable()
@@ -26,31 +28,31 @@ namespace GameDevForBeginners
             if(_counter == null)
                 return;
 
-            _counter.onCountChanged?.RemoveListener(OnCountChanged);
-            _counter.onDestroy?.RemoveListener(OnCounterDestroyed);
+            _counter.value.onCountChanged?.RemoveListener(OnCountChanged);
+            _counter.value.onDestroy?.RemoveListener(OnCounterDestroyed);
         }
 
-        public Counter counter
+        public ICountable counter
         {
             get
             {
-                return _counter;
+                return _counter.value;
             }
             set
             {
-                if (_counter != null)
+                if (_counter.value != null)
                 {
-                    _counter.onCountChanged?.RemoveListener(OnCountChanged);
-                    _counter.onDestroy?.RemoveListener(OnCounterDestroyed);
+                    _counter.value.onCountChanged?.RemoveListener(OnCountChanged);
+                    _counter.value.onDestroy?.RemoveListener(OnCounterDestroyed);
                 }
 
-                _counter = value;
+                _counter.value = value;
 
                 if (isActiveAndEnabled && _counter != null)
                 {
-                    _counter.onCountChanged?.AddListener(OnCountChanged);
-                    _counter.onDestroy?.AddListener(OnCounterDestroyed);
-                    OnCountChanged(_counter.count);
+                    _counter.value.onCountChanged?.AddListener(OnCountChanged);
+                    _counter.value.onDestroy?.AddListener(OnCounterDestroyed);
+                    OnCountChanged(_counter.value.count);
                 }
             }
         }
@@ -60,7 +62,7 @@ namespace GameDevForBeginners
             onCountChanged?.Invoke(count);
         }
 
-        private void OnCounterDestroyed(ScriptableValue scriptableValue)
+        private void OnCounterDestroyed(IScriptableValue scriptableValue)
         {
             Counter destroyedCounter = scriptableValue as Counter;
             if(destroyedCounter == null)
@@ -69,7 +71,7 @@ namespace GameDevForBeginners
             destroyedCounter.onCountChanged?.RemoveListener(OnCountChanged);
             destroyedCounter.onDestroy?.RemoveListener(OnCounterDestroyed);
 
-            if (_counter == destroyedCounter)
+            if (_counter.value == destroyedCounter)
             {
                 _counter = null;
             }

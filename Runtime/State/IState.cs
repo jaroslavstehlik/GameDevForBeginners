@@ -2,16 +2,15 @@ using UnityEngine.Events;
 
 namespace GameDevForBeginners
 {
-    public interface IState
+    public interface IState : IScriptableValue
     {
         public string name { get; }
-        public string[] states { get; }
-        public string defaultState { get; }
-        public UnityEvent<string> onStateChanged { get; }
-        public string lastState { get; }
-        public string activeState { get; set; }
-        public string GetActiveState();
-        public void SetActiveState(string stateName);
+        public Options options { get; }
+        public Option defaultOption { get; }
+        public UnityEvent<Option> onStateChanged { get; }
+        public UnityEvent<IScriptableValue> onDestroy { get; }
+        public Option lastActiveOption { get; }
+        public Option activeOption { get; set; }
         public void Reset();
     }
 }

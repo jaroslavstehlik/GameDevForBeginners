@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor;
@@ -9,7 +8,7 @@ public class HiddenDrawer : PropertyDrawer {
 
     public override void OnGUI ( Rect position, SerializedProperty property, GUIContent label ) {
         var fieldsToDraw = GetDrawnFields( property );
-
+        
         var obj = property.serializedObject.targetObject;
         position.height = EditorGUIUtility.singleLineHeight;
         
@@ -22,10 +21,16 @@ public class HiddenDrawer : PropertyDrawer {
             EditorGUI.BeginDisabledGroup(!editable);
             var fieldName = ObjectNames.NicifyVariableName( fieldInfo.Name );
             var fieldLabel = new GUIContent( fieldName );
-
+            
             var fieldValue = f.Item1.GetValue( obj );
-
-            if( fieldType == typeof( float ) ) {
+            if (fieldType.BaseType == typeof( ScriptableObject ) ) {
+                var val = (ScriptableObject)fieldValue;
+                EditorGUI.BeginChangeCheck();
+                val = EditorGUI.ObjectField( position, fieldLabel, val, typeof(ScriptableObject), false ) as ScriptableObject;
+                if( EditorGUI.EndChangeCheck() ) {
+                    fieldInfo.SetValue( obj, val );
+                }
+            } else if( fieldType == typeof( float ) ) {
                 var val = (float)fieldValue;
                 EditorGUI.BeginChangeCheck();
                 val = EditorGUI.FloatField( position, fieldLabel, val );
@@ -54,6 +59,7 @@ public class HiddenDrawer : PropertyDrawer {
                     fieldInfo.SetValue( obj, val );
                 }
             }
+            
             position.y += EditorGUIUtility.singleLineHeight + 2;
             EditorGUI.EndDisabledGroup();
         }
@@ -68,19 +74,19 @@ public class HiddenDrawer : PropertyDrawer {
     private static List<(FieldInfo, bool)> GetDrawnFields ( SerializedProperty property ) {
         
         var targetType = property.serializedObject.targetObject.GetType();
-        Type[] types;
+        System.Type[] types;
         if (targetType != targetType.BaseType)
         {
-            types = new Type[]{targetType, targetType.BaseType};
+            types = new System.Type[]{targetType, targetType.BaseType};
         }
         else
         {
-            types = new Type[]{targetType};
+            types = new System.Type[]{targetType};
         }
         
         var fieldsToDraw = new List<(FieldInfo, bool)>();
         
-        foreach (Type type in types)
+        foreach (System.Type type in types)
         {
             var fields = type.GetFields(BindingFlags.Instance | BindingFlags.NonPublic);
 

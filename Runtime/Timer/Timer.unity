@@ -177,12 +177,17 @@ PrefabInstance:
     - target: {fileID: 2273802396968771005, guid: 3853a8bd97fc746a8ad7d7cb18006680,
         type: 3}
       propertyPath: cycles
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2273802396968771005, guid: 3853a8bd97fc746a8ad7d7cb18006680,
         type: 3}
       propertyPath: duration
-      value: 0.01
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2273802396968771005, guid: 3853a8bd97fc746a8ad7d7cb18006680,
+        type: 3}
+      propertyPath: infiniteCycles
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2273802396968771005, guid: 3853a8bd97fc746a8ad7d7cb18006680,
         type: 3}

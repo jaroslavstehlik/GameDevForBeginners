@@ -19,7 +19,7 @@ namespace GameDevForBeginners
 // Scriptable object can be stored only in project
 // it can be referenced in scene
 // it is used mostly for holding game data
-    public class Counter : ScriptableValue, ICountable
+    public class Counter : ScriptableObject, ICountable
     {
         [DrawHiddenFieldsAttribute] [SerializeField]
         private bool _dummy;
@@ -38,21 +38,26 @@ namespace GameDevForBeginners
         [HideInInspector] [SerializeField] private UnityEvent<float> _onCountChanged;
         public UnityEvent<float> onCountChanged => _onCountChanged;
         
+        [HideInInspector]
+        [SerializeField]
+        private UnityEvent<IScriptableValue> _onCreate; 
+        public UnityEvent<IScriptableValue> onCreate => _onCreate;
+
+        [HideInInspector]
+        [SerializeField]
+        private UnityEvent<IScriptableValue> _onValueChanged; 
+        public UnityEvent<IScriptableValue> onValueChanged => _onValueChanged;
+        
+        [HideInInspector]
+        [SerializeField]
+        private UnityEvent<IScriptableValue> _onDestroy; 
+        public UnityEvent<IScriptableValue> onDestroy => _onDestroy;
+
         private DetectInfiniteLoop _detectInfiniteLoop = new DetectInfiniteLoop();
 
-        public static Counter CreateCounter(CounterDescriptor counterDescriptor)
+        void Awake()
         {
-            Counter counter = CreateInstance<Counter>();
-            counter._onCountChanged = new UnityEvent<float>();
-            counter._onValueChanged = new UnityEvent<ScriptableValue>();
-            counter._onDestroy = new UnityEvent<ScriptableValue>();
-            counter._defaultCount = counterDescriptor.defaultCount;
-            counter._count = counterDescriptor.defaultCount;
-            counter._wholeNumber = counterDescriptor.wholeNumber;
-            counter._saveKey = counterDescriptor.saveKey;
-            counter.name = counterDescriptor.name;
-            counter.OnEnable();
-            return counter;
+            _onCreate?.Invoke(this);
         }
         
         private void OnEnable()
@@ -76,6 +81,11 @@ namespace GameDevForBeginners
             count = _defaultCount;
         }
 
+        private void OnDestroy()
+        {
+            _onDestroy?.Invoke(this);
+        }
+
 #if UNITY_EDITOR
         public void OnValidate()
         {
@@ -87,12 +97,12 @@ namespace GameDevForBeginners
         }
 #endif
 
-        public override ScriptableValueType GetValueType()
+        public ScriptableValueType GetValueType()
         {
-            return ScriptableValueType.Counter;
+            return ScriptableValueType.Number;
         }
 
-        public override string GetValue()
+        public string GetValue()
         {
             return count.ToString();
         }

@@ -17,6 +17,7 @@ namespace GameDevForBeginners
 
         public void Spawn()
         {
+            Debug.Log("Spawn");
             // Clone the game object and store it in local variable
             GameObject spawnedGameObject = Instantiate(spawnGameObject);
 

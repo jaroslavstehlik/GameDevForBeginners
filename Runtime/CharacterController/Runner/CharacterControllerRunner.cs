@@ -1,6 +1,5 @@
-using System.Collections.Generic;
+using GameDevForBeginners;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Chc
 {
@@ -71,6 +70,8 @@ namespace Chc
             Vector3 position = _rigidbody.position;
             Quaternion rotation = _rigidbody.rotation;
             float playerRadius = _collider.radius;
+            
+            //Draw.Plane("myPlane", ConsumeType.FixedUpdate, position, rotation, Vector3.one);
             
             Vector3 playerUp = rotation * Vector3.up;
             Vector3 playerDown = -playerUp;

@@ -1,6 +1,6 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 namespace GameDevForBeginners
 {
@@ -14,65 +14,67 @@ namespace GameDevForBeginners
             True = 1
         }
 
-        [FormerlySerializedAs("state")] [SerializeField] private State _state;
-        [StateAttribute] [SerializeField] private string _targetState;
+        [SerializedInterface(new [] {typeof(State), typeof(StateBehaviour)}, true)]
+        [SerializeField] private SerializedInterface<IState> _state;
+        
+        [StateAttribute(nameof(_state))] [SerializeField] private Option _targetOption;
         [SerializeField] private bool _activateOnEnable = true;
 
         public UnityEvent onStateActivate;
         public UnityEvent onStateDeactivate;
-        public UnityEvent<string> onStateChanged;
+        public UnityEvent<Option> onStateChanged;
 
         private StateActive _isActive = StateActive.NotInitialized;
 
         private void OnEnable()
         {
-            if(_state == null)
+            if(_state.value == null)
                 return;
 
-            _state.onStateChanged?.AddListener(OnStateChanged);
-            _state.onDestroy?.AddListener(OnStateDestroyed);
+            _state.value.onStateChanged?.AddListener(OnStateChanged);
+            _state.value.onDestroy?.AddListener(OnStateDestroyed);
             if (_activateOnEnable)
-                OnStateChanged(_state.activeState);
+                OnStateChanged(_state.value.activeOption);
         }
 
         private void OnDisable()
         {
-            if(_state == null)
+            if(_state.value == null)
                 return;
 
-            _state.onStateChanged?.RemoveListener(OnStateChanged);
-            _state.onDestroy?.RemoveListener(OnStateDestroyed);
+            _state.value.onStateChanged?.RemoveListener(OnStateChanged);
+            _state.value.onDestroy?.RemoveListener(OnStateDestroyed);
         }
 
-        public State state
+        public IState state
         {
             get
             {
-                return _state;
+                return _state.value;
             }
             set
             {
-                if (_state != null)
+                if (_state.value != null)
                 {
-                    _state.onStateChanged?.RemoveListener(OnStateChanged);
-                    _state.onDestroy?.RemoveListener(OnStateDestroyed);
+                    _state.value.onStateChanged?.RemoveListener(OnStateChanged);
+                    _state.value.onDestroy?.RemoveListener(OnStateDestroyed);
                 }
 
-                _state = value;
+                _state.value = value;
 
-                if (isActiveAndEnabled && _state != null)
+                if (isActiveAndEnabled && _state.value != null)
                 {
-                    _state.onStateChanged?.AddListener(OnStateChanged);
-                    _state.onDestroy?.AddListener(OnStateDestroyed);
-                    OnStateChanged(_state.activeState);
+                    _state.value.onStateChanged?.AddListener(OnStateChanged);
+                    _state.value.onDestroy?.AddListener(OnStateDestroyed);
+                    OnStateChanged(_state.value.activeOption);
                 }
             }
         }
 
-        void OnStateChanged(string stateName)
+        void OnStateChanged(Option option)
         {
-            SetActive(_targetState == stateName);
-            onStateChanged?.Invoke(stateName);
+            SetActive(_targetOption == option);
+            onStateChanged?.Invoke(option);
         }
 
         void SetActive(bool active)
@@ -90,18 +92,18 @@ namespace GameDevForBeginners
 
             onStateActivate?.Invoke();
         }
-        private void OnStateDestroyed(ScriptableValue scriptableValue)
+        private void OnStateDestroyed(IScriptableValue scriptableValue)
         {
-            State destroyedState = scriptableValue as State;
+            IState destroyedState = scriptableValue as IState;
             if(destroyedState == null)
                 return;
             
             destroyedState.onStateChanged?.RemoveListener(OnStateChanged);
             destroyedState.onDestroy?.RemoveListener(OnStateDestroyed);
 
-            if (_state == destroyedState)
+            if (_state.value == destroyedState)
             {
-                _state = null;
+                _state.value = null;
             }
         }
     }

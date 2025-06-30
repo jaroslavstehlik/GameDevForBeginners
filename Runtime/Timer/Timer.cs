@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -30,19 +31,89 @@ namespace GameDevForBeginners
         // Duration of timer
         public float duration = 1f;
 
-        // Define coroutine so we can later stop it
-        private IEnumerator _coroutine;
-
         // Keep track of the current timer cycle
         [ShowInInspectorAttribute(false)] private int _currentCycle = 0;
 
         // Monobehaviour calls this method when component is enabled in scene
         void OnEnable()
         {
-            // Reset cycles
-            _currentCycle = 0;
-
             StartTimer();
+        }
+
+        void AdvanceTime()
+        {
+            _elapsedTime += Time.unscaledDeltaTime;
+            if (onTimerProgress != null)
+            {
+                onTimerProgress?.Invoke(_elapsedTime);
+            }
+        }
+        
+        private void Update()
+        {
+            if (infiniteCycles)
+            {
+                if (_elapsedTime < duration)
+                {
+                    AdvanceTime();
+                }
+                else
+                {
+                    // Reset timer
+                    _elapsedTime = 0f;
+                    
+                    // Check if anyone listens to our event
+                    if (onTimerCycleFinished != null)
+                    {
+                        // Invoke event
+                        onTimerCycleFinished.Invoke(_currentCycle);
+                    }
+                
+                    // Check if anyone listens to our event
+                    if (onTimerFinished != null)
+                    {
+                        // Invoke event
+                        onTimerFinished.Invoke();
+                    }   
+                }
+            } else if(_currentCycle > 0)
+            {
+                if (_elapsedTime < duration)
+                {
+                    AdvanceTime();
+                }
+                else
+                {
+                    // Reset timer
+                    _elapsedTime = 0f;
+                    
+                    // decrement currentCycle by 1
+                    _currentCycle--;
+
+                    // Check if anyone listens to our event
+                    if (onTimerCycleFinished != null)
+                    {
+                        // Invoke event
+                        onTimerCycleFinished.Invoke(_currentCycle);
+                    }
+
+                    if (_currentCycle <= 0)
+                    {
+                        // Check if anyone listens to our event
+                        if (onTimerFinished != null)
+                        {
+                            // Invoke event
+                            onTimerFinished.Invoke();
+                        }
+
+                        StopTimer();
+                    }
+                }
+            }
+            else
+            {
+                StopTimer();
+            }
         }
 
         // Monobehaviour calls this method when component is disabled in scene
@@ -53,71 +124,16 @@ namespace GameDevForBeginners
 
         public void StartTimer()
         {
-            _currentCycle = 0;
+            _currentCycle = cycles;
             _elapsedTime = 0f;
-            
-            // Store coroutine in to variable
-            _coroutine = TimerCoroutine();
-
-            // Start coroutine
-            StartCoroutine(_coroutine);
+            enabled = true;
         }
 
         public void StopTimer()
         {
-            _currentCycle = 0;
+            _currentCycle = cycles;
             _elapsedTime = 0f;
-            
-            // Stop coroutine
-            StopCoroutine(_coroutine);
-
-            // Clear variable
-            _coroutine = null;
-        }
-
-        // The coroutine returns IEnumerator which tells Unity when to stop
-        IEnumerator TimerCoroutine()
-        {
-            // We will execute the body of this cycle until the condition is true
-            while (infiniteCycles || _currentCycle < cycles)
-            {
-                // We use yield to run this function across multiple frames
-                while (_elapsedTime < duration)
-                {
-                    _elapsedTime += Time.unscaledDeltaTime;
-                    if (onTimerProgress != null)
-                    {
-                        onTimerProgress?.Invoke(_elapsedTime);   
-                    }
-                    yield return null;
-                }
-
-                // increment currentCycle by 1
-                _currentCycle++;
-
-                // reset elapsed time
-                _elapsedTime = 0f;
-
-                // Check if anyone listens to our event
-                if (onTimerCycleFinished != null)
-                {
-                    // Invoke event
-                    onTimerCycleFinished.Invoke(_currentCycle);
-                }
-                
-                if (_currentCycle == cycles)
-                {
-                    // reset cycles
-                    _currentCycle = 0;
-                    
-                    // Check if anyone listens to our event
-                    if (onTimerFinished != null)
-                    {
-                        // Invoke event
-                        onTimerFinished.Invoke();
-                    }
-                }
-            }
+            enabled = false;
         }
     }
 }

@@ -1,9 +1,14 @@
 using UnityEngine;
 
-public class StateAttribute : PropertyAttribute
+namespace GameDevForBeginners
 {
-    public StateAttribute()
+    public class StateAttribute : PropertyAttribute
     {
-        
+        public string fieldName;
+
+        public StateAttribute(string fieldName)
+        {
+            this.fieldName = fieldName;
+        }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,113 +10,116 @@ namespace GameDevForBeginners
     {
         [DrawHiddenFieldsAttribute] [SerializeField]
         private bool _dummy;
-
-        [SerializeField] private StateDescriptor _stateDescriptor = new StateDescriptor()
-        {
-            name = string.Empty,
-            defaultState = "default",
-            states = new string[]{"default"},
-            saveKey = string.Empty
-        };
-
-        [SerializeField] private UnityEvent<State> _onStateCreated;
-        public UnityEvent<State> onStateCreated => _onStateCreated;
         
-        [SerializeField] private UnityEvent<string> _onStateChanged;
-        public UnityEvent<string> onStateChanged => _onStateChanged;
+        [ShowInInspectorAttribute(false)] private Option _activeOption;
+        
+        [SerializeField] private string _name;
+        public string name => _name;
+        
+        [SerializeField] private Options _options;
+        [OptionAttribute(nameof(_options))]
+        [SerializeField] private Option _defaultOption;
+        [SerializeField] private string _saveKey;
+        
+        [HideInInspector]
+        [SerializeField] private UnityEvent<Option> _onStateChanged;
+        public UnityEvent<Option> onStateChanged => _onStateChanged;
+        
+        private Option _lastOption;
+        public Option lastActiveOption => _lastOption;
 
-        public string[] states
-        {
-            get
-            {
-                if (_state == null)
-                    return Array.Empty<string>();
+        private DetectInfiniteLoop _detectInfiniteLoop = new DetectInfiniteLoop();
+        public Options options => _options;
+        public Option defaultOption => _defaultOption;
+        
+        [Space]
+        [SerializeField]
+        private UnityEvent<IScriptableValue> _onCreate; 
+        public UnityEvent<IScriptableValue> onCreate => _onCreate;
 
-                return _state.states;
-            }
-        }
-
-        public string defaultState
-        {
-            get
-            {
-                if (_state == null)
-                    return string.Empty;
-
-                return _state.defaultState;
-            }
-        }
-
-        public string lastState
-        {
-            get
-            {
-                if (_state == null)
-                    return string.Empty;
-
-                return _state.lastState;
-            }
-        }
-
-        private State _state;
-        public State state => _state;
-
-        private State GetOrCreateState()
-        {
-            if (_state == null)
-            {
-                _state = State.CreateState(_stateDescriptor);
-                _onStateCreated?.Invoke(_state);
-            }
-
-            return _state;
-        }
+        [HideInInspector]
+        [SerializeField]
+        private UnityEvent<IScriptableValue> _onValueChanged; 
+        public UnityEvent<IScriptableValue> onValueChanged => _onValueChanged;
+        
+        [SerializeField]
+        private UnityEvent<IScriptableValue> _onDestroy; 
+        public UnityEvent<IScriptableValue> onDestroy => _onDestroy;
 
         private void Awake()
         {
-            _ = GetOrCreateState();
+            _onCreate?.Invoke(this);
         }
 
-        private void OnDestroy()
+        private void OnEnable()
         {
-            Destroy(_state);
-            _state = null;
+            State.OnEnable(this, _saveKey);
         }
 
-        public string activeState
+        private void OnDisable()
+        {
+            State.OnDisable(this);
+        }
+        
+        #if UNITY_EDITOR
+        private void OnValidate()
+        {
+            State.OnValidate(this);
+        }
+        #endif
+        
+        public ScriptableValueType GetValueType()
+        {
+            return ScriptableValueType.String;
+        }
+
+        public string GetValue()
+        {
+            if (activeOption == null) 
+                return string.Empty;
+            return activeOption.name.ToString();
+        }
+
+        public Option activeOption
         {
             get
             {
-                if (_state == null)
-                    return string.Empty;
-
-                return _state.activeState;
+                return _activeOption;
             }
             set
             {
-                if (_state == null)
+                if (_options == null)
                     return;
 
-                _state.activeState = value;
+                if (!_options.options.Contains(value))
+                {
+                    Debug.LogError($"Option: {value.name} is invalid! It must be present in: {_options.name}");
+                    return;
+                }
+                
+                if (_activeOption == value)
+                    return;
+
+                _lastOption = _activeOption;
+                _activeOption = value;
+                
+                if (!State.isPlayingOrWillChangePlaymode)
+                    return;
+
+                if (!string.IsNullOrEmpty(_saveKey))
+                    PlayerPrefs.SetString(_saveKey, _activeOption.name);
+
+                if (!_detectInfiniteLoop.Detect(this))
+                {
+                    _onValueChanged?.Invoke(this);
+                    _onStateChanged?.Invoke(_activeOption);
+                }
             }
         }
         
-        public string GetActiveState()
-        {
-            return activeState;
-        }
-
-        public void SetActiveState(string stateName)
-        {
-            activeState = stateName;
-        }
-
         public void Reset()
         {
-            if(_state == null)
-                return;
-            
-            activeState = _state.defaultState;
+            activeOption = defaultOption;
         }
     }
 }
