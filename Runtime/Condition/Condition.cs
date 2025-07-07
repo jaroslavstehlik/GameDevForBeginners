@@ -64,7 +64,7 @@ namespace GameDevForBeginners
             if (!isPlayingOrWillChangePlaymode)
                 return;
             
-            conditionDescriptor.onValueChanged?.AddListener(OnValueChanged);
+            conditionDescriptor.onValueChanged += OnValueChanged;
         }
 
         private void OnDisable()
@@ -72,7 +72,7 @@ namespace GameDevForBeginners
             if (!isPlayingOrWillChangePlaymode)
                 return;
             
-            conditionDescriptor.onValueChanged?.RemoveListener(OnValueChanged);
+            conditionDescriptor.onValueChanged -= OnValueChanged;
         }
 
         private void OnValueChanged(string value)
@@ -128,7 +128,8 @@ namespace GameDevForBeginners
 #if UNITY_EDITOR
         public void OnValidate()
         {
-            Execute(false);
+            if(!isPlayingOrWillChangePlaymode)
+                Execute(false);
         }
 #endif
 

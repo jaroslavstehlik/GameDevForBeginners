@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1959474365548682497}
   - component: {fileID: 4589062077741193973}
-  - component: {fileID: 1546968825777574084}
+  - component: {fileID: 4060166202289412148}
   m_Layer: 8
-  m_Name: CounterTrigger
+  m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 2800000, guid: 6f2047d6271d14585b6e27bbd4fc435b, type: 3}
   m_NavMeshLayer: 0
@@ -47,7 +47,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0.5, z: 0}
---- !u!114 &1546968825777574084
+--- !u!114 &4060166202289412148
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -56,7 +56,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6090455471401057540}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b741e10d7a784071900bbf772cb8324, type: 3}
+  m_Script: {fileID: 11500000, guid: 2b215c96d01e84af0a846a2432209da3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   onTriggerEnter:
@@ -65,7 +65,6 @@ MonoBehaviour:
   onTriggerExit:
     m_PersistentCalls:
       m_Calls: []
-  minObjectsCount: 1
 --- !u!1 &8360080078295395973
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 namespace GameDevForBeginners
 {
@@ -13,7 +10,6 @@ namespace GameDevForBeginners
         public string name;
         public Option defaultOption;
         public Options options;
-        public string saveKey;
     }
     
     [CreateAssetMenu(fileName = "State", menuName = "GMD/State/State", order = 1)]
@@ -22,6 +18,7 @@ namespace GameDevForBeginners
         [DrawHiddenFieldsAttribute] [SerializeField]
         private bool _dummy;
 
+        private bool _inited = false;
         [ShowInInspectorAttribute(false)] private Option _activeOption;
 
         [SerializeField] private Options _options;
@@ -31,9 +28,8 @@ namespace GameDevForBeginners
         [SerializeField] private Option _defaultOption = null;
         public Option defaultOption => _defaultOption;
         
-        // The key to our state, it has to be unique per whole game.
-        [SerializeField] private string _saveKey = string.Empty;
-        [HideInInspector] [SerializeField] private UnityEvent<Option> _onStateChanged;
+        [HideInInspector] 
+        [SerializeField] private UnityEvent<Option> _onStateChanged = new UnityEvent<Option>();
         public UnityEvent<Option> onStateChanged => _onStateChanged;
 
         private Option _lastOption;
@@ -42,71 +38,47 @@ namespace GameDevForBeginners
         [Space]
         [HideInInspector]
         [SerializeField]
-        private UnityEvent<IScriptableValue> _onCreate; 
+        private UnityEvent<IScriptableValue> _onCreate = new UnityEvent<IScriptableValue>(); 
         public UnityEvent<IScriptableValue> onCreate => _onCreate;
 
         [HideInInspector]
         [SerializeField]
-        private UnityEvent<IScriptableValue> _onValueChanged; 
+        private UnityEvent<IScriptableValue> _onValueChanged = new UnityEvent<IScriptableValue>(); 
         public UnityEvent<IScriptableValue> onValueChanged => _onValueChanged;
         
         [HideInInspector]
         [SerializeField]
-        private UnityEvent<IScriptableValue> _onDestroy; 
+        private UnityEvent<IScriptableValue> _onDestroy = new UnityEvent<IScriptableValue>(); 
         public UnityEvent<IScriptableValue> onDestroy => _onDestroy;
 
         private DetectInfiniteLoop _detectInfiniteLoop = new DetectInfiniteLoop();
 
-        public static void OnEnable(IState state, string saveKey)
-        {
-            if (isPlayingOrWillChangePlaymode &&
-                !string.IsNullOrEmpty(saveKey) &&
-                PlayerPrefs.HasKey(saveKey))
-            {
-                string optionName = PlayerPrefs.GetString(saveKey);
-                foreach (var option in state.options.options)
-                {
-                    if (optionName == option.name)
-                    {
-                        state.activeOption = option;
-                        break;
-                    }
-                }
-                state.activeOption = null;
-            }
-            else
-            {
-                state.activeOption = state.defaultOption;
-            }
-        }
-
-        public static void OnDisable(IState state)
-        {
-            state.activeOption = state.defaultOption;
-        }
-        
-
         public static void OnValidate(IState state)
         {
             if (!isPlayingOrWillChangePlaymode)
-            {
                 state.activeOption = state.defaultOption;
-            }
+        }
+
+        void Init(bool force = false)
+        {
+            if(_inited && !force)
+                return;
+
+            _activeOption = _defaultOption;
+            _inited = true;
         }
 
         private void Awake()
         {
+            Init();
             _onCreate?.Invoke(this);
         }
 
+        // For scriptable objects only!
+        // Lifetime of SO is longer than scene objects! 
         private void OnEnable()
         {
-            OnEnable(this, _saveKey);
-        }
-
-        private void OnDisable()
-        {
-            OnDisable(this);
+            Init(true);
         }
 
         private void OnDestroy()
@@ -134,19 +106,14 @@ namespace GameDevForBeginners
 
         public Option activeOption
         {
-#if UNITY_EDITOR
             get
             {
-                if (isPlayingOrWillChangePlaymode)
-                    return _activeOption;
-
-                return _defaultOption;
+                Init();
+                return _activeOption;
             }
-#else
-        get => _activeState;
-#endif
             set
             {
+                Init();
                 if (_options == null)
                     return;
 
@@ -164,9 +131,6 @@ namespace GameDevForBeginners
 
                 if (!isPlayingOrWillChangePlaymode)
                     return;
-
-                if (!string.IsNullOrEmpty(_saveKey))
-                    PlayerPrefs.SetString(_saveKey, _activeOption.name);
 
                 if (!_detectInfiniteLoop.Detect(this))
                 {

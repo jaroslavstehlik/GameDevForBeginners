@@ -11,6 +11,7 @@ namespace GameDevForBeginners
         [DrawHiddenFieldsAttribute] [SerializeField]
         private bool _dummy;
         
+        private bool _inited = false;
         [ShowInInspectorAttribute(false)] private Option _activeOption;
         
         [SerializeField] private string _name;
@@ -19,7 +20,6 @@ namespace GameDevForBeginners
         [SerializeField] private Options _options;
         [OptionAttribute(nameof(_options))]
         [SerializeField] private Option _defaultOption;
-        [SerializeField] private string _saveKey;
         
         [HideInInspector]
         [SerializeField] private UnityEvent<Option> _onStateChanged;
@@ -46,21 +46,21 @@ namespace GameDevForBeginners
         private UnityEvent<IScriptableValue> _onDestroy; 
         public UnityEvent<IScriptableValue> onDestroy => _onDestroy;
 
+        void Init()
+        {
+            if(_inited)
+                return;
+
+            _activeOption = _defaultOption;
+            _inited = true;
+        }
+
         private void Awake()
         {
+            Init();
             _onCreate?.Invoke(this);
         }
 
-        private void OnEnable()
-        {
-            State.OnEnable(this, _saveKey);
-        }
-
-        private void OnDisable()
-        {
-            State.OnDisable(this);
-        }
-        
         #if UNITY_EDITOR
         private void OnValidate()
         {
@@ -84,10 +84,12 @@ namespace GameDevForBeginners
         {
             get
             {
+                Init();
                 return _activeOption;
             }
             set
             {
+                Init();
                 if (_options == null)
                     return;
 
@@ -105,9 +107,6 @@ namespace GameDevForBeginners
                 
                 if (!State.isPlayingOrWillChangePlaymode)
                     return;
-
-                if (!string.IsNullOrEmpty(_saveKey))
-                    PlayerPrefs.SetString(_saveKey, _activeOption.name);
 
                 if (!_detectInfiniteLoop.Detect(this))
                 {

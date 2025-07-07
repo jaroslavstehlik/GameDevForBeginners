@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,7 +10,6 @@ namespace GameDevForBeginners
         public string name;
         public float defaultCount;
         public bool wholeNumber;
-        public string saveKey;
     }
     
 // This field tells UnityEditor to create an asset menu
@@ -24,6 +24,7 @@ namespace GameDevForBeginners
         [DrawHiddenFieldsAttribute] [SerializeField]
         private bool _dummy;
 
+        private bool _inited = false;
         [ShowInInspectorAttribute(false)] private float _count = 0;
 
         [SerializeField] private float _defaultCount = 0;
@@ -31,9 +32,6 @@ namespace GameDevForBeginners
 
         [SerializeField] private bool _wholeNumber = true;
         public bool wholeNumber => _wholeNumber;
-
-        // The key to our counter, it has to be unique per whole game.
-        [SerializeField] private string _saveKey = string.Empty;
 
         [HideInInspector] [SerializeField] private UnityEvent<float> _onCountChanged;
         public UnityEvent<float> onCountChanged => _onCountChanged;
@@ -55,30 +53,26 @@ namespace GameDevForBeginners
 
         private DetectInfiniteLoop _detectInfiniteLoop = new DetectInfiniteLoop();
 
-        void Awake()
+        void Init(bool force = false)
         {
-            _onCreate?.Invoke(this);
-        }
-        
-        private void OnEnable()
-        {
-            // Check if any counter has been saved before
-            if (isPlayingOrWillChangePlaymode &&
-                !string.IsNullOrEmpty(_saveKey) &&
-                PlayerPrefs.HasKey(_saveKey))
-            {
-                // Load the counter in to our variable
-                count = PlayerPrefs.GetFloat(_saveKey);
-            }
-            else
-            {
-                count = _defaultCount;
-            }
+            if(_inited && !force)
+                return;
+
+            _count = _defaultCount;
+            _inited = true;
         }
 
-        private void OnDisable()
+        void Awake()
         {
-            count = _defaultCount;
+            Init();
+            _onCreate?.Invoke(this);
+        }
+
+        // For scriptable objects only!
+        // Lifetime of SO is longer than scene objects! 
+        private void OnEnable()
+        {
+            Init(true);
         }
 
         private void OnDestroy()
@@ -91,9 +85,7 @@ namespace GameDevForBeginners
         {
             _defaultCount = ValidateNumber(_defaultCount);
             if (!isPlayingOrWillChangePlaymode)
-            {
                 count = _defaultCount;
-            }
         }
 #endif
 
@@ -114,9 +106,14 @@ namespace GameDevForBeginners
 
         public float count
         {
-            get => _count;
+            get
+            {
+                Init();
+                return _count;
+            }
             set
             {
+                Init();
                 float candidate = ValidateNumber(value);
                 if (_count == candidate)
                     return;
@@ -125,9 +122,6 @@ namespace GameDevForBeginners
 
                 if (!isPlayingOrWillChangePlaymode)
                     return;
-
-                if (!string.IsNullOrEmpty(_saveKey))
-                    PlayerPrefs.SetFloat(_saveKey, count);
 
                 if (!_detectInfiniteLoop.Detect(this))
                 {

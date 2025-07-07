@@ -8,12 +8,12 @@ using UnityEngine.Serialization;
 namespace GameDevForBeginners
 {
     [System.Serializable]
-    public struct CalculatorDescriptor
+    public class CalculatorDescriptor
     {
         [SerializedInterface(new [] {typeof(Counter), typeof(CounterBehaviour)}, true)]
         [SerializeField] private SerializedInterface<IScriptableValue>[] _variables;
         
-        [HideInInspector] public UnityEvent<float> onValueChanged;
+        [HideInInspector] public event Action<float> onValueChanged;
         private Dictionary<string, IScriptableValue> _runtimeVariables;
 
         [SerializeField] private string _expression;
@@ -39,7 +39,7 @@ namespace GameDevForBeginners
             if (!_runtimeVariables.TryAdd(scriptableValue.name, scriptableValue))
                 return false;
             
-            scriptableValue.onValueChanged.AddListener(OnValueChanged);
+            scriptableValue.onValueChanged.AddListener(OnValueChangedHandler);
             scriptableValue.onDestroy.AddListener(OnDestroyed);
             return true;
         }
@@ -52,7 +52,7 @@ namespace GameDevForBeginners
             if (!_runtimeVariables.Remove(scriptableValue.name))
                 return false;
             
-            scriptableValue.onValueChanged.RemoveListener(OnValueChanged);
+            scriptableValue.onValueChanged.RemoveListener(OnValueChangedHandler);
             scriptableValue.onDestroy.RemoveListener(OnDestroyed);
             return true;
         }
@@ -83,7 +83,7 @@ namespace GameDevForBeginners
             return new CalculatorResult(CalculatorResultType.Value, result, string.Empty);
         }
         
-        private void OnValueChanged(IScriptableValue scriptableValue)
+        private void OnValueChangedHandler(IScriptableValue scriptableValue)
         {
             if(scriptableValue.GetValueType() != ScriptableValueType.Number)
                 return;

@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 namespace GameDevForBeginners
 {
@@ -11,13 +10,14 @@ namespace GameDevForBeginners
         [DrawHiddenFieldsAttribute] [SerializeField]
         private bool _dummy;
 
-        [SerializeField] private ConditionDescriptor conditionDescriptor;
+        [SerializeField] private ConditionDescriptor conditionDescriptor = new ConditionDescriptor();
         [ShowInInspectorAttribute(false)] private string _parsedResult = String.Empty;
         [ShowInInspectorAttribute(false)] private string _conditionResult = String.Empty;
 
         [SerializeField] private bool _executeOnValueChanged = true;
         
         [Space]
+        [HideInInspector]
         [SerializeField]
         private UnityEvent<IScriptableValue> _onCreate; 
         public UnityEvent<IScriptableValue> onCreate => _onCreate;
@@ -28,15 +28,16 @@ namespace GameDevForBeginners
         public UnityEvent<IScriptableValue> onValueChanged => _onValueChanged;
         
         [SerializeField]
+        [HideInInspector]
         private UnityEvent<IScriptableValue> _onDestroy; 
         public UnityEvent<IScriptableValue> onDestroy => _onDestroy;
-
+        
         private UnityEvent _onTrue = new UnityEvent();
-        [HideInInspector] public UnityEvent onTrue => _onTrue;
+        public UnityEvent onTrue => _onTrue;
         private UnityEvent _onFalse = new UnityEvent();
-        [HideInInspector] public UnityEvent onFalse => _onFalse;
+        public UnityEvent onFalse => _onFalse;
         private UnityEvent _onError = new UnityEvent();
-        [HideInInspector] public UnityEvent onError => _onError;
+        public UnityEvent onError => _onError;
 
         private DetectInfiniteLoop _detectInfiniteLoop = new DetectInfiniteLoop();
 
@@ -47,6 +48,7 @@ namespace GameDevForBeginners
         
         public string GetValue()
         {
+            Debug.Log($"{gameObject.name}.GetValue");
             switch (Execute(false).resultType)
             {
                 case ContitionResultType.True:
@@ -63,7 +65,7 @@ namespace GameDevForBeginners
             if (!isPlayingOrWillChangePlaymode)
                 return;
             
-            conditionDescriptor.onValueChanged?.AddListener(OnValueChanged);
+            conditionDescriptor.onValueChanged += OnValueChangedHandler;
         }
 
         private void OnDisable()
@@ -71,10 +73,10 @@ namespace GameDevForBeginners
             if (!isPlayingOrWillChangePlaymode)
                 return;
             
-            conditionDescriptor.onValueChanged?.RemoveListener(OnValueChanged);
+            conditionDescriptor.onValueChanged -= OnValueChangedHandler;
         }
 
-        private void OnValueChanged(string value)
+        private void OnValueChangedHandler(string value)
         {
             if(_executeOnValueChanged)
                 Execute();
@@ -100,8 +102,7 @@ namespace GameDevForBeginners
         {
             if (_detectInfiniteLoop.Detect(this))
                 return new ConditionResult(ContitionResultType.Error, "Infinite loop");
-
-            Debug.Log("Execute");
+            
             ConditionResult conditionResult = conditionDescriptor.TryParse();
             if (invokeEvents)
             {
@@ -128,7 +129,8 @@ namespace GameDevForBeginners
 #if UNITY_EDITOR
         public void OnValidate()
         {
-            Execute(false);
+            if(!isPlayingOrWillChangePlaymode)
+                Execute(false);
         }
 #endif
 

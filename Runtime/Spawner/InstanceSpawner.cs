@@ -13,11 +13,10 @@ namespace GameDevForBeginners
         public Transform spawnLocation;
 
         // Public event when spawner spawns an object
-        public UnityEvent<GameObject> onSpawn;
+        public UnityEvent<GameObject> onSpawn = new UnityEvent<GameObject>();
 
         public void Spawn()
         {
-            Debug.Log("Spawn");
             // Clone the game object and store it in local variable
             GameObject spawnedGameObject = Instantiate(spawnGameObject);
 

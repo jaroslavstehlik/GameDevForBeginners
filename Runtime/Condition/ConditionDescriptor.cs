@@ -1,22 +1,20 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using B83.LogicExpressionParser;
-using UnityEngine.Serialization;
 
 namespace GameDevForBeginners
 {
     [System.Serializable]
-    public struct ConditionDescriptor
+    public class ConditionDescriptor
     {
         [SerializedInterface(new [] {typeof(State), typeof(StateBehaviour), typeof(Counter), typeof(CounterBehaviour)}, true)]
-        [SerializeField] private SerializedInterface<IScriptableValue>[] _variables;
+        [SerializeField] private SerializedInterface<IScriptableValue>[] _variables = new SerializedInterface<IScriptableValue>[]{};
         
-        [HideInInspector] public UnityEvent<string> onValueChanged;
-        private Dictionary<string, IScriptableValue> _runtimeVariables;
-        [SerializeField] private string _condition;
-        private string _parsedString;
+        public event Action<string> onValueChanged = null;
+        private Dictionary<string, IScriptableValue> _runtimeVariables = new Dictionary<string, IScriptableValue>();
+        [SerializeField] private string _condition = string.Empty;
+        private string _parsedString = string.Empty;
         public string parsedString => _parsedString;
 
         private void AddVariablesToRuntimeVariables()
@@ -41,7 +39,7 @@ namespace GameDevForBeginners
             if (!_runtimeVariables.TryAdd(scriptableValue.name, scriptableValue))
                 return false;
             
-            scriptableValue.onValueChanged.AddListener(OnValueChanged);
+            scriptableValue.onValueChanged.AddListener(OnValueChangedHandler);
             scriptableValue.onDestroy.AddListener(OnDestroyed);
             return true;
         }
@@ -54,7 +52,7 @@ namespace GameDevForBeginners
             if (!_runtimeVariables.Remove(scriptableValue.name))
                 return false;
             
-            scriptableValue.onValueChanged.RemoveListener(OnValueChanged);
+            scriptableValue.onValueChanged.RemoveListener(OnValueChangedHandler);
             scriptableValue.onDestroy.RemoveListener(OnDestroyed);
             return true;
         }
@@ -80,7 +78,7 @@ namespace GameDevForBeginners
                 logicExpression.GetResult() ? ContitionResultType.True : ContitionResultType.False, string.Empty);
         }
 
-        private void OnValueChanged(IScriptableValue scriptableValue)
+        private void OnValueChangedHandler(IScriptableValue scriptableValue)
         {
             onValueChanged?.Invoke(scriptableValue.GetValue());
         }

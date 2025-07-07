@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 namespace GameDevForBeginners
 {
-    [CreateAssetMenu(fileName = "Calculator", menuName = "GMD/Calculator", order = 1)]
+    [AddComponentMenu("GMD/Calculator/CalculatorBehaviour")]
     public class CalculatorBehaviour : MonoBehaviour, ICalculable
     {
         [DrawHiddenFieldsAttribute] [SerializeField]
@@ -18,22 +18,22 @@ namespace GameDevForBeginners
         
         [SerializeField] private bool _executeOnValueChanged = true;
 
-        [HideInInspector] [SerializeField] private UnityEvent<float> _onResultChanged;
+        [HideInInspector] [SerializeField] private UnityEvent<float> _onResultChanged = new UnityEvent<float>();
         public UnityEvent<float> OnResultChanged => _onResultChanged;
 
         [HideInInspector]
         [SerializeField]
-        private UnityEvent<IScriptableValue> _onCreate; 
+        private UnityEvent<IScriptableValue> _onCreate = new UnityEvent<IScriptableValue>(); 
         public UnityEvent<IScriptableValue> onCreate => _onCreate;
 
         [HideInInspector]
         [SerializeField]
-        private UnityEvent<IScriptableValue> _onValueChanged; 
+        private UnityEvent<IScriptableValue> _onValueChanged = new UnityEvent<IScriptableValue>(); 
         public UnityEvent<IScriptableValue> onValueChanged => _onValueChanged;
         
         [HideInInspector]
         [SerializeField]
-        private UnityEvent<IScriptableValue> _onDestroy; 
+        private UnityEvent<IScriptableValue> _onDestroy = new UnityEvent<IScriptableValue>(); 
         public UnityEvent<IScriptableValue> onDestroy => _onDestroy;
 
         public ScriptableValueType GetValueType()
@@ -55,14 +55,14 @@ namespace GameDevForBeginners
         {
             if (!isPlayingOrWillChangePlaymode)
                 return;
-            calculatorDescriptor.onValueChanged?.AddListener(OnValueChanged);
+            calculatorDescriptor.onValueChanged += OnValueChanged;
         }
 
         private void OnDisable()
         {
             if (!isPlayingOrWillChangePlaymode)
                 return;
-            calculatorDescriptor.onValueChanged?.RemoveListener(OnValueChanged);
+            calculatorDescriptor.onValueChanged -= OnValueChanged;
         }
 
         private void OnDestroy()
@@ -129,7 +129,8 @@ namespace GameDevForBeginners
 #if UNITY_EDITOR
         public void OnValidate()
         {
-            Execute(false);
+            if(!isPlayingOrWillChangePlaymode)
+                Execute(false);
         }
 #endif
         

@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 76954658}
   - component: {fileID: 76954657}
   m_Layer: 0
-  m_Name: StateABehaviour
+  m_Name: state.a
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -156,7 +156,6 @@ MonoBehaviour:
   _options: {fileID: 11400000, guid: 2a3c14656a108485d9e7ffb3fdb25ca5, type: 2}
   _defaultOption: {fileID: -7104860970153608013, guid: 2a3c14656a108485d9e7ffb3fdb25ca5,
     type: 2}
-  _saveKey: 
   _onStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -177,12 +176,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 76954656}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1936859559}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &246632580
 GameObject:
@@ -842,7 +841,7 @@ GameObject:
   - component: {fileID: 1251650605}
   - component: {fileID: 1251650604}
   m_Layer: 0
-  m_Name: StateBBehaviour
+  m_Name: state.b
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -865,7 +864,6 @@ MonoBehaviour:
   _options: {fileID: 11400000, guid: 2a3c14656a108485d9e7ffb3fdb25ca5, type: 2}
   _defaultOption: {fileID: -7104860970153608013, guid: 2a3c14656a108485d9e7ffb3fdb25ca5,
     type: 2}
-  _saveKey: 
   _onStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -886,12 +884,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1251650603}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1936859559}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1381529431
 GameObject:
@@ -1313,7 +1311,7 @@ GameObject:
   - component: {fileID: 1936859559}
   - component: {fileID: 1936859560}
   m_Layer: 0
-  m_Name: StateBehaviourCondition
+  m_Name: condition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1331,7 +1329,12 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 76954658}
+  - {fileID: 1251650605}
+  - {fileID: 7822401765473141735}
+  - {fileID: 7822401765424681448}
+  - {fileID: 8754132364509536823}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1936859560
@@ -1353,9 +1356,6 @@ MonoBehaviour:
       _selectedTypeIndex: 1
     - _value: {fileID: 1251650604}
       _selectedTypeIndex: 1
-    onValueChanged:
-      m_PersistentCalls:
-        m_Calls: []
     _condition: a || b
   _executeOnValueChanged: 1
   _onCreate:
@@ -1848,7 +1848,7 @@ GameObject:
   - component: {fileID: 8754132364509536823}
   - component: {fileID: 8754132364509536824}
   m_Layer: 0
-  m_Name: StateConditionListener
+  m_Name: conditionListener.condition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1862,12 +1862,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7822401765424681451}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1936859559}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7822401765424681451
 GameObject:
@@ -1881,7 +1881,7 @@ GameObject:
   - component: {fileID: 7822401765424681452}
   - component: {fileID: 7822401765424681453}
   m_Layer: 0
-  m_Name: B.StateListener
+  m_Name: stateListener.b
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1965,7 +1965,7 @@ GameObject:
   - component: {fileID: 7822401765473141736}
   - component: {fileID: 7822401765473141737}
   m_Layer: 0
-  m_Name: A.StateListener
+  m_Name: stateListener.a
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1979,12 +1979,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7822401765473141732}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1936859559}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7822401765473141736
 MonoBehaviour:
@@ -2060,12 +2060,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1286672064470961156}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1936859559}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8754132364509536824
 MonoBehaviour:
@@ -2148,13 +2148,8 @@ SceneRoots:
   - {fileID: 817084346}
   - {fileID: 1734733286}
   - {fileID: 2009964049}
-  - {fileID: 7822401765473141735}
-  - {fileID: 7822401765424681448}
-  - {fileID: 8754132364509536823}
   - {fileID: 2055452187}
   - {fileID: 1588407228}
   - {fileID: 748562460}
   - {fileID: 2111349687}
-  - {fileID: 76954658}
-  - {fileID: 1251650605}
   - {fileID: 1936859559}

@@ -1,7 +1,5 @@
-using System;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 namespace GameDevForBeginners
 {
@@ -11,6 +9,7 @@ namespace GameDevForBeginners
         [DrawHiddenFieldsAttribute] [SerializeField]
         private bool _dummy;
 
+        private bool _inited = false;
         [ShowInInspectorAttribute(false)] private float _count = 0;
 
         [SerializeField] private string _name;
@@ -22,47 +21,39 @@ namespace GameDevForBeginners
         [SerializeField] private bool _wholeNumber = true;
         public bool wholeNumber => _wholeNumber;
 
-        // The key to our counter, it has to be unique per whole game.
-        [SerializeField] private string _saveKey = string.Empty;
-
-        [HideInInspector] [SerializeField] private UnityEvent<float> _onCountChanged;
+        [HideInInspector] [SerializeField] private UnityEvent<float> _onCountChanged = new UnityEvent<float>();
         public UnityEvent<float> onCountChanged => _onCountChanged;
         
         [Space]
-        [SerializeField]
-        private UnityEvent<IScriptableValue> _onCreate; 
+        [HideInInspector] [SerializeField] private UnityEvent<IScriptableValue> _onCreate = new UnityEvent<IScriptableValue>(); 
         public UnityEvent<IScriptableValue> onCreate => _onCreate;
 
-        [HideInInspector]
-        [SerializeField]
-        private UnityEvent<IScriptableValue> _onValueChanged; 
+        [HideInInspector] [SerializeField] private UnityEvent<IScriptableValue> _onValueChanged = new UnityEvent<IScriptableValue>(); 
         public UnityEvent<IScriptableValue> onValueChanged => _onValueChanged;
         
-        [SerializeField]
-        private UnityEvent<IScriptableValue> _onDestroy; 
+        [HideInInspector] [SerializeField] private UnityEvent<IScriptableValue> _onDestroy = new UnityEvent<IScriptableValue>(); 
         public UnityEvent<IScriptableValue> onDestroy => _onDestroy;
 
         private DetectInfiniteLoop _detectInfiniteLoop = new DetectInfiniteLoop();
 
+        void Init()
+        {
+            if(_inited)
+                return;
+
+            _count = _defaultCount;
+            _inited = true;
+        }
+        
         private void Awake()
         {
+            Init();
             _onCreate?.Invoke(this);
         }
 
         private void OnEnable()
         {
-            // Check if any counter has been saved before
-            if (isPlayingOrWillChangePlaymode &&
-                !string.IsNullOrEmpty(_saveKey) &&
-                PlayerPrefs.HasKey(_saveKey))
-            {
-                // Load the counter in to our variable
-                count = PlayerPrefs.GetFloat(_saveKey);
-            }
-            else
-            {
-                count = _defaultCount;
-            }
+            count = _defaultCount;
         }
 
         private void OnDisable()
@@ -80,9 +71,7 @@ namespace GameDevForBeginners
         {
             _defaultCount = ValidateNumber(_defaultCount);
             if (!isPlayingOrWillChangePlaymode)
-            {
                 count = _defaultCount;
-            }
         }
 #endif
 
@@ -103,9 +92,14 @@ namespace GameDevForBeginners
 
         public float count
         {
-            get => _count;
+            get
+            {
+                Init();
+                return _count;
+            }
             set
             {
+                Init();
                 float candidate = ValidateNumber(value);
                 if (_count == candidate)
                     return;
@@ -114,9 +108,6 @@ namespace GameDevForBeginners
 
                 if (!isPlayingOrWillChangePlaymode)
                     return;
-
-                if (!string.IsNullOrEmpty(_saveKey))
-                    PlayerPrefs.SetFloat(_saveKey, count);
 
                 if (!_detectInfiniteLoop.Detect(this))
                 {

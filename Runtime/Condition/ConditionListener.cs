@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,13 +8,13 @@ namespace GameDevForBeginners
     public class ConditionListener : MonoBehaviour
     {
         [SerializedInterface(new [] {typeof(Condition), typeof(ConditionBehaviour)}, true)]
-        [SerializeField] private SerializedInterface<ICondition> _condition;
+        [SerializeField] private SerializedInterface<ICondition> _condition = new SerializedInterface<ICondition>();
 
         [SerializeField] private bool _executeOnEnable = true;
 
-        public UnityEvent onTrue;
-        public UnityEvent onFalse;
-        public UnityEvent onError;
+        public UnityEvent onTrue = new UnityEvent();
+        public UnityEvent onFalse = new UnityEvent();
+        public UnityEvent onError = new UnityEvent();
 
         private void OnEnable()
         {
@@ -23,7 +24,9 @@ namespace GameDevForBeginners
                 _condition.value.onFalse.AddListener(OnFalse);
                 _condition.value.onError.AddListener(OnError);
                 if (_executeOnEnable)
+                {
                     _condition.value.Execute();
+                }
             }
         }
 

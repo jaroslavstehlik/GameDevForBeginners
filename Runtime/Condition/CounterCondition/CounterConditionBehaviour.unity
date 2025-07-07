@@ -769,7 +769,7 @@ GameObject:
   - component: {fileID: 902619857}
   - component: {fileID: 902619856}
   m_Layer: 0
-  m_Name: CounterBBehaviour
+  m_Name: counter.b
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -791,7 +791,6 @@ MonoBehaviour:
   _name: b
   _defaultCount: 3
   _wholeNumber: 1
-  _saveKey: 
   _onCountChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -812,12 +811,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 902619855}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1159242401}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &964534570
 GameObject:
@@ -830,7 +829,7 @@ GameObject:
   - component: {fileID: 964534572}
   - component: {fileID: 964534571}
   m_Layer: 0
-  m_Name: CounterABehaviour
+  m_Name: counter.a
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -852,7 +851,6 @@ MonoBehaviour:
   _name: a
   _defaultCount: 1
   _wholeNumber: 1
-  _saveKey: 
   _onCountChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -873,12 +871,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 964534570}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1159242401}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1159242399
 GameObject:
@@ -891,7 +889,7 @@ GameObject:
   - component: {fileID: 1159242401}
   - component: {fileID: 1159242400}
   m_Layer: 0
-  m_Name: CounterConditionBehaviour
+  m_Name: condition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -916,9 +914,6 @@ MonoBehaviour:
       _selectedTypeIndex: 3
     - _value: {fileID: 902619856}
       _selectedTypeIndex: 3
-    onValueChanged:
-      m_PersistentCalls:
-        m_Calls: []
     _condition: a < b
   _executeOnValueChanged: 1
   _onCreate:
@@ -942,7 +937,12 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 964534572}
+  - {fileID: 902619857}
+  - {fileID: 2047440148}
+  - {fileID: 1671986441}
+  - {fileID: 8754132364509536823}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1381529431
@@ -1293,7 +1293,7 @@ GameObject:
   - component: {fileID: 1671986442}
   - component: {fileID: 1671986443}
   m_Layer: 0
-  m_Name: counterBListener
+  m_Name: counterListener.b
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1307,12 +1307,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1671986440}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1159242401}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1671986442
 MonoBehaviour:
@@ -1354,7 +1354,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1671986440}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc2e0f9e6cd5b4947a0580542cbd5b30, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ba43d69af882423eadc582994e4c399, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   onCounterConverted:
@@ -1372,6 +1372,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  format: N0
 --- !u!1001 &1734733286
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1563,7 +1564,7 @@ GameObject:
   - component: {fileID: 2047440149}
   - component: {fileID: 2047440150}
   m_Layer: 0
-  m_Name: counterAListener
+  m_Name: counterListener.a
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1577,12 +1578,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2047440147}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1159242401}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2047440149
 MonoBehaviour:
@@ -1624,7 +1625,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2047440147}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc2e0f9e6cd5b4947a0580542cbd5b30, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ba43d69af882423eadc582994e4c399, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   onCounterConverted:
@@ -1642,6 +1643,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  format: N0
 --- !u!1 &2055452183
 GameObject:
   m_ObjectHideFlags: 0
@@ -2006,7 +2008,7 @@ GameObject:
   - component: {fileID: 8754132364509536823}
   - component: {fileID: 8754132364509536824}
   m_Layer: 0
-  m_Name: ConditionListener
+  m_Name: conditionListener.condition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2020,12 +2022,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1286672064470961156}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1159242401}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8754132364509536824
 MonoBehaviour:
@@ -2108,13 +2110,8 @@ SceneRoots:
   - {fileID: 817084346}
   - {fileID: 1734733286}
   - {fileID: 2009964049}
-  - {fileID: 2047440148}
-  - {fileID: 1671986441}
-  - {fileID: 8754132364509536823}
   - {fileID: 2055452187}
   - {fileID: 1588407228}
   - {fileID: 748562460}
   - {fileID: 2111349687}
   - {fileID: 1159242401}
-  - {fileID: 964534572}
-  - {fileID: 902619857}

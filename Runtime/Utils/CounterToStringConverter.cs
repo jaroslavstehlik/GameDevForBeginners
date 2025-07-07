@@ -1,12 +1,16 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class CounterToStringConverter : MonoBehaviour
+namespace GameDevForBeginners
 {
-    public UnityEvent<string> onCounterConverted;
-    
-    public void ConvertCounterToString(float value)
+    public class CounterToStringConverter : MonoBehaviour
     {
-        onCounterConverted?.Invoke(value.ToString());   
+        public UnityEvent<string> onCounterConverted;
+        public string format = "N1";
+
+        public void ConvertCounterToString(float value)
+        {
+            onCounterConverted?.Invoke(value.ToString(format));
+        }
     }
 }

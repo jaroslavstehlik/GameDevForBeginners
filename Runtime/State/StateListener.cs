@@ -15,14 +15,14 @@ namespace GameDevForBeginners
         }
 
         [SerializedInterface(new [] {typeof(State), typeof(StateBehaviour)}, true)]
-        [SerializeField] private SerializedInterface<IState> _state;
+        [SerializeField] private SerializedInterface<IState> _state = new SerializedInterface<IState>();
         
         [StateAttribute(nameof(_state))] [SerializeField] private Option _targetOption;
         [SerializeField] private bool _activateOnEnable = true;
 
-        public UnityEvent onStateActivate;
-        public UnityEvent onStateDeactivate;
-        public UnityEvent<Option> onStateChanged;
+        public UnityEvent onStateActivate = new UnityEvent();
+        public UnityEvent onStateDeactivate = new UnityEvent();
+        public UnityEvent<Option> onStateChanged = new UnityEvent<Option>();
 
         private StateActive _isActive = StateActive.NotInitialized;
 

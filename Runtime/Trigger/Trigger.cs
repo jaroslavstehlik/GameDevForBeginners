@@ -4,14 +4,14 @@ using UnityEngine.Events;
 
 namespace GameDevForBeginners
 {
-    [AddComponentMenu("GMD/Trigger/NaiveTrigger")]
-    public class NaiveTrigger : MonoBehaviour
+    [AddComponentMenu("GMD/Trigger/Trigger")]
+    public class Trigger : MonoBehaviour
     {
         // Tag attribute renders editor field with available editor tags
         [TagAttribute]
         // Selected tags for filtering
         public string[] filterTags;
-
+        [Space]
         // Public events 
         public UnityEvent<Collider> onTriggerEnter;
         public UnityEvent<Collider> onTriggerExit;

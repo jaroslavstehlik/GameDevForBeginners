@@ -55,14 +55,14 @@ namespace GameDevForBeginners
         {
             if (!isPlayingOrWillChangePlaymode)
                 return;
-            calculatorDescriptor.onValueChanged?.AddListener(OnValueChanged);
+            calculatorDescriptor.onValueChanged += OnValueChangedHandler;
         }
 
         private void OnDisable()
         {
             if (!isPlayingOrWillChangePlaymode)
                 return;
-            calculatorDescriptor.onValueChanged?.RemoveListener(OnValueChanged);
+            calculatorDescriptor.onValueChanged -= OnValueChangedHandler;
         }
 
         private void OnDestroy()
@@ -70,7 +70,7 @@ namespace GameDevForBeginners
             _onDestroy?.Invoke(this);
         }
 
-        void OnValueChanged(float value)
+        void OnValueChangedHandler(float value)
         {
             if(_executeOnValueChanged)
                 Execute();
@@ -129,7 +129,8 @@ namespace GameDevForBeginners
 #if UNITY_EDITOR
         public void OnValidate()
         {
-            Execute(false);
+            if(!isPlayingOrWillChangePlaymode)
+                Execute(false);
         }
 #endif
         

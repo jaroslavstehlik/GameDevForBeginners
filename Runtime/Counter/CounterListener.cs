@@ -25,7 +25,7 @@ namespace GameDevForBeginners
 
         private void OnDisable()
         {
-            if(_counter == null)
+            if(_counter == null || _counter.value == null)
                 return;
 
             _counter.value.onCountChanged?.RemoveListener(OnCountChanged);
