@@ -6,7 +6,7 @@ namespace GameDevForBeginners
     public class CounterToStringConverter : MonoBehaviour
     {
         public UnityEvent<string> onCounterConverted;
-        public string format = "N1";
+        public string format = "N0";
 
         public void ConvertCounterToString(float value)
         {

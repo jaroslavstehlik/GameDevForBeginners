@@ -226,7 +226,7 @@ namespace GameDevForBeginners
             }
 
             _rigidbody.rotation = Quaternion.Euler(0f, cameraYaw, 0f);
-            _rigidbody.velocity = futureVelocity;
+            _rigidbody.linearVelocity = futureVelocity;
             
             _playerInput.ResetJump();
         }

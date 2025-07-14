@@ -5,8 +5,8 @@ namespace GameDevForBeginners
     public interface ICondition : IScriptableValue
     {
         public void Execute();
-        public void AddRuntimeVariable(IScriptableValue scriptableValue);
-        public void RemoveRuntimeVariable(IScriptableValue scriptableValue);
+        public void AddRuntimeVariable(string name, IScriptableValue scriptableValue);
+        public void RemoveRuntimeVariable(string name);
 
         public UnityEvent onTrue { get; }
         public UnityEvent onFalse { get; }

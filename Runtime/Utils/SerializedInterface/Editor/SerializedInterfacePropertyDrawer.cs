@@ -59,15 +59,29 @@ namespace GameDevForBeginners
             {
                 choices[i] = baseTypes[i].Name;
             }
-
-            property.serializedObject.Update();
+            
             SerializedProperty selectedTypeIndex = property.FindPropertyRelative("_selectedTypeIndex");
             SerializedProperty referenceProperty = property.FindPropertyRelative("_value");
             UnityEngine.Object objectReferenceValue = referenceProperty.objectReferenceValue;
             string labelText = label.text;
-            selectedTypeIndex.intValue = EditorGUI.Popup(topRect, $"{labelText} type", Math.Clamp(selectedTypeIndex.intValue, 0, baseTypes.Length), choices);
-            referenceProperty.objectReferenceValue = EditorGUI.ObjectField(bottomRect, $"{labelText} reference", objectReferenceValue, baseTypes[selectedTypeIndex.intValue]);
-            property.serializedObject.ApplyModifiedProperties();
+            string labelPopup = $"{labelText} type";
+            
+            EditorGUI.BeginChangeCheck();
+            EditorGUI.showMixedValue = selectedTypeIndex.hasMultipleDifferentValues;
+            int selectedTypeIndexIntValue = EditorGUI.Popup(topRect, labelPopup,
+                Math.Clamp(selectedTypeIndex.intValue, 0, baseTypes.Length), choices);
+            if (EditorGUI.EndChangeCheck())
+            {
+                selectedTypeIndex.intValue = selectedTypeIndexIntValue;
+            }
+            EditorGUI.BeginChangeCheck();
+            EditorGUI.showMixedValue = referenceProperty.hasMultipleDifferentValues;
+            UnityEngine.Object referencePropertyObjectReferenceValue = EditorGUI.ObjectField(bottomRect, $"{labelText} reference",
+                objectReferenceValue, baseTypes[selectedTypeIndex.intValue]);
+            if (EditorGUI.EndChangeCheck())
+            {
+                referenceProperty.objectReferenceValue = referencePropertyObjectReferenceValue;
+            }
         }
     }
 }

@@ -76,14 +76,14 @@ namespace GameDevForBeginners
                 Execute();
         }
 
-        public void AddRuntimeVariable(IScriptableValue variable)
+        public void AddRuntimeVariable(string name, IScriptableValue variable)
         {
-            calculatorDescriptor.AddRuntimeVariable(variable);
+            calculatorDescriptor.AddRuntimeVariable(name, variable);
         }
 
-        public void RemoveRuntimeVariable(IScriptableValue variable)
+        public void RemoveRuntimeVariable(string name)
         {
-            calculatorDescriptor.RemoveRuntimeVariable(variable);
+            calculatorDescriptor.RemoveRuntimeVariable(name);
         }
 
         public float Execute()

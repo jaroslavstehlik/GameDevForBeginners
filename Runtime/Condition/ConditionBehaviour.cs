@@ -82,14 +82,14 @@ namespace GameDevForBeginners
                 Execute();
         }
 
-        public void AddRuntimeVariable(IScriptableValue scriptableValue)
+        public void AddRuntimeVariable(string name, IScriptableValue scriptableValue)
         {
-            conditionDescriptor.AddRuntimeVariable(scriptableValue);
+            conditionDescriptor.AddRuntimeVariable(name, scriptableValue);
         }
 
-        public void RemoveRuntimeVariable(IScriptableValue scriptableValue)
+        public void RemoveRuntimeVariable(string name)
         {
-            conditionDescriptor.RemoveRuntimeVariable(scriptableValue);
+            conditionDescriptor.RemoveRuntimeVariable(name);
         }
 
         public void Execute()

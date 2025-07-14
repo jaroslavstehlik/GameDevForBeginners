@@ -9,7 +9,6 @@ namespace GameDevForBeginners
     {
         public Type[] baseTypes;
         public bool sceneObjects;
-        public int selectedTypeIndex = 0;
 
         public SerializedInterfaceAttribute(Type[] baseTypes, bool sceneObjects)
         {

@@ -1,15 +1,23 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using B83.LogicExpressionParser;
 
 namespace GameDevForBeginners
 {
     [System.Serializable]
+    public class ConditionVariable
+    {
+        [SerializeField] public string name = string.Empty;
+        [SerializedInterface(new [] {typeof(State), typeof(StateBehaviour), typeof(Counter), typeof(CounterBehaviour)}, true)]
+        public SerializedInterface<IScriptableValue> value = new SerializedInterface<IScriptableValue>{};
+    }
+    
+    [System.Serializable]
     public class ConditionDescriptor
     {
-        [SerializedInterface(new [] {typeof(State), typeof(StateBehaviour), typeof(Counter), typeof(CounterBehaviour)}, true)]
-        [SerializeField] private SerializedInterface<IScriptableValue>[] _variables = new SerializedInterface<IScriptableValue>[]{};
+        [SerializeField] private ConditionVariable[] _variables = Array.Empty<ConditionVariable>();
         
         public event Action<string> onValueChanged = null;
         private Dictionary<string, IScriptableValue> _runtimeVariables = new Dictionary<string, IScriptableValue>();
@@ -24,11 +32,11 @@ namespace GameDevForBeginners
             
             foreach (var variable in _variables)
             {
-                AddRuntimeVariable(variable.value);
+                AddRuntimeVariable(variable.name, variable.value.value);
             }
         }
         
-        public bool AddRuntimeVariable(IScriptableValue scriptableValue)
+        public bool AddRuntimeVariable(string name, IScriptableValue scriptableValue)
         {
             if (scriptableValue == null)
                 return false;
@@ -36,7 +44,7 @@ namespace GameDevForBeginners
             if (_runtimeVariables == null)
                 _runtimeVariables = new Dictionary<string, IScriptableValue>();
             
-            if (!_runtimeVariables.TryAdd(scriptableValue.name, scriptableValue))
+            if (!_runtimeVariables.TryAdd(name, scriptableValue))
                 return false;
             
             scriptableValue.onValueChanged.AddListener(OnValueChangedHandler);
@@ -44,16 +52,20 @@ namespace GameDevForBeginners
             return true;
         }
 
-        public bool RemoveRuntimeVariable(IScriptableValue scriptableValue)
+        public bool RemoveRuntimeVariable(string name)
         {
             if (_runtimeVariables == null)
                 return false;
 
-            if (!_runtimeVariables.Remove(scriptableValue.name))
+            if (!_runtimeVariables.TryGetValue(name, out IScriptableValue scriptableValue))
                 return false;
             
             scriptableValue.onValueChanged.RemoveListener(OnValueChangedHandler);
             scriptableValue.onDestroy.RemoveListener(OnDestroyed);
+            
+            if (!_runtimeVariables.Remove(name))
+                return false;
+
             return true;
         }
 
@@ -85,7 +97,14 @@ namespace GameDevForBeginners
 
         private void OnDestroyed(IScriptableValue scriptableValue)
         {
-            RemoveRuntimeVariable(scriptableValue);
+            KeyValuePair<string, IScriptableValue>[] keyValuePairs = _runtimeVariables.ToArray();
+            foreach (var keyValuePair in keyValuePairs)
+            {
+                if (keyValuePair.Value != scriptableValue)
+                    continue;
+                
+                _runtimeVariables.Remove(keyValuePair.Key);
+            }
         }
     }
 }

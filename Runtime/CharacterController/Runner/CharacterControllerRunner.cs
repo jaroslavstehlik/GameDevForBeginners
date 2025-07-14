@@ -150,7 +150,7 @@ namespace Chc
             }
             
             _rigidbody.rotation = playerWorldRotation;
-            _rigidbody.velocity = futurePlayerVelocity;
+            _rigidbody.linearVelocity = futurePlayerVelocity;
         }
         
         static bool FindPlayerGround(Vector3 position, Vector3 up, float radius, float maxDistance, int layerMask, out Vector3 groundPosition)

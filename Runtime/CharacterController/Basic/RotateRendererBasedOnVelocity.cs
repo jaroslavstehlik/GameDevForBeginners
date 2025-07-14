@@ -10,7 +10,7 @@ namespace GameDevForBeginners
 
         private void Update()
         {
-            Vector3 velocity = new Vector3(rigidbody.velocity.x, 0f, rigidbody.velocity.z);
+            Vector3 velocity = new Vector3(rigidbody.linearVelocity.x, 0f, rigidbody.linearVelocity.z);
             if (velocity.sqrMagnitude > 0f)
             {
                 Quaternion targetRotation = Quaternion.LookRotation(velocity);

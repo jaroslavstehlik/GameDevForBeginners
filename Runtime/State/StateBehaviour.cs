@@ -14,9 +14,6 @@ namespace GameDevForBeginners
         private bool _inited = false;
         [ShowInInspectorAttribute(false)] private Option _activeOption;
         
-        [SerializeField] private string _name;
-        public string name => _name;
-        
         [SerializeField] private Options _options;
         [OptionAttribute(nameof(_options))]
         [SerializeField] private Option _defaultOption;

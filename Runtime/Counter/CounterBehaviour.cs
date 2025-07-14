@@ -12,9 +12,6 @@ namespace GameDevForBeginners
         private bool _inited = false;
         [ShowInInspectorAttribute(false)] private float _count = 0;
 
-        [SerializeField] private string _name;
-        public string name => _name;
-
         [SerializeField] private float _defaultCount = 0;
         public float defaultCount => _defaultCount;
 
