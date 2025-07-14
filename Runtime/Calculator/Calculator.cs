@@ -12,9 +12,9 @@ namespace GameDevForBeginners
 
         [SerializeField] private CalculatorDescriptor calculatorDescriptor;
 
-        [ShowInInspectorAttribute(false)] private string _parsedResult = String.Empty;
+        [ShowInInspectorAttribute(true, false, true, false)] private string _parsedResult = String.Empty;
 
-        [ShowInInspectorAttribute(false)] private string _conditionResult = String.Empty;
+        [ShowInInspectorAttribute(true, false, true, false)] private string _conditionResult = String.Empty;
         
         [SerializeField] private bool _executeOnValueChanged = true;
 

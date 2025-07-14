@@ -11,8 +11,8 @@ namespace GameDevForBeginners
         private bool _dummy;
 
         [SerializeField] private ConditionDescriptor conditionDescriptor = new ConditionDescriptor();
-        [ShowInInspectorAttribute(false)] private string _parsedResult = String.Empty;
-        [ShowInInspectorAttribute(false)] private string _conditionResult = String.Empty;
+        [ShowInInspectorAttribute(true, false, true, false)] private string _parsedResult = String.Empty;
+        [ShowInInspectorAttribute(true, false, true, false)] private string _conditionResult = String.Empty;
 
         [SerializeField] private bool _executeOnValueChanged = true;
         

@@ -10,7 +10,7 @@ namespace GameDevForBeginners
         private bool _dummy;
 
         private bool _inited = false;
-        [ShowInInspectorAttribute(false)] private float _count = 0;
+        private float _count = 0;
 
         [SerializeField] private float _defaultCount = 0;
         public float defaultCount => _defaultCount;

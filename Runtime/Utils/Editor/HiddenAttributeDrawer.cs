@@ -11,13 +11,15 @@ public class HiddenDrawer : PropertyDrawer {
         
         var obj = property.serializedObject.targetObject;
         position.height = EditorGUIUtility.singleLineHeight;
-        
-        foreach( (FieldInfo, bool) f in fieldsToDraw )
+        bool inPlayMode = EditorApplication.isPlaying;
+            
+        foreach( (FieldInfo, ShowInInspector) f in fieldsToDraw )
         {
             FieldInfo fieldInfo = f.Item1;
             var fieldType = fieldInfo.FieldType;
-            bool editable = f.Item2;
-
+            ShowInInspector showInInspector = f.Item2;
+            
+            bool editable = inPlayMode ? showInInspector.editableInPlayMode : showInInspector.editableInEditMode;
             EditorGUI.BeginDisabledGroup(!editable);
             var fieldName = ObjectNames.NicifyVariableName( fieldInfo.Name );
             var fieldLabel = new GUIContent( fieldName );
@@ -71,7 +73,7 @@ public class HiddenDrawer : PropertyDrawer {
         return EditorGUIUtility.singleLineHeight * fieldsToDraw.Count + 2 * ( fieldsToDraw.Count - 1 );
     }
 
-    private static List<(FieldInfo, bool)> GetDrawnFields ( SerializedProperty property ) {
+    private static List<(FieldInfo, ShowInInspector)> GetDrawnFields ( SerializedProperty property ) {
         
         var targetType = property.serializedObject.targetObject.GetType();
         System.Type[] types;
@@ -84,7 +86,8 @@ public class HiddenDrawer : PropertyDrawer {
             types = new System.Type[]{targetType};
         }
         
-        var fieldsToDraw = new List<(FieldInfo, bool)>();
+        var fieldsToDraw = new List<(FieldInfo, ShowInInspector)>();
+        bool inPlayMode = EditorApplication.isPlaying;
         
         foreach (System.Type type in types)
         {
@@ -96,7 +99,12 @@ public class HiddenDrawer : PropertyDrawer {
                     (ShowInInspectorAttribute[])f.GetCustomAttributes(typeof(ShowInInspectorAttribute), true);
                 if (attr.Length > 0)
                 {
-                    fieldsToDraw.Add((f, attr[0].editable));
+                    ShowInInspector showInInspector = attr[0].showInInspector;
+                    bool show = inPlayMode ? showInInspector.showInPlayMode : showInInspector.showInEditMode;
+                    if(!show)
+                        continue;
+
+                    fieldsToDraw.Add((f, showInInspector));
                 }
             }
         }

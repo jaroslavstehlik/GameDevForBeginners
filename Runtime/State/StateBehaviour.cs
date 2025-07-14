@@ -12,7 +12,7 @@ namespace GameDevForBeginners
         private bool _dummy;
         
         private bool _inited = false;
-        [ShowInInspectorAttribute(false)] private Option _activeOption;
+        private Option _activeOption;
         
         [SerializeField] private Options _options;
         [OptionAttribute(nameof(_options))]
@@ -31,6 +31,7 @@ namespace GameDevForBeginners
         
         [Space]
         [SerializeField]
+        [HideInInspector]
         private UnityEvent<IScriptableValue> _onCreate; 
         public UnityEvent<IScriptableValue> onCreate => _onCreate;
 
@@ -40,6 +41,7 @@ namespace GameDevForBeginners
         public UnityEvent<IScriptableValue> onValueChanged => _onValueChanged;
         
         [SerializeField]
+        [HideInInspector]
         private UnityEvent<IScriptableValue> _onDestroy; 
         public UnityEvent<IScriptableValue> onDestroy => _onDestroy;
 

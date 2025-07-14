@@ -10,6 +10,12 @@ namespace GameDevForBeginners
     {
         private SerializedProperty nameProperty;
 
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+            StateEditor.RenderStateField(target as IState);
+        }
+
         public override bool RequiresConstantRepaint()
         {
             return true;

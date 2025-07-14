@@ -19,7 +19,7 @@ namespace GameDevForBeginners
         private bool _dummy;
 
         private bool _inited = false;
-        [ShowInInspectorAttribute(false)] private Option _activeOption;
+        private Option _activeOption;
 
         [SerializeField] private Options _options;
         public Options options => _options;

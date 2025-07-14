@@ -1,5 +1,7 @@
+using System;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace GameDevForBeginners
 {
@@ -38,23 +40,15 @@ namespace GameDevForBeginners
             }
 
             Object propertyObjectReferenceValue = property.objectReferenceValue;
-            int selectedIndex = 0;
-            for (int i = 0; i < options.options.Length; i++)
-            {
-                if (options.options[i] != propertyObjectReferenceValue)
-                    continue;
-
-                selectedIndex = i;
-                break;
-            }
-
-            string[] optionNames = new string[options.options.Length];
-            for (int i = 0; i < optionNames.Length; i++)
-            {
-                optionNames[i] = options.options[i].name;
-            }
+            int selectedIndex = Math.Max(options.GetOptionIndex(propertyObjectReferenceValue as Option), 0);
+            string[] optionNames = options.optionNames;
+            
+            EditorGUI.showMixedValue = property.hasMultipleDifferentValues;
+            EditorGUI.BeginChangeCheck();
             selectedIndex = EditorGUI.Popup(position, property.displayName, selectedIndex, optionNames);
-            property.objectReferenceValue = options.options[selectedIndex];
+            if(EditorGUI.EndChangeCheck())
+                property.objectReferenceValue = options.options[selectedIndex];
+            EditorGUI.showMixedValue = false;
         }
     }
 }
