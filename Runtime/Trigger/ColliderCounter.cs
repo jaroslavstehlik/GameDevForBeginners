@@ -23,26 +23,46 @@ namespace GameDevForBeginners
             counter.value.count = _colliders.Count;
         }
 
-        public void Add(Collider other)
+        private void Add(int instanceID)
         {
             // Check if collider has been already added
-            if (_colliders.Contains(other.GetInstanceID()))
+            if (_colliders.Contains(instanceID))
                 return;
             
             // Add collider to colliders
-            _colliders.Add(other.GetInstanceID()); // InstanceID is a unique identifier
+            _colliders.Add(instanceID); // InstanceID is a unique identifier
             counter.value.count = _colliders.Count;
         }
         
-        public void Remove(Collider other)
+        public void AddCollider(Collider other)
+        {
+            Add(other.GetInstanceID());
+        }
+
+        public void AddCollider2D(Collider2D other)
+        {
+            Add(other.GetInstanceID());
+        }
+
+        void Remove(int instanceID)
         {
             // Check if collider is in colliders
-            if (!_colliders.Contains(other.GetInstanceID()))
+            if (!_colliders.Contains(instanceID))
                 return;
                         
             // Remove that collider
-            _colliders.Remove(other.GetInstanceID());
+            _colliders.Remove(instanceID);
             counter.value.count = _colliders.Count;
+        }
+        
+        public void RemoveCollider(Collider other)
+        {
+            Remove(other.GetInstanceID());
+        }
+        
+        public void RemoveCollider2D(Collider2D other)
+        {
+            Remove(other.GetInstanceID());
         }
     }
 }

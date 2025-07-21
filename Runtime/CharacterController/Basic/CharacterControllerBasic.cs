@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace GameDevForBeginners
 {
@@ -25,7 +26,7 @@ namespace GameDevForBeginners
     [AddComponentMenu("GMD/Character/CharacterControllerBasic")]
     public class CharacterControllerBasic : MonoBehaviour
     {
-        [SerializeField] private PlayerInputController _playerInputController;
+        [SerializeField] private InputController _inputController;
         [SerializeField] private Transform _cameraTransform;
         [SerializeField] private CapsuleCollider _collider;
         [SerializeField] private Rigidbody _rigidbody;
@@ -44,7 +45,7 @@ namespace GameDevForBeginners
         private CollisionState _collisionState;
         private float jumpTimeRemaining = 0f;
 
-        private PlayerInput _playerInput;
+        private PlayerInput _playerInput = new PlayerInput();
 
         public float jumpProgress
         {
@@ -62,22 +63,17 @@ namespace GameDevForBeginners
 
         private void OnEnable()
         {
-            _playerInputController.onPlayerInputChanged += OnPlayerInputChanged;
+            _inputController.onPlayerInputChanged += OnInputChanged;
         }
 
         private void OnDisable()
         {
-            _playerInputController.onPlayerInputChanged -= OnPlayerInputChanged;
+            _inputController.onPlayerInputChanged -= OnInputChanged;
         }
 
-        void OnPlayerInputChanged(PlayerInput playerInput)
+        void OnInputChanged(PlayerInput playerInput)
         {
-            _playerInput.move = playerInput.move;
-            _playerInput.sprint = playerInput.sprint;
-            _playerInput.crouch = playerInput.crouch;
-            
-            if(playerInput.jump)
-                _playerInput.jump = playerInput.jump;
+            _playerInput = playerInput;
         }
         
         void FixedUpdate()
@@ -106,11 +102,11 @@ namespace GameDevForBeginners
                 closestNormalMaxDistance);
 
             float playerSpeed = moveSpeed;
-            if (_playerInput.crouch)
+            if (_playerInput.crouch.isPressed)
             {
                 playerSpeed *= crouchMultiplier;
             }
-            else if (_playerInput.sprint)
+            else if (_playerInput.sprint.isPressed)
             {
                 playerSpeed *= sprintMultiplier;
             }
@@ -187,7 +183,7 @@ namespace GameDevForBeginners
                     }
 
                     // about to jump
-                    else if (_playerInput.jump)
+                    else if (_playerInput.jump.isPressed)
                     {
                         jumpTimeRemaining = jumpDuration;
                         fallTimeRemaining = 0f;
@@ -228,7 +224,7 @@ namespace GameDevForBeginners
             _rigidbody.rotation = Quaternion.Euler(0f, cameraYaw, 0f);
             _rigidbody.linearVelocity = futureVelocity;
             
-            _playerInput.ResetJump();
+            _playerInput.jump.Reset();
         }
 
         void ResetGravity(ref Vector3 gravityVelocity)

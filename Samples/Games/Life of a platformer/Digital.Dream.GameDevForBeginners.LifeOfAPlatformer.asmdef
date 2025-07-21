@@ -1,8 +1,8 @@
 {
-    "name": "Digital.Dream.GameDevForBeginners",
+    "name": "Digital.Dream.GameDevForBeginners.LifeOfAPlatformer",
     "rootNamespace": "",
     "references": [
-        "Unity.InputSystem"
+        "Digital.Dream.GameDevForBeginners"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -5,25 +5,42 @@ namespace GameDevForBeginners
     [AddComponentMenu("GMD/Camera/FirstPersonCamera")]
     public class FirstPersonCamera : MonoBehaviour
     {
+        public InputController InputController;
         public Transform target;
         public float mouseSensitivity = 1f;
         public bool flipMouseY = true;
         public float cameraYaw = 0;
         public float cameraPitch = 0;
+        
+        private PlayerInput _playerInput = new PlayerInput();
+
+        private void OnEnable()
+        {
+            InputController.onPlayerInputChanged += OnInputChanged;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+
+        void OnInputChanged(PlayerInput playerInput)
+        {
+            _playerInput = playerInput;
+        }
 
         private void LateUpdate()
         {
-            float mouseX = Input.GetAxis("Mouse X");
-            cameraYaw += mouseX * mouseSensitivity * 10f;
+            float mouseX = _playerInput.look.x * mouseSensitivity * Time.deltaTime;
+            float mouseY = (flipMouseY ? -_playerInput.look.y : _playerInput.look.y)  * mouseSensitivity * Time.deltaTime;
 
-            float mouseY = Input.GetAxis("Mouse Y");
-            if (flipMouseY)
-                mouseY *= -1f;
-
-            cameraPitch = Mathf.Clamp(cameraPitch + mouseY * 10f * mouseSensitivity, -90f, 90f);
+            cameraYaw += mouseX;
+            cameraPitch = Mathf.Clamp(cameraPitch + mouseY, -90f, 90f);
 
             transform.position = target.position;
             transform.rotation = Quaternion.Euler(cameraPitch, cameraYaw, 0f);
+        }
+        
+        private void OnDisable()
+        {
+            InputController.onPlayerInputChanged -= OnInputChanged;
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 }

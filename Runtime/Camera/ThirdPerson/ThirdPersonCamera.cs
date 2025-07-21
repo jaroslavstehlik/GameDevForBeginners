@@ -1,10 +1,12 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace GameDevForBeginners
 {
     [AddComponentMenu("GMD/Camera/ThirdPersonCamera")]
     public class ThirdPersonCamera : MonoBehaviour
     {
+        public InputController InputController;
         public Transform target;
         public Vector2 minMaxDistance = new Vector2(0.25f, 5f);
         public Vector2 minMaxPitch = new Vector2(-89f, 89f);
@@ -16,18 +18,27 @@ namespace GameDevForBeginners
         public LayerMask cameraCollisionMask;
         public float cameraRadius = 0.1f;
         public bool useTargetUpDirection = false;
+        
+        private PlayerInput _playerInput = new PlayerInput();
 
-        private static GameObject DEBUG_GO;
+        private void OnEnable()
+        {
+            InputController.onPlayerInputChanged += OnInputChanged;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+
+        void OnInputChanged(PlayerInput playerInput)
+        {
+            _playerInput = playerInput;
+        }
+
         private void LateUpdate()
         {
-            float mouseX = Input.GetAxis("Mouse X");
-            float yawDelta = mouseX * mouseSensitivity * 10f; 
-
-            float mouseY = Input.GetAxis("Mouse Y");
-            if (flipMouseY)
-                mouseY *= -1f;
+            float mouseX = _playerInput.look.x * mouseSensitivity * Time.deltaTime;
+            float mouseY = (flipMouseY ? -_playerInput.look.y : _playerInput.look.y)  * mouseSensitivity * Time.deltaTime;
             
-            float pitchDelta = mouseY * 10f * mouseSensitivity;
+            float yawDelta = mouseX; 
+            float pitchDelta = mouseY;
             
             // clamp horizon
             cameraPitch = Mathf.Clamp(cameraPitch + pitchDelta, minMaxPitch.x, minMaxPitch.y);
@@ -68,8 +79,13 @@ namespace GameDevForBeginners
             }
 
             transform.position = targetPosition - targetDirection * cameraDistanceWithPhysics;
-            //transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime * 10f);
             transform.rotation = rotation;
+        }
+
+        private void OnDisable()
+        {
+            InputController.onPlayerInputChanged -= OnInputChanged;
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 }
