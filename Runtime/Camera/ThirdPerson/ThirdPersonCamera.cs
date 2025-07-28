@@ -8,9 +8,9 @@ namespace GameDevForBeginners
     {
         public InputController InputController;
         public Transform target;
-        public Vector2 minMaxDistance = new Vector2(0.25f, 5f);
+        public Vector2 minMaxDistance = new Vector2(1f, 10f);
         public Vector2 minMaxPitch = new Vector2(-89f, 89f);
-        public float mouseSensitivity = 1f;
+        public float mouseSensitivity = 100f;
         public float mouseScrollWheelSensitivity = 1f;
         public bool flipMouseY = true;
         public float cameraPitch = 0;

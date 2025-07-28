@@ -23,15 +23,7 @@ public class PlayerInputController : InputController
 
     void UpdateActionButton(InputAction inputAction, ref ButtonInput buttonInput)
     {
-        if (inputAction.WasPerformedThisFrame())
-        {
-            buttonInput.Press();
-        }
-
-        if (inputAction.WasCompletedThisFrame())
-        {
-            buttonInput.Release();
-        }
+        buttonInput.Update(inputAction.ReadValue<float>() > 0);
     }
 
     private void Update()
@@ -44,5 +36,15 @@ public class PlayerInputController : InputController
         _playerInput.look = lookAction.action.ReadValue<Vector2>();
         
         UpdateInput(_playerInput);
+    }
+
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        
+    }
+
+    private void OnApplicationFocus(bool hasFocus)
+    {
+        
     }
 }

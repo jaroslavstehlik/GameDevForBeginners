@@ -39,13 +39,29 @@ public class ButtonInput
     private ActionTimeStamp _released;
     private bool _beingPressed;
 
-    public void Press()
+    public void Update(bool pressed)
+    {
+        if (_beingPressed == pressed)
+        {
+            return;
+        }
+
+        if (_beingPressed && !pressed)
+        {
+            Release();
+            return;
+        }
+        
+        Press();
+    }
+    
+    void Press()
     {
         _pressed = ActionTimeStamp.Now();
         _beingPressed = true;
     }
 
-    public void Release()
+    void Release()
     {
         _released = ActionTimeStamp.Now();
         _beingPressed = false;

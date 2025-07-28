@@ -7,7 +7,7 @@ namespace GameDevForBeginners
     {
         public InputController InputController;
         public Transform target;
-        public float mouseSensitivity = 1f;
+        public float mouseSensitivity = 100f;
         public bool flipMouseY = true;
         public float cameraYaw = 0;
         public float cameraPitch = 0;

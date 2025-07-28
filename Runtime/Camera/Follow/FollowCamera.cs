@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace GameDevForBeginners
 {
@@ -6,7 +7,8 @@ namespace GameDevForBeginners
     public class FollowCamera : MonoBehaviour
     {
         public Transform target;
-        public Vector3 offset = new Vector3(0f, 10f, 0f);
+        public Vector3 offset = new Vector3(0f, 0f, 0f);
+        public bool smoothMovement = true;
         public float speed = 0.5f;
 
         public bool useLocalSpace = false;
@@ -15,8 +17,11 @@ namespace GameDevForBeginners
         private void LateUpdate()
         {
             Vector3 targetPosition = useLocalSpace ? target.TransformPoint(offset) : target.position + offset;
-            transform.position = LerpUtils.Lerp(transform.position, targetPosition, Time.deltaTime * speed);
-            
+            Vector3 cameraPosition = smoothMovement
+                ? LerpUtils.Lerp(transform.position, targetPosition, Time.deltaTime * speed)
+                : targetPosition;
+            transform.position = cameraPosition;
+
             if(useTargetRotation)
                 transform.rotation = target.rotation;
         }
