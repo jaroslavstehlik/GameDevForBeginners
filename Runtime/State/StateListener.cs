@@ -89,7 +89,7 @@ namespace GameDevForBeginners
                 onStateDeactivate?.Invoke();
                 return;
             }
-
+            
             onStateActivate?.Invoke();
         }
         private void OnStateDestroyed(IScriptableValue scriptableValue)

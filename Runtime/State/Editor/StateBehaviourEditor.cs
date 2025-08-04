@@ -8,12 +8,13 @@ namespace GameDevForBeginners
     [CanEditMultipleObjects]
     public class StateBehaviourEditor : Editor
     {
-        private SerializedProperty nameProperty;
-
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-            StateEditor.RenderStateField(target as IState);
+            if (StateEditor.RenderStateField(serializedObject.FindProperty("_defaultOption"), target as IState))
+            {
+                serializedObject.ApplyModifiedProperties();
+            }
         }
 
         public override bool RequiresConstantRepaint()

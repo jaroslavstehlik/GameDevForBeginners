@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -36,15 +35,5 @@ public class PlayerInputController : InputController
         _playerInput.look = lookAction.action.ReadValue<Vector2>();
         
         UpdateInput(_playerInput);
-    }
-
-    private void OnApplicationPause(bool pauseStatus)
-    {
-        
-    }
-
-    private void OnApplicationFocus(bool hasFocus)
-    {
-        
     }
 }

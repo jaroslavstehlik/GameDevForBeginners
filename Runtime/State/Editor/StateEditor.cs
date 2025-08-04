@@ -8,28 +8,32 @@ namespace GameDevForBeginners
     [CustomEditor(typeof(State))]
     public class StateEditor : Editor
     {
-        public static void RenderStateField(IState state)
+        public static bool RenderStateField(SerializedProperty serializedProperty, IState state)
         {
             if(state == null || !EditorApplication.isPlaying)
-                return;
+                return false;
             
             int selectedIndex = Math.Max(state.options.GetOptionIndex(state.activeOption), 0);
             string[] optionNames = state.options.optionNames;
             if(optionNames.Length == 0)
-                return;
+                return false;
             
             EditorGUI.BeginChangeCheck();
             selectedIndex = EditorGUILayout.Popup(ObjectNames.NicifyVariableName(nameof(state.activeOption)), selectedIndex, optionNames);
             if (!EditorGUI.EndChangeCheck())
-                return;
+                return false;
             
-            state.activeOption = state.options.options[selectedIndex];
+            serializedProperty.objectReferenceValue = state.activeOption = state.options.options[selectedIndex];
+            return true;
         }
         
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-            RenderStateField(target as IState);
+            if (RenderStateField(serializedObject.FindProperty("_defaultOption"), target as IState))
+            {
+                serializedObject.ApplyModifiedProperties();
+            }
         }
 
         private void OnEnable()

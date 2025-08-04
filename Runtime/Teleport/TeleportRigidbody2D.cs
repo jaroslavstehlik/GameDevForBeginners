@@ -16,15 +16,15 @@ namespace GameDevForBeginners
         {
             // Modify object which entered trigger
             // find rigidbody
-            TeleportableRigidbody2D teleportableRigidbody = other.GetComponent<TeleportableRigidbody2D>();
+            Rigidbody2DMarker rigidbody2DMarkerRigidbody = other.GetComponent<Rigidbody2DMarker>();
             // If we did not found rigidbody, terminate function
-            if (teleportableRigidbody == null)
+            if (rigidbody2DMarkerRigidbody == null)
                 return;
 
             // Set its target position
-            teleportableRigidbody.rigidbody.position = targetTransform.position;
+            rigidbody2DMarkerRigidbody.rigidbody.position = targetTransform.position;
             // Set its target rotation
-            teleportableRigidbody.rigidbody.rotation = targetTransform.rotation.eulerAngles.z;
+            rigidbody2DMarkerRigidbody.rigidbody.rotation = targetTransform.rotation.eulerAngles.z;
 
             // Invoke teleport event
             if (onTeleport != null)

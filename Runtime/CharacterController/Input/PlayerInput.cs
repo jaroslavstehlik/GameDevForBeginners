@@ -81,6 +81,14 @@ public class ButtonInput
         }
     }
 
+    public bool wasPressedThisFrame
+    {
+        get
+        {
+            return _pressed.frameIndex == Time.frameCount;
+        }
+    }
+
     public void Reset()
     {
         _beingPressed = false;
