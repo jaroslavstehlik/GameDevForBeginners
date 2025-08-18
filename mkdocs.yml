@@ -1,0 +1,50 @@
+site_name: Gamedev for beginners
+use_directory_urls: false
+docs_dir: MkDocs~
+site_dir: Documentation~
+theme:
+  name: mkdocs
+  color_mode: dark
+  nav_style: dark
+nav:
+  - Home: index.md
+  - Installation: 
+    - Unity package installation: installation/unity_upm_installation.md
+    - Interactive documentation: installation/unity_interactive_documentation.md
+  - Theory:
+    - Game engines: game_dev/theory/game_engines.md
+    - Physics: game_dev/theory/physics.md
+    - Time: game_dev/theory/time.md
+    - Rendering: game_dev/theory/rendering.md    
+  - World building: 
+    - World: game_dev/world/world.md
+    - Barriers: game_dev/world/world_barriers.md
+    - Terrain: game_dev/world/world_terrain.md
+    - Biomes: game_dev/world/world_biomes.md
+    - Landmarks: game_dev/world/world_landmarks.md
+    - Blocking: game_dev/world/world_design_blocking.md
+    - Tools: game_dev/world/world_design_tools.md
+    - Level design: game_dev/world/world_level_design.md
+  - Building blocks:
+    - Camera: game_dev/building_blocks/camera.md
+    - Character controller: game_dev/building_blocks/character_controller.md
+    - Console: game_dev/building_blocks/console.md
+    - Triggers: game_dev/building_blocks/triggers.md
+    - Teleports: game_dev/building_blocks/teleports.md
+    - Timers: game_dev/building_blocks/timers.md
+    - Spawners: game_dev/building_blocks/spawners.md
+    - Counters: game_dev/building_blocks/counters.md
+    - Quests: game_dev/building_blocks/quests.md
+    - Inventory: game_dev/building_blocks/inventory.md
+    - Map: game_dev/building_blocks/map.md
+    - Chance: game_dev/building_blocks/chance.md
+  - Programming:        
+    - Intro: csharp/programming_vs_cooking.md
+    - Constants: csharp/constants.md
+    - Variables: csharp/variables.md
+    - Types: csharp/types.md
+    - Scope: csharp/scope.md
+    - Functions: csharp/functions.md
+    - Operators: csharp/operators.md
+    - Conditions: csharp/conditions.md
+    - Loops: csharp/loops.md

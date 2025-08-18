@@ -119,5 +119,30 @@ namespace GameDevForBeginners
         {
             activeOption = defaultOption;
         }
+
+        public int activeOptionIndex
+        {
+            get
+            {
+                if (_options == null) return -1;
+                return _options.GetOptionIndex(_activeOption);
+            }
+        }
+        
+        int mod(int a, int b)
+        {
+            return (a%b + b)%b;
+        }
+        public void SetPreviousOption(bool cycle = false)
+        {
+            int index = cycle ? mod(activeOptionIndex - 1, _options.Length()) : Math.Max(activeOptionIndex - 1, 0); 
+            activeOption = _options[index];
+        }
+        
+        public void SetNextOption(bool cycle = false)
+        {
+            int index = cycle ? mod(activeOptionIndex + 1, _options.Length()) : Math.Min(activeOptionIndex + 1, Math.Max(_options.Length() - 1, 0));
+            activeOption = _options[index];
+        }
     }
 }

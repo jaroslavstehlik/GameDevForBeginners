@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEditor;
 using UnityEditorInternal;
@@ -8,6 +9,9 @@ namespace GameDevForBeginners
     [CanEditMultipleObjects]
     public class StateBehaviourEditor : Editor
     {
+        private SerializedProperty _defaultOption;
+        private SerializedProperty _options;
+        
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
@@ -15,6 +19,13 @@ namespace GameDevForBeginners
             {
                 serializedObject.ApplyModifiedProperties();
             }
+        }
+
+        private void OnEnable()
+        {
+            _defaultOption = serializedObject.FindProperty("_defaultOption");
+            _options = serializedObject.FindProperty("_options");
+            StateEditor.CheckDefaultOption(_defaultOption, _options);
         }
 
         public override bool RequiresConstantRepaint()

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Landmarks - Gamedev for beginners</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../css/brands.min.css" rel="stylesheet">
+        <link href="../../css/solid.min.css" rel="stylesheet">
+        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" disabled>
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" >
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="../../index.html">Gamedev for beginners</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href="../../index.html" class="nav-link">Home</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Installation</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../installation/unity_upm_installation.html" class="dropdown-item">Unity package installation</a>
+</li>
+                                    
+<li>
+    <a href="../../installation/unity_interactive_documentation.html" class="dropdown-item">Interactive documentation</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Theory</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../theory/game_engines.html" class="dropdown-item">Game engines</a>
+</li>
+                                    
+<li>
+    <a href="../theory/physics.html" class="dropdown-item">Physics</a>
+</li>
+                                    
+<li>
+    <a href="../theory/time.html" class="dropdown-item">Time</a>
+</li>
+                                    
+<li>
+    <a href="../theory/rendering.html" class="dropdown-item">Rendering</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">World building</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="world.html" class="dropdown-item">World</a>
+</li>
+                                    
+<li>
+    <a href="world_barriers.html" class="dropdown-item">Barriers</a>
+</li>
+                                    
+<li>
+    <a href="world_terrain.html" class="dropdown-item">Terrain</a>
+</li>
+                                    
+<li>
+    <a href="world_biomes.html" class="dropdown-item">Biomes</a>
+</li>
+                                    
+<li>
+    <a href="world_landmarks.html" class="dropdown-item active" aria-current="page">Landmarks</a>
+</li>
+                                    
+<li>
+    <a href="world_design_blocking.html" class="dropdown-item">Blocking</a>
+</li>
+                                    
+<li>
+    <a href="world_design_tools.html" class="dropdown-item">Tools</a>
+</li>
+                                    
+<li>
+    <a href="world_level_design.html" class="dropdown-item">Level design</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Building blocks</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../building_blocks/camera.html" class="dropdown-item">Camera</a>
+</li>
+                                    
+<li>
+    <a href="../building_blocks/character_controller.html" class="dropdown-item">Character controller</a>
+</li>
+                                    
+<li>
+    <a href="../building_blocks/console.html" class="dropdown-item">Console</a>
+</li>
+                                    
+<li>
+    <a href="../building_blocks/triggers.html" class="dropdown-item">Triggers</a>
+</li>
+                                    
+<li>
+    <a href="../building_blocks/teleports.html" class="dropdown-item">Teleports</a>
+</li>
+                                    
+<li>
+    <a href="../building_blocks/timers.html" class="dropdown-item">Timers</a>
+</li>
+                                    
+<li>
+    <a href="../building_blocks/spawners.html" class="dropdown-item">Spawners</a>
+</li>
+                                    
+<li>
+    <a href="../building_blocks/counters.html" class="dropdown-item">Counters</a>
+</li>
+                                    
+<li>
+    <a href="../building_blocks/quests.html" class="dropdown-item">Quests</a>
+</li>
+                                    
+<li>
+    <a href="../building_blocks/inventory.html" class="dropdown-item">Inventory</a>
+</li>
+                                    
+<li>
+    <a href="../building_blocks/map.html" class="dropdown-item">Map</a>
+</li>
+                                    
+<li>
+    <a href="../building_blocks/chance.html" class="dropdown-item">Chance</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Programming</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../csharp/programming_vs_cooking.html" class="dropdown-item">Intro</a>
+</li>
+                                    
+<li>
+    <a href="../../csharp/constants.html" class="dropdown-item">Constants</a>
+</li>
+                                    
+<li>
+    <a href="../../csharp/variables.html" class="dropdown-item">Variables</a>
+</li>
+                                    
+<li>
+    <a href="../../csharp/types.html" class="dropdown-item">Types</a>
+</li>
+                                    
+<li>
+    <a href="../../csharp/scope.html" class="dropdown-item">Scope</a>
+</li>
+                                    
+<li>
+    <a href="../../csharp/functions.html" class="dropdown-item">Functions</a>
+</li>
+                                    
+<li>
+    <a href="../../csharp/operators.html" class="dropdown-item">Operators</a>
+</li>
+                                    
+<li>
+    <a href="../../csharp/conditions.html" class="dropdown-item">Conditions</a>
+</li>
+                                    
+<li>
+    <a href="../../csharp/loops.html" class="dropdown-item">Loops</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="world_biomes.html" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="world_design_blocking.html" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <script src="../../js/darkmode.js"></script>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#world-landmarks" class="nav-link">World landmarks</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<p><a href="world.html">World</a></p>
+<h1 id="world-landmarks">World landmarks</h1>
+<p>Our environment is made of terrain but very often we need to focus the attention
+to a very specific place. We want those places to be memorable.
+Those memorable places can be called landmarks.</p>
+<p><strong><em>Bioshock Infinite Monument</em></strong><br />
+<img src="../../img/bioshock_infinite_statue.webp" alt="bioshock infinite statue" height="400"/></p>
+<p><strong><em>Red dead redemption 2 Brandywine Drop</em></strong><br />
+<img src="../../img/red_dead_redempotion_2_water_fall.webp" alt="red dead redemption waterfall" height="400"/></p>
+<p><strong><em>Valheim Island</em></strong><br />
+<img src="../../img/valheim_island.webp" alt="valheim island" height="400"/></p>
+<p><strong><em>Minecraft fireplace</em></strong><br />
+<img src="../../img/minecraft_fireplace.jpg" alt="minecraft fireplace" height="400"/></p>
+<p><strong><em>World of Warcraft mountain</em></strong><br />
+<img src="../../img/wow_mountain.avif" alt="wow mountaint" height="400"/></p>
+<p><strong><em>Legend of Zelda Great deku tree</em></strong><br />
+<img src="../../img/legend_of_zelda_tree.png" alt="legend of zelda tree" height="400"/></p>
+<p><strong><em>Shadow Of Tomb Rider Cave</em></strong><br />
+<img src="../../img/shadow_of_tomb_raider_cave.jpg" alt="shadow of tomb rider cave" height="400"/></p>
+<ul>
+<li>Nature<ul>
+<li>vistas</li>
+<li>waterfalls</li>
+<li>water surface "ponds, lakes"</li>
+<li>hills</li>
+<li>mountains</li>
+<li>unique trees</li>
+<li>caves</li>
+<li>islands</li>
+</ul>
+</li>
+<li>Urban<ul>
+<li>fire places</li>
+<li>crossroads</li>
+<li>parks</li>
+<li>bridges</li>
+<li>factories</li>
+<li>mines</li>
+<li>statues</li>
+<li>monuments</li>
+</ul>
+</li>
+</ul></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

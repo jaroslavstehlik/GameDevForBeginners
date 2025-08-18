@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Options", menuName = "GMD/Options/Options", order = 1)]
@@ -22,6 +23,16 @@ public class Options : ScriptableObject
         }
     }
 
+    public Option this[int index]
+    {
+        get => _options[index];
+    }
+
+    public int Length()
+    {
+        return _options.Length;
+    }
+    
     public int GetOptionIndex(Option option)
     {
         for (int i = 0; i < _options.Length; i++)

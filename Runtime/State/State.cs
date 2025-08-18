@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
@@ -145,6 +146,26 @@ namespace GameDevForBeginners
             activeOption = _defaultOption;
         }
 
+        public int activeOptionIndex
+        {
+            get
+            {
+                if (_options == null) return -1;
+                return _options.GetOptionIndex(_activeOption);
+            }
+        }
+        
+        public void SetPreviousOption(bool cycle = false)
+        {
+            int index = cycle ? activeOptionIndex - 1 % _options.Length() : Math.Min(activeOptionIndex - 1, 0); 
+            activeOption = _options[index];
+        }
+        
+        public void SetNextOption(bool cycle = false)
+        {
+            int index = cycle ? activeOptionIndex + 1 % _options.Length() : Math.Max(activeOptionIndex - 1, _options.Length() - 1);
+            activeOption = _options[index];
+        }
         public static bool isPlayingOrWillChangePlaymode
         {
             get

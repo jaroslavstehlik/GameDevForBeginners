@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Types - Gamedev for beginners</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../css/brands.min.css" rel="stylesheet">
+        <link href="../css/solid.min.css" rel="stylesheet">
+        <link href="../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" disabled>
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" >
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="../index.html">Gamedev for beginners</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href="../index.html" class="nav-link">Home</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Installation</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../installation/unity_upm_installation.html" class="dropdown-item">Unity package installation</a>
+</li>
+                                    
+<li>
+    <a href="../installation/unity_interactive_documentation.html" class="dropdown-item">Interactive documentation</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Theory</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../game_dev/theory/game_engines.html" class="dropdown-item">Game engines</a>
+</li>
+                                    
+<li>
+    <a href="../game_dev/theory/physics.html" class="dropdown-item">Physics</a>
+</li>
+                                    
+<li>
+    <a href="../game_dev/theory/time.html" class="dropdown-item">Time</a>
+</li>
+                                    
+<li>
+    <a href="../game_dev/theory/rendering.html" class="dropdown-item">Rendering</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">World building</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../game_dev/world/world.html" class="dropdown-item">World</a>
+</li>
+                                    
+<li>
+    <a href="../game_dev/world/world_barriers.html" class="dropdown-item">Barriers</a>
+</li>
+                                    
+<li>
+    <a href="../game_dev/world/world_terrain.html" class="dropdown-item">Terrain</a>
+</li>
+                                    
+<li>
+    <a href="../game_dev/world/world_biomes.html" class="dropdown-item">Biomes</a>
+</li>
+                                    
+<li>
+    <a href="../game_dev/world/world_landmarks.html" class="dropdown-item">Landmarks</a>
+</li>
+                                    
+<li>
+    <a href="../game_dev/world/world_design_blocking.html" class="dropdown-item">Blocking</a>
+</li>
+                                    
+<li>
+    <a href="../game_dev/world/world_design_tools.html" class="dropdown-item">Tools</a>
+</li>
+                                    
+<li>
+    <a href="../game_dev/world/world_level_design.html" class="dropdown-item">Level design</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Building blocks</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../game_dev/building_blocks/camera.html" class="dropdown-item">Camera</a>
+</li>
+                                    
+<li>
+    <a href="../game_dev/building_blocks/character_controller.html" class="dropdown-item">Character controller</a>
+</li>
+                                    
+<li>
+    <a href="../game_dev/building_blocks/console.html" class="dropdown-item">Console</a>
+</li>
+                                    
+<li>
+    <a href="../game_dev/building_blocks/triggers.html" class="dropdown-item">Triggers</a>
+</li>
+                                    
+<li>
+    <a href="../game_dev/building_blocks/teleports.html" class="dropdown-item">Teleports</a>
+</li>
+                                    
+<li>
+    <a href="../game_dev/building_blocks/timers.html" class="dropdown-item">Timers</a>
+</li>
+                                    
+<li>
+    <a href="../game_dev/building_blocks/spawners.html" class="dropdown-item">Spawners</a>
+</li>
+                                    
+<li>
+    <a href="../game_dev/building_blocks/counters.html" class="dropdown-item">Counters</a>
+</li>
+                                    
+<li>
+    <a href="../game_dev/building_blocks/quests.html" class="dropdown-item">Quests</a>
+</li>
+                                    
+<li>
+    <a href="../game_dev/building_blocks/inventory.html" class="dropdown-item">Inventory</a>
+</li>
+                                    
+<li>
+    <a href="../game_dev/building_blocks/map.html" class="dropdown-item">Map</a>
+</li>
+                                    
+<li>
+    <a href="../game_dev/building_blocks/chance.html" class="dropdown-item">Chance</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Programming</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="programming_vs_cooking.html" class="dropdown-item">Intro</a>
+</li>
+                                    
+<li>
+    <a href="constants.html" class="dropdown-item">Constants</a>
+</li>
+                                    
+<li>
+    <a href="variables.html" class="dropdown-item">Variables</a>
+</li>
+                                    
+<li>
+    <a href="types.html" class="dropdown-item active" aria-current="page">Types</a>
+</li>
+                                    
+<li>
+    <a href="scope.html" class="dropdown-item">Scope</a>
+</li>
+                                    
+<li>
+    <a href="functions.html" class="dropdown-item">Functions</a>
+</li>
+                                    
+<li>
+    <a href="operators.html" class="dropdown-item">Operators</a>
+</li>
+                                    
+<li>
+    <a href="conditions.html" class="dropdown-item">Conditions</a>
+</li>
+                                    
+<li>
+    <a href="loops.html" class="dropdown-item">Loops</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="variables.html" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="scope.html" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <script src="../js/darkmode.js"></script>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="2"><a href="#types" class="nav-link">Types</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h2 id="types">Types</h2>
+<p><img alt="types" src="../img/types.webp" /></p>
+<p>Every ingredient possesses a unique flavor profile, akin to how in programming, each data type has distinct characteristics. Consider the nutritional content of our cooking ingredients: some are rich in fats, others in proteins. The ratio of fats to proteins can significantly alter the flavor of a dish, leading us to categorize ingredients based on their nutritional makeup.</p>
+<p>Among our culinary repertoire, certain ingredients serve as the foundation of countless dishes. Take, for instance, tomatoes, eggs, and salmon. Each of these can be seen as a fundamental building block in the culinary world.</p>
+<p>When we combine these base ingredients, such as in a salad, we're not just mixing flavors; we're creating something new from the foundational elements. A salad represents a harmonious blend of these basic components.</p>
+<p>This culinary concept mirrors the structure of programming languages. In programming, we have fundamental elements known as primitive data types. These are the basic ingredients from which we start - akin to our tomatoes, eggs, and salmon. And just as combining these ingredients can create a salad, in programming, when we combine primitive types, we create what are known as composite types.</p>
+<p>Primitive data types are the simple, indivisible types that form the basis of programming. These include types like integers, booleans, and characters - each serving a unique purpose and representing different kinds of data.</p>
+<p>Composite types, on the other hand, are akin to our salads. They're formed by combining primitive types or other composite types into more complex structures. Examples include arrays, structures, and classes. Just as a salad brings together various flavors into a cohesive dish, composite types combine simpler data types to create more intricate and versatile data structures.</p>
+<h3 id="primitive-types">primitive types</h3>
+<p>bool | boolean | binary true or false</p>
+<pre><code class="language-csharp">bool positive = true;
+bool negative = false;
+</code></pre>
+<p>char | character | single letter value</p>
+<pre><code class="language-csharp">char letterA = 'a';
+char letterB = 'b';
+</code></pre>
+<p>int | integer | whole number    </p>
+<pre><code class="language-csharp">int positiveNumber = 24;
+int negativeNumber = -126;
+</code></pre>
+<p>float | float | floating point number</p>
+<pre><code class="language-csharp">float positiveFloatingNumber = 3.14f;
+float negativeFloatingNumber = -126.0f;
+</code></pre>
+<p>double | double | double precision floating point number</p>
+<pre><code class="language-csharp">double positiveFloatingNumber = 3.14;
+double negativeFloatingNumber = -126.0;
+</code></pre>
+<p>enum | enumeration | list of options represented by a whole number</p>
+<pre><code class="language-csharp">enum myEnum {
+    firstEnum,
+    secondEnum
+    thirdEnum
+}
+</code></pre>
+<h3 id="composite-types">composite types</h3>
+<p>[] | array | multiple elements</p>
+<pre><code class="language-csharp">bool[] arrayOfBooleans;
+char[] arrayOfCharacters;
+int[] arrayOfIntegers;
+float[] arrayOfFloats;
+double[] arrayOfDoubles;
+</code></pre>
+<p>string | string | array of characters, text</p>
+<pre><code class="language-csharp">string myString = &quot;this is my first string&quot;;
+</code></pre>
+<p>struct | structure | container containing multiple variables</p>
+<pre><code class="language-csharp">struct MyStruct {
+    // body of MyStruct
+    bool[] myArrayOfBools;
+    int myInteger;
+    float myFloat;
+    string myString;
+}
+</code></pre>
+<p>class | class | container containing multiple variables and functions</p>
+<pre><code class="language-csharp">class MyClass {
+    // body of MyClass
+    bool[] myArrayOfBools;
+    int myInteger;
+    float myFloat;
+    string myString;
+
+    void MyFunction()
+    {
+        // body of MyFunction
+    }
+}
+</code></pre>
+<p><a href="scope.html">Continue with scope</a></p>
+<p><a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/types">Types on Microsoft.com</a></p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js"></script>
+        <script src="../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

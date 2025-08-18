@@ -12,5 +12,8 @@ namespace GameDevForBeginners
         public Option lastActiveOption { get; }
         public Option activeOption { get; set; }
         public void Reset();
+        public void SetPreviousOption(bool cycle);
+        public void SetNextOption(bool cycle);
+        public int activeOptionIndex { get; }
     }
 }
