@@ -1,15 +1,14 @@
 {
   "name": "digital.dream.gamedevforbeginners",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "displayName": "Game dev for beginners",
   "description": "This unity package is dedicated to teaching the fundamentals of game development to absolute beginners, with no prior experience required.",
-  "unity": "2021.3",
-  "unityRelease": "30f1",
-  "documentationUrl": "https://github.com/jaroslavstehlik/GameDevForBeginners",
+  "unity": "6000.0",
+  "unityRelease": "41f1",
+  "documentationUrl": "Documentation~/index.html",
   "dependencies": {
     "com.unity.render-pipelines.universal": "12.1.12",
     "com.unity.textmeshpro": "3.0.6",
-    "com.unity.splines": "2.5.2"
  },
  "keywords": [
     "gamedevforbeginners",
@@ -21,5 +20,17 @@
     "name": "Jaroslav Stehlik",
     "email": "stehlik@dream.digital",
     "url": "https://dream.digital"
-  }
+  },
+  "samples": [
+      {
+          "displayName": "GameDev Core",
+          "description": "Essential package for gamedevforbeginners",
+          "path": "Samples~/GameDevCore"
+      },
+      {
+          "displayName": "Life of a 2D platformer",
+          "description": "Step by step tutorial on how to make a 2D platformer.",
+          "path": "Samples~/Life of a 2D platformer"
+      }
+  ]
 }
