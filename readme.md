@@ -1,4 +1,4 @@
-<img src="Documentation/img/building_blocks_intro.webp" alt="game dev building blocks" height="400"/>
+<img src="Documentation~/img/building_blocks_intro.webp" alt="game dev building blocks" height="400"/>
 
 This GitHub repository is dedicated to explain the fundamentals   
 of game development to absolute beginners, with no prior experience required.   
@@ -11,10 +11,10 @@ Git and Git LFS
 
 # Installation
 
-- [Unity package installation](MkDocs~/installation/unity_upm_installation.md)
-- [Interactive documentation](MkDocs~/installation/unity_interactive_documentation.md)
+- [Unity package installation](Documentation~~/installation/unity_upm_installation.md)
+- [Interactive documentation](Documentation~~/installation/unity_interactive_documentation.md)
 
 # Documentation
 
-- [HTML documentation](Documentation~/index.html)
-- [Markdown](MkDocs~/index.md)
+- [HTML documentation](https://jaroslavstehlik.github.io/GameDevForBeginners/)
+- [Markdown](Documentation~/index.md)
