@@ -1,7 +1,7 @@
 site_name: Gamedev for beginners
 use_directory_urls: false
-docs_dir: MkDocs~
-site_dir: Documentation~
+docs_dir: Documentation~
+site_dir: docs
 theme:
   name: mkdocs
   color_mode: dark
