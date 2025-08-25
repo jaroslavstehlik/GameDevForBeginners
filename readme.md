@@ -16,5 +16,5 @@ Git and Git LFS
 
 # Documentation
 
-- [HTML documentation](Documentation~/Index.html)
-- [Markdown](MkDocs~/Index.md)
+- [HTML documentation](Documentation~/index.html)
+- [Markdown](MkDocs~/index.md)
