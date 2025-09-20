@@ -116,6 +116,7 @@ public class PlayerInput
 {
     public Vector2 move;
     public Vector2 look;
+    public float zoom;
     public ButtonInput jump = ButtonInput.Empty();
     public ButtonInput crouch = ButtonInput.Empty();
     public ButtonInput sprint = ButtonInput.Empty();

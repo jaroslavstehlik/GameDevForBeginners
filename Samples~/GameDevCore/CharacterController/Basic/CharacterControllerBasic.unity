@@ -210,13 +210,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 450600156}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!114 &450600159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -986,8 +986,8 @@ MonoBehaviour:
   target: {fileID: 457504463}
   minMaxDistance: {x: 1, y: 10}
   minMaxPitch: {x: -89, y: 89}
-  mouseSensitivity: 100
-  mouseScrollWheelSensitivity: 1
+  orbitSpeed: 100
+  zoomSpeed: 0.01
   flipMouseY: 1
   cameraPitch: 0
   cameraDistance: 10
@@ -1438,6 +1438,56 @@ PrefabInstance:
       propertyPath: _cameraTransform
       value: 
       objectReference: {fileID: 2003596577}
+    - target: {fileID: 7418803435259125567, guid: 7a9a4d7e34a0240cb983c60e082f2634,
+        type: 3}
+      propertyPath: showCeilingHit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7418803435259125567, guid: 7a9a4d7e34a0240cb983c60e082f2634,
+        type: 3}
+      propertyPath: _cameraTransform
+      value: 
+      objectReference: {fileID: 2003596577}
+    - target: {fileID: 7418803435259125567, guid: 7a9a4d7e34a0240cb983c60e082f2634,
+        type: 3}
+      propertyPath: movementSettings.fallSpeed
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7418803435259125567, guid: 7a9a4d7e34a0240cb983c60e082f2634,
+        type: 3}
+      propertyPath: movementSettings.jumpSpeed
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7418803435259125567, guid: 7a9a4d7e34a0240cb983c60e082f2634,
+        type: 3}
+      propertyPath: movementSettings.moveSpeed
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7418803435259125567, guid: 7a9a4d7e34a0240cb983c60e082f2634,
+        type: 3}
+      propertyPath: movementSettings.jumpHeight
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7418803435259125567, guid: 7a9a4d7e34a0240cb983c60e082f2634,
+        type: 3}
+      propertyPath: movementSettings.crouchMultiplier
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7418803435259125567, guid: 7a9a4d7e34a0240cb983c60e082f2634,
+        type: 3}
+      propertyPath: movementSettings.sprintMultiplier
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8239808423258172271, guid: 7a9a4d7e34a0240cb983c60e082f2634,
+        type: 3}
+      propertyPath: m_Height
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8239808423258172271, guid: 7a9a4d7e34a0240cb983c60e082f2634,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

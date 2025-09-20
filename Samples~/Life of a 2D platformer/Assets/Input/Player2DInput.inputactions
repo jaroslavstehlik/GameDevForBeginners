@@ -1,5 +1,5 @@
 {
-    "name": "PlayerInput",
+    "name": "Player2DInput",
     "maps": [
         {
             "name": "Player",
@@ -49,22 +49,13 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "Zoom",
-                    "type": "Value",
-                    "id": "65593467-3f74-4981-88d3-71bab60329ef",
-                    "expectedControlType": "Axis",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
                 }
             ],
             "bindings": [
                 {
                     "name": "keyboard.wasd",
                     "id": "77a55728-e2f0-4958-93db-4856c03693a0",
-                    "path": "2DVector",
+                    "path": "2DVector(mode=1)",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -119,7 +110,7 @@
                 {
                     "name": "keyboard.arrows",
                     "id": "2ef4d784-923d-4237-9755-071964f5308d",
-                    "path": "2DVector",
+                    "path": "2DVector(mode=1)",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -174,7 +165,7 @@
                 {
                     "name": "",
                     "id": "ed09eadd-069b-4fd3-ad37-4da502c0de4e",
-                    "path": "<Gamepad>/leftShoulder",
+                    "path": "<Gamepad>/leftStick",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
@@ -188,7 +179,7 @@
                     "path": "<Gamepad>/dpad",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Gamepad",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -280,39 +271,6 @@
                     "action": "Sprint",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "1D Axis",
-                    "id": "fdd45577-2193-4e3f-84a2-7e22aa44199b",
-                    "path": "1DAxis",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Zoom",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "negative",
-                    "id": "280b1b2e-cd68-43fc-b3bc-2470a16f98ca",
-                    "path": "<Mouse>/scroll/down",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Zoom",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "positive",
-                    "id": "10febf93-19ba-4803-ad42-e42f86f0ab97",
-                    "path": "<Mouse>/scroll/up",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Zoom",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 }
             ]
         }

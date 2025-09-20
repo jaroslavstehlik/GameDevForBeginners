@@ -8,6 +8,7 @@ public class PlayerInputController : InputController
     public InputActionReference jumpAction;
     public InputActionReference sprintAction;
     public InputActionReference interactAction;
+    public InputActionReference zoomAction;
 
     private PlayerInput _playerInput = new PlayerInput();
     
@@ -18,6 +19,7 @@ public class PlayerInputController : InputController
         jumpAction.action.Enable();
         sprintAction.action.Enable();
         interactAction.action.Enable();
+        zoomAction.action.Enable();
     }
 
     void UpdateActionButton(InputAction inputAction, ref ButtonInput buttonInput)
@@ -33,6 +35,7 @@ public class PlayerInputController : InputController
         
         _playerInput.move = moveAction.action.ReadValue<Vector2>();
         _playerInput.look = lookAction.action.ReadValue<Vector2>();
+        _playerInput.zoom = zoomAction.action.ReadValue<float>();
         
         UpdateInput(_playerInput);
     }

@@ -10,8 +10,8 @@ namespace GameDevForBeginners
         public Transform target;
         public Vector2 minMaxDistance = new Vector2(1f, 10f);
         public Vector2 minMaxPitch = new Vector2(-89f, 89f);
-        public float mouseSensitivity = 100f;
-        public float mouseScrollWheelSensitivity = 1f;
+        public float orbitSpeed = 100f;
+        public float zoomSpeed = 0.01f;
         public bool flipMouseY = true;
         public float cameraPitch = 0;
         public float cameraDistance = 10f;
@@ -34,8 +34,8 @@ namespace GameDevForBeginners
 
         private void LateUpdate()
         {
-            float mouseX = _playerInput.look.x * mouseSensitivity * Time.deltaTime;
-            float mouseY = (flipMouseY ? -_playerInput.look.y : _playerInput.look.y)  * mouseSensitivity * Time.deltaTime;
+            float mouseX = _playerInput.look.x * orbitSpeed * Time.deltaTime;
+            float mouseY = (flipMouseY ? -_playerInput.look.y : _playerInput.look.y)  * orbitSpeed * Time.deltaTime;
             
             float yawDelta = mouseX; 
             float pitchDelta = mouseY;
@@ -59,8 +59,7 @@ namespace GameDevForBeginners
             Vector3 targetPosition = target.position;
             Vector3 targetDirection = rotation * Vector3.forward;
             
-            float mouseScrollWheel = Input.GetAxis("Mouse ScrollWheel");
-            cameraDistance = Mathf.Clamp(cameraDistance + mouseScrollWheel * mouseScrollWheelSensitivity,
+            cameraDistance = Mathf.Clamp(cameraDistance + _playerInput.zoom * zoomSpeed,
                 minMaxDistance.x, minMaxDistance.y);
 
             Ray sphereCastRay = new Ray(targetPosition, -targetDirection);

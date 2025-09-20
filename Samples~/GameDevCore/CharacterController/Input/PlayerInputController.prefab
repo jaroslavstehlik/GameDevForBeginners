@@ -44,6 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1020420d01aa449ab3b8144f4c3f5f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onInteractStart:
+    m_PersistentCalls:
+      m_Calls: []
   moveAction: {fileID: 4085120503690662340, guid: 3621feb1171e44b7685af4225bfbd19c,
     type: 3}
   lookAction: {fileID: 4881060674457256544, guid: 3621feb1171e44b7685af4225bfbd19c,
@@ -53,4 +56,6 @@ MonoBehaviour:
   sprintAction: {fileID: -3261151687125251436, guid: 3621feb1171e44b7685af4225bfbd19c,
     type: 3}
   interactAction: {fileID: 1149289741041861241, guid: 3621feb1171e44b7685af4225bfbd19c,
+    type: 3}
+  zoomAction: {fileID: -4221974815835092190, guid: 3621feb1171e44b7685af4225bfbd19c,
     type: 3}
