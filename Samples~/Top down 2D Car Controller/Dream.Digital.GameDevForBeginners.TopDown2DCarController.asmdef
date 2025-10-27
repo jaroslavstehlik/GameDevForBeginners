@@ -1,0 +1,17 @@
+{
+    "name": "Dream.Digital.GameDevForBeginners.TopDown2DCarController",
+    "rootNamespace": "",
+    "references": [
+        "Unity.InputSystem",
+        "Digital.Dream.GameDevForBeginners"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

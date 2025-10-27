@@ -1,6 +1,6 @@
 {
   "name": "digital.dream.gamedevforbeginners",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "displayName": "Game dev for beginners",
   "description": "This unity package is dedicated to teaching the fundamentals of game development to absolute beginners, with no prior experience required.",
   "unity": "6000.0",
@@ -31,6 +31,11 @@
           "displayName": "Life of a 2D platformer",
           "description": "Step by step tutorial on how to make a 2D platformer.",
           "path": "Samples~/Life of a 2D platformer"
+      },
+      {
+          "displayName": "Top down 2D Car Controller",
+          "description": "Simple top down car controller using 2D physics.",
+          "path": "Samples~/Top down 2D Car Controller"
       }
   ]
 }
