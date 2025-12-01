@@ -9,6 +9,19 @@ namespace GameDevForBeginners
         internal int closestNormalRaycastHitIndex;
         internal int closestDistanceRaycastHitIndex;
 
+        public Rigidbody GetRigidbody()
+        {
+            foreach (var raycastHit in raycastHits)
+            {
+                if (raycastHit.rigidbody != null)
+                {
+                    return raycastHit.rigidbody;
+                }
+            }
+
+            return null;
+        }
+        
         public bool collides
         {
             get
@@ -120,7 +133,7 @@ namespace GameDevForBeginners
             Vector3 worldCeilingDetectorPosition = rigidbody.position + rigidbody.rotation * localCeilingDetectorPosition;
             
             Ray groundRay = new Ray(worldGroundDetectorPosition, groundDetector.transform.up);
-            Debug.DrawRay(groundRay.origin, groundRay.direction * groundDetector.height);
+            //Debug.DrawRay(groundRay.origin, groundRay.direction * groundDetector.height);
             SphereCast(out groundSphereCastInfo, groundRay, groundDetector.height, groundDetector.radius,
                 environmentMask,
                 groundDetector.height);
@@ -128,7 +141,7 @@ namespace GameDevForBeginners
             groundDetector.isColliding = groundSphereCastInfo.collides;
             
             Ray ceilingRay = new Ray(worldCeilingDetectorPosition, ceilingDetector.transform.up);
-            Debug.DrawRay(ceilingRay.origin, ceilingRay.direction * ceilingDetector.height);
+            //Debug.DrawRay(ceilingRay.origin, ceilingRay.direction * ceilingDetector.height);
             SphereCast(out ceilingSphereCastInfo, ceilingRay, ceilingDetector.height, ceilingDetector.radius,
                 environmentMask,
                 ceilingDetector.height);

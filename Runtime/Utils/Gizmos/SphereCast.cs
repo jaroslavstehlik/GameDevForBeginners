@@ -8,6 +8,7 @@ namespace GameDevForBeginners
         public float radius = 0.5f;
         public float height = 1f;
         public bool isColliding = false;
+        public bool drawDebug = true;
         [SerializeField] private Color _color = Color.white;
         [SerializeField] private Color _collidingColor = Color.red;
  
@@ -15,6 +16,9 @@ namespace GameDevForBeginners
 
         private void OnDrawGizmos()
         {
+            if(!drawDebug)
+                return;
+            
             Vector3 position = transform.position;
             Quaternion rotation = transform.rotation;
             DrawWireCapsule(position + rotation * Vector3.up * height * 0.5f, rotation, radius, height,

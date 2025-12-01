@@ -71,8 +71,20 @@ namespace GameDevForBeginners
             }
             
             Vector3 gravityDirection = Physics.gravity.normalized;
-            Vector3 velocity = (movementStateData.rotation * playerMove + gravityDirection * groundCollisionInfo.rampDistance);
-            movementStateData.velocity = velocity / Time.fixedDeltaTime; 
+            Vector3 velocity = (movementStateData.rotation * playerMove + gravityDirection * groundCollisionInfo.rampDistance) / Time.fixedDeltaTime;
+
+            // Apply moving platforms
+            if (movementSettings.useMovingPlatforms)
+            {
+                Rigidbody groundRigidbody = collisionState.groundSphereCastInfo.GetRigidbody();
+                if (groundRigidbody != null)
+                {
+                    velocity += groundRigidbody.GetPointVelocity(movementStateData.position);
+                }
+            }
+
+            movementStateData.velocity = velocity;
+
             return MovementStateBehaviour.Grounded;
         }
 

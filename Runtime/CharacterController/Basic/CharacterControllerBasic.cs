@@ -12,6 +12,7 @@ namespace GameDevForBeginners
         public float jumpHeight = 2f;
         public float jumpSpeed = 0.2f;
         public float fallSpeed = 0.2f;
+        public bool useMovingPlatforms = true;
     }
     
     // TODO: Unable to jump when directly touching stairs from side
@@ -76,35 +77,6 @@ namespace GameDevForBeginners
             
             _rigidbody.linearVelocity = movementStateData.velocity;
             _playerInput.jump.Reset();
-        }
-
-        void DrawTriggerGizmo(Transform transform, bool triggered)
-        {
-            Gizmos.matrix = transform.localToWorldMatrix;
-            if (triggered)
-            {
-                Gizmos.color = Color.red;
-            }
-            else
-            {
-                Gizmos.color = Color.white;
-            }
-
-            Gizmos.DrawWireCube(Vector3.zero, Vector3.one);
-            Gizmos.matrix = Matrix4x4.identity;
-        }
-
-        void DrawHit(SphereCastInfo sphereCastInfo)
-        {
-            if (sphereCastInfo.closestDistanceRaycastHit(out RaycastHit closestDistanceRaycastHit))
-            {
-                Gizmos.DrawWireSphere(closestDistanceRaycastHit.point, 0.01f);
-            }
-                
-            if (sphereCastInfo.closestNormalRaycastHit(out RaycastHit closestNormalRaycastHit))
-            {
-                Gizmos.DrawLine(closestNormalRaycastHit.point, closestNormalRaycastHit.point + closestNormalRaycastHit.normal);   
-            }
         }
 
         private void OnDrawGizmos()

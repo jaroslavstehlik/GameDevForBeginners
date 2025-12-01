@@ -14,16 +14,16 @@ namespace GameDevForBeginners
 
         public void Teleport(Collider other)
         {
-            TransformMarker transformMarker = other.GetComponent<TransformMarker>();
-            // If we did not found transform, terminate function
-            if (transformMarker == null)
-                return;
-
+            Transform target = other.transform;
+            TransformMarker marker = other.GetComponent<TransformMarker>();
+            if (marker != null)
+                target = marker.target;
+            
             // Modify object which entered trigger
             // Set its target position
-            transformMarker.target.position = targetTransform.position;
+            target.position = targetTransform.position;
             // Set its target rotation
-            transformMarker.target.rotation = targetTransform.rotation;
+            target.rotation = targetTransform.rotation;
 
             // Invoke teleport event
             if (onTeleport != null)

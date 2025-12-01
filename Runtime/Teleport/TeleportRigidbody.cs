@@ -14,17 +14,20 @@ namespace GameDevForBeginners
 
         public void Teleport(Collider other)
         {
-            // Modify object which entered trigger
             // find rigidbody
-            RigidbodyMarker rigidbodyMarker = other.GetComponent<RigidbodyMarker>();
+            Rigidbody rigidbody = other.attachedRigidbody;
+            RigidbodyMarker marker = other.GetComponent<RigidbodyMarker>();
+            if (marker != null)
+                rigidbody = marker.rigidbody;
+
             // If we did not found rigidbody, terminate function
-            if (rigidbodyMarker == null)
+            if (rigidbody == null)
                 return;
 
             // Set its target position
-            rigidbodyMarker.rigidbody.position = targetTransform.position;
+            rigidbody.position = targetTransform.position;
             // Set its target rotation
-            rigidbodyMarker.rigidbody.rotation = targetTransform.rotation;
+            rigidbody.rotation = targetTransform.rotation;
 
             // Invoke teleport event
             if (onTeleport != null)

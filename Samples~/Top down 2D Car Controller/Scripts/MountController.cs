@@ -33,6 +33,9 @@ public class MountController : MonoBehaviour
     
     public void OnTriggerExit2D(Collider2D collider2D)
     {
+        if (_mountable == null)
+            return;
+
         // ignore when we are mounted 
         if(_mountable.mounted)
             return;
