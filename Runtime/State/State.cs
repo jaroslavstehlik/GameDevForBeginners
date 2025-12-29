@@ -118,7 +118,7 @@ namespace GameDevForBeginners
                 if (_options == null)
                     return;
 
-                if (!_options.options.Contains(value))
+                if (value != null && !_options.options.Contains(value))
                 {
                     Debug.LogError($"Option: {value.name} is invalid! It must be present in: {_options.name}");
                     return;

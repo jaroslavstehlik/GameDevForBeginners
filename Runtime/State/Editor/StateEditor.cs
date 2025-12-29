@@ -43,30 +43,12 @@ namespace GameDevForBeginners
         {
             ((State)target).OnValidate();
             _defaultOption = serializedObject.FindProperty("_defaultOption");
-            _options = serializedObject.FindProperty("_options");
-            CheckDefaultOption(_defaultOption, _options);
+            _options = serializedObject.FindProperty("_options");            
         }
 
         public override bool RequiresConstantRepaint()
         {
             return true;
-        }
-
-        public static void CheckDefaultOption(SerializedProperty defaultOptionProperty, SerializedProperty optionsProperty)
-        {
-            if (!defaultOptionProperty.hasMultipleDifferentValues)
-            {
-                Options options = optionsProperty.objectReferenceValue as Options;
-                if (options != null && options.Length() > 0)
-                {
-                    int index = options.GetOptionIndex(defaultOptionProperty.objectReferenceValue as Option);
-                    if (index == -1)
-                    {
-                        defaultOptionProperty.objectReferenceValue = options[0];
-                        defaultOptionProperty.serializedObject.ApplyModifiedProperties();
-                    }
-                }
-            }
         }
     }
 }

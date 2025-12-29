@@ -40,14 +40,29 @@ namespace GameDevForBeginners
             }
 
             Object propertyObjectReferenceValue = property.objectReferenceValue;
-            int selectedIndex = Math.Max(options.GetOptionIndex(propertyObjectReferenceValue as Option), 0);
-            string[] optionNames = options.optionNames;
+            int selectedIndex = options.GetOptionIndex(propertyObjectReferenceValue as Option);
+
+            // handle default none selection.
+            string[] optionNames = new string[options.optionNames.Length + 1];
+            optionNames[0] = "none";
+            for (int i = 0; i < options.optionNames.Length; i++)
+            {
+                optionNames[i + 1] = options.optionNames[i];
+            }
             
             EditorGUI.showMixedValue = property.hasMultipleDifferentValues;
             EditorGUI.BeginChangeCheck();
-            selectedIndex = EditorGUI.Popup(position, property.displayName, selectedIndex, optionNames);
-            if(EditorGUI.EndChangeCheck())
-                property.objectReferenceValue = options.options[selectedIndex];
+            selectedIndex = EditorGUI.Popup(position, property.displayName, selectedIndex + 1, optionNames) - 1;
+            if(EditorGUI.EndChangeCheck()) {
+                property.serializedObject.Update();
+                if(selectedIndex < 0)
+                {
+                    property.objectReferenceValue = null;    
+                } else {
+                    property.objectReferenceValue = options.options[selectedIndex];
+                }
+                property.serializedObject.ApplyModifiedProperties();
+            }
             EditorGUI.showMixedValue = false;
         }
     }

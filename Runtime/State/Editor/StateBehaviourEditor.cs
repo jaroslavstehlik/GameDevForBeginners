@@ -25,7 +25,6 @@ namespace GameDevForBeginners
         {
             _defaultOption = serializedObject.FindProperty("_defaultOption");
             _options = serializedObject.FindProperty("_options");
-            StateEditor.CheckDefaultOption(_defaultOption, _options);
         }
 
         public override bool RequiresConstantRepaint()

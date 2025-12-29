@@ -35,6 +35,9 @@ public class Options : ScriptableObject
     
     public int GetOptionIndex(Option option)
     {
+        if(option == null)
+            return -1;
+
         for (int i = 0; i < _options.Length; i++)
         {
             if (_options[i] == option)

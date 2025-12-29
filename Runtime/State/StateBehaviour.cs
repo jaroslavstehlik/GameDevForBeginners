@@ -92,7 +92,7 @@ namespace GameDevForBeginners
                 if (_options == null || value == null)
                     return;
 
-                if (!_options.options.Contains(value))
+                if (value != null && !_options.options.Contains(value))
                 {
                     Debug.LogWarning($"Option: {value.name} is invalid! It must be present in: {_options.name}");
                     return;
@@ -133,6 +133,7 @@ namespace GameDevForBeginners
         {
             return (a%b + b)%b;
         }
+        
         public void SetPreviousOption(bool cycle = false)
         {
             int index = cycle ? mod(activeOptionIndex - 1, _options.Length()) : Math.Max(activeOptionIndex - 1, 0); 
