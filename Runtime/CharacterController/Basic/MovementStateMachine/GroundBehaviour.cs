@@ -2,63 +2,75 @@ using UnityEngine;
 
 namespace GameDevForBeginners
 {
-    public class GroundedBehaviour
+    public class GroundedBehaviour : MonoBehaviour
     {
-        private CollisionState collisionState;
-        private PlayerInput playerInput;
-        private MovementSettings movementSettings;
+        [SerializeField] private Rigidbody _rigidbody;
+        [SerializeField] private CollisionState _collisionState;
+        [SerializeField] private InputController _inputController;
 
-        public GroundedBehaviour(CollisionState collisionState, PlayerInput playerInput,
-            MovementSettings movementSettings)
+        [Header("State")]
+        [SerializedInterface(new [] {typeof(State), typeof(StateBehaviour)}, true)]
+        [SerializeField] private SerializedInterface<IState> _movementState = new SerializedInterface<IState>{};
+        
+        [Header("State Options")]
+        [SerializeField] private Option _fallingState;
+        [SerializeField] private Option _jumpState;
+        [SerializeField] private Option _groundState;
+    
+        [Header("Variables")]
+        [SerializedInterface(new [] {typeof(Counter), typeof(CounterBehaviour)}, true)]
+        [SerializeField] private SerializedInterface<ICountable> _moveSpeed = new SerializedInterface<ICountable>{};
+
+        [SerializedInterface(new [] {typeof(Counter), typeof(CounterBehaviour)}, true)]
+        [SerializeField] private SerializedInterface<ICountable> _crouchMultiplier = new SerializedInterface<ICountable>{};
+
+        [SerializedInterface(new [] {typeof(Counter), typeof(CounterBehaviour)}, true)]
+        [SerializeField] private SerializedInterface<ICountable> _sprintMultiplier = new SerializedInterface<ICountable>{};
+
+        [SerializedInterface(new [] {typeof(Counter), typeof(CounterBehaviour)}, true)]
+        [SerializeField] private SerializedInterface<ICountable> _maxSlopeAngle = new SerializedInterface<ICountable>{};
+        
+        public bool useMovingPlatforms = true;
+
+        void OnEnable()
         {
-            this.collisionState = collisionState;
-            this.playerInput = playerInput;
-            this.movementSettings = movementSettings;
+            
         }
 
-        public void UpdatePlayerInput(PlayerInput playerInput)
-        {
-            this.playerInput = playerInput;
-        }
+        void FixedUpdate()
+        {            
+            PlayerInput playerInput = _inputController.playerInput;
 
-        public void Start(MovementStateData movementStateData)
-        {
-        }
+            GroundStateInfo groundStateInfo = _collisionState.GetGroundStateInfo(_rigidbody, _maxSlopeAngle.value.count);
+            GroundCollisionInfo groundCollisionInfo = groundStateInfo.groundCollisionInfo;
 
-        public MovementStateBehaviour Update(MovementStateData movementStateData)
-        {
-            GroundCollisionInfo groundCollisionInfo = collisionState.groundCollisionInfo;
-            if (groundCollisionInfo == null)
+            if (groundCollisionInfo == null || !groundCollisionInfo.isGrounded || groundCollisionInfo.isTooSteep)
             {
-                return MovementStateBehaviour.Falling;
+                _movementState.value.activeOption = _fallingState;
+                return;
             }
             
-            //Debug.Log($"isGrounded: {groundCollisionInfo.isGrounded}, isTooSteep: {groundCollisionInfo.isTooSteep}");
-            if (!groundCollisionInfo.isGrounded)
+            if (playerInput.jump.Take())
             {
-                return MovementStateBehaviour.Falling;
+                _movementState.value.activeOption = _jumpState;
+                return;
             }
 
-            if (playerInput.jump.isPressed && !groundCollisionInfo.isTooSteep)
-            {
-                return MovementStateBehaviour.Jumped;
-            }
+            float playerSpeed = _moveSpeed.value.count;
 
-            float playerSpeed = movementSettings.moveSpeed;
             if (playerInput.crouch.isPressed)
             {
-                playerSpeed *= movementSettings.crouchMultiplier;
+                playerSpeed *= _crouchMultiplier.value.count;
             }
             else if (playerInput.sprint.isPressed)
             {
-                playerSpeed *= movementSettings.sprintMultiplier;
+                playerSpeed *= _sprintMultiplier.value.count;
             }
 
             Vector3 playerInputDirection = new Vector3(playerInput.move.x, 0f, playerInput.move.y).normalized;
             float playerInputMagnitude = Mathf.Clamp(playerInputDirection.magnitude, 0f, 1f) * playerSpeed;
-            Vector3 playerMove = playerInputDirection * playerInputMagnitude;
 
-            playerMove = ProjectVelocityOnNormal(playerInputDirection, playerInputMagnitude, collisionState.up,
+            Vector3 playerMove = ProjectVelocityOnNormal(playerInputDirection, playerInputMagnitude, groundStateInfo.up,
                 groundCollisionInfo.localGroundNormal);
 
             if (groundCollisionInfo.isTooSteep)
@@ -71,25 +83,32 @@ namespace GameDevForBeginners
             }
             
             Vector3 gravityDirection = Physics.gravity.normalized;
-            Vector3 velocity = (movementStateData.rotation * playerMove + gravityDirection * groundCollisionInfo.rampDistance) / Time.fixedDeltaTime;
+            // put player closer to the ramp
+            float rampMagnetVelocity = groundCollisionInfo.rampDistance / Time.fixedDeltaTime;
+            Vector3 velocity = _rigidbody.rotation * playerMove + gravityDirection * rampMagnetVelocity;
 
             // Apply moving platforms
-            if (movementSettings.useMovingPlatforms)
+            if (useMovingPlatforms)
             {
-                Rigidbody groundRigidbody = collisionState.groundSphereCastInfo.GetRigidbody();
+                Rigidbody groundRigidbody = groundStateInfo.sphereCastInfo.GetRigidbody();
                 if (groundRigidbody != null)
                 {
-                    velocity += groundRigidbody.GetPointVelocity(movementStateData.position);
+                    velocity += groundRigidbody.GetPointVelocity(_rigidbody.position);
                 }
             }
 
-            movementStateData.velocity = velocity;
+            _rigidbody.linearVelocity = velocity;
 
-            return MovementStateBehaviour.Grounded;
+            float cameraYaw = Camera.main.transform.rotation.eulerAngles.y;
+            _rigidbody.rotation = Quaternion.Euler(0f, cameraYaw, 0f);                                 
+
+            _movementState.value.activeOption = _groundState;
         }
 
-        public void End(MovementStateData movementStateData)
+
+        void OnDisable()
         {
+            
         }
 
         static Vector3 ProjectVelocityOnNormal(Vector3 velocityDirection, float velocityMagnitude, Vector3 playerUp,

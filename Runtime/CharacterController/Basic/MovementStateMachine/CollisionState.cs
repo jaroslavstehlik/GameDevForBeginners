@@ -1,4 +1,4 @@
-using Chc;
+using System;
 using UnityEngine;
 
 namespace GameDevForBeginners
@@ -88,76 +88,95 @@ namespace GameDevForBeginners
 
     public class GroundCollisionInfo
     {
+        public Vector3 groundNormal { get; private set; }
         public Vector3 localGroundNormal { get; private set; }
         public float rampDistance { get; private set; }
         public float rampLocalAngle { get; private set; }
         public bool isTooSteep { get; private set; }
         public bool isGrounded { get; private set; }
 
-        public GroundCollisionInfo(CollisionState collisionState, RaycastHit closestDistanceRaycastHit, RaycastHit closestNormalRaycastHit)
+        public GroundCollisionInfo(Matrix4x4 worldToLocal, Vector3 up, float maxSlopeAngle, RaycastHit closestDistanceRaycastHit, RaycastHit closestNormalRaycastHit)
         {
-            localGroundNormal = collisionState.worldToLocal.MultiplyVector(closestNormalRaycastHit.normal);
+            groundNormal = closestNormalRaycastHit.normal;
+            localGroundNormal = worldToLocal.MultiplyVector(groundNormal);            
             rampDistance = Mathf.Max(0f, closestDistanceRaycastHit.distance - CollisionState.groundOffset);
-            rampLocalAngle = Vector3.Angle(localGroundNormal, collisionState.up);
-            isTooSteep = rampLocalAngle > collisionState.maxSlopeAngle;
+            rampLocalAngle = Vector3.Angle(groundNormal, up);
+            isTooSteep = rampLocalAngle > maxSlopeAngle;
             isGrounded = rampDistance < CollisionState.groundedDistance;
         }
     }
     
-    public class CollisionState
+    public struct GroundStateInfo
     {
         private Vector3 position;
         private Quaternion rotation;
-        public SphereCastInfo groundSphereCastInfo;
-        public SphereCastInfo ceilingSphereCastInfo;
         public float maxSlopeAngle { get; private set; }
-        public const float groundedDistance = 0.25f;
-        public const float groundOffset = 0.15f;
         public GroundCollisionInfo groundCollisionInfo { get; private set; }
-        public Vector3 up => rotation * Vector3.up;
+        public SphereCastInfo sphereCastInfo;
         public Matrix4x4 localToWorld => Matrix4x4.TRS(position, rotation, Vector3.one);
         public Matrix4x4 worldToLocal => localToWorld.inverse;
+        public Vector3 up => -Physics.gravity.normalized;
+        public Vector3 localUp => worldToLocal.MultiplyVector(up);
 
-        public void Update(Rigidbody rigidbody, Transform transform, SphereCast groundDetector, SphereCast ceilingDetector, LayerMask environmentMask,
-            float maxSlopeAngle)
+        public GroundStateInfo(Rigidbody rigidbody, SphereCastDescriptor groundDetector, float maxSlopeAngle, LayerMask environmentMask)
         {
             this.groundCollisionInfo = null;
             this.maxSlopeAngle = maxSlopeAngle;
             this.position = rigidbody.position;
             this.rotation = rigidbody.rotation;
 
-            Vector3 localGroundDetectorPosition = transform.InverseTransformPoint(groundDetector.transform.position);
-            
-            Vector3 localCeilingDetectorPosition = transform.InverseTransformPoint(ceilingDetector.transform.position);
-            Vector3 worldGroundDetectorPosition = rigidbody.position + rigidbody.rotation * localGroundDetectorPosition;
-            Vector3 worldCeilingDetectorPosition = rigidbody.position + rigidbody.rotation * localCeilingDetectorPosition;
-            
-            Ray groundRay = new Ray(worldGroundDetectorPosition, groundDetector.transform.up);
-            //Debug.DrawRay(groundRay.origin, groundRay.direction * groundDetector.height);
-            SphereCast(out groundSphereCastInfo, groundRay, groundDetector.height, groundDetector.radius,
+            Ray groundRay = new Ray(groundDetector.transform.position, groundDetector.transform.up);
+            CollisionState.SphereCast(out sphereCastInfo, groundRay, groundDetector.height, groundDetector.radius,
                 environmentMask,
                 groundDetector.height);
 
-            groundDetector.isColliding = groundSphereCastInfo.collides;
+            groundDetector.isColliding = sphereCastInfo.collides;
             
-            Ray ceilingRay = new Ray(worldCeilingDetectorPosition, ceilingDetector.transform.up);
-            //Debug.DrawRay(ceilingRay.origin, ceilingRay.direction * ceilingDetector.height);
-            SphereCast(out ceilingSphereCastInfo, ceilingRay, ceilingDetector.height, ceilingDetector.radius,
+            bool grounded = true;
+            grounded &= sphereCastInfo.closestDistanceRaycastHit(out RaycastHit closestDistanceRaycastHit);
+            grounded &= sphereCastInfo.closestNormalRaycastHit(out RaycastHit closestNormalRaycastHit);
+            if (grounded)
+            {
+                groundCollisionInfo = new GroundCollisionInfo(worldToLocal, up, maxSlopeAngle, closestDistanceRaycastHit, closestNormalRaycastHit);
+            }
+        }
+    }
+
+    public struct CeilingStateInfo
+    {
+        public SphereCastInfo sphereCastInfo;
+        
+        public CeilingStateInfo(SphereCastDescriptor ceilingDetector, LayerMask environmentMask)
+        {
+            Ray ceilingRay = new Ray(ceilingDetector.transform.position, ceilingDetector.transform.up);
+            CollisionState.SphereCast(out sphereCastInfo, ceilingRay, ceilingDetector.height, ceilingDetector.radius,
                 environmentMask,
                 ceilingDetector.height);
             
-            ceilingDetector.isColliding = ceilingSphereCastInfo.collides;
+            ceilingDetector.isColliding = sphereCastInfo.collides;
+        }
+    }
 
-            bool grounded = true;
-            grounded &= groundSphereCastInfo.closestDistanceRaycastHit(out RaycastHit closestDistqnceRaycastHit);
-            grounded &= groundSphereCastInfo.closestNormalRaycastHit(out RaycastHit closestNormalRaycastHit);
-            if (grounded)
-            {
-                groundCollisionInfo = new GroundCollisionInfo(this, closestDistqnceRaycastHit, closestNormalRaycastHit);
-            }
+    public class CollisionState : MonoBehaviour
+    {
+        public const float groundedDistance = 0.25f;
+        public const float groundOffset = 0.15f;
+
+        [SerializeField] private SphereCastDescriptor _groundDetector;
+        [SerializeField] private SphereCastDescriptor _ceilingDetector;
+        public LayerMask environmentMask = int.MaxValue;
+        
+        public GroundStateInfo GetGroundStateInfo(Rigidbody rigidbody, float maxSlopeAngle)
+        {
+            return new GroundStateInfo(rigidbody, _groundDetector, maxSlopeAngle, environmentMask);
+        }
+        
+        public CeilingStateInfo GetCeilingStateInfo()
+        {
+            return new CeilingStateInfo(_ceilingDetector, environmentMask);
         }
 
-        static void SphereCast(out SphereCastInfo sphereCastInfo, Ray ray, float castDistance, float radius,
+        public static void SphereCast(out SphereCastInfo sphereCastInfo, Ray ray, float castDistance, float radius,
             int layerMask,
             float closestNormalMaxDistance)
         {

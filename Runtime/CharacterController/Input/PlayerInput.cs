@@ -89,6 +89,13 @@ public class ButtonInput
         }
     }
 
+    public bool Take()
+    {
+        bool wasPressed = isPressed;
+        Reset();
+        return wasPressed;
+    }
+
     public void Reset()
     {
         _beingPressed = false;

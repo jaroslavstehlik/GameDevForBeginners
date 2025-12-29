@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace GameDevForBeginners
 {
-    public class SphereCast : MonoBehaviour
+    public class SphereCastDescriptor : MonoBehaviour
     {
         public float radius = 0.5f;
         public float height = 1f;

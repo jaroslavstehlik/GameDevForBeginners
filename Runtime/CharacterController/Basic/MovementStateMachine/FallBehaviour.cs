@@ -2,65 +2,72 @@ using UnityEngine;
 
 namespace GameDevForBeginners
 {
-    class FallBehaviour
+    public class FallBehaviour : MonoBehaviour
     {
-        private CollisionState collisionState;
-        private PlayerInput playerInput;
-        private MovementSettings movementSettings;
+        const float EPSILON = 0.01f;
+        [SerializeField] private Rigidbody _rigidbody;
+        [SerializeField] private CollisionState _collisionState;
+        [SerializeField] private InputController _inputController;
+        
+        [Header("State")]
+        [SerializedInterface(new [] {typeof(State), typeof(StateBehaviour)}, true)]
+        [SerializeField] private SerializedInterface<IState> _movementState = new SerializedInterface<IState>{};
+        
+        [Header("State Options")]
+        [SerializeField] private Option _fallingState;
+        [SerializeField] private Option _groundState;
+
+        [Header("Variables")]
+        [SerializedInterface(new [] {typeof(Counter), typeof(CounterBehaviour)}, true)]
+        [SerializeField] private SerializedInterface<ICountable> _moveSpeed = new SerializedInterface<ICountable>{};
+
+        [SerializedInterface(new [] {typeof(Counter), typeof(CounterBehaviour)}, true)]
+        [SerializeField] private SerializedInterface<ICountable> _fallSpeed = new SerializedInterface<ICountable>{};
+    
+        [SerializedInterface(new [] {typeof(Counter), typeof(CounterBehaviour)}, true)]
+        [SerializeField] private SerializedInterface<ICountable> _maxSlopeAngle = new SerializedInterface<ICountable>{};
+        
         private float fallStartTime;
 
-        public FallBehaviour(CollisionState collisionState, PlayerInput playerInput, MovementSettings movementSettings)
-        {
-            this.collisionState = collisionState;
-            this.playerInput = playerInput;
-            this.movementSettings = movementSettings;
-        }
-
-        public void UpdatePlayerInput(PlayerInput playerInput)
-        {
-            this.playerInput = playerInput;
-        }
-
-        public void Start(MovementStateData movementStateData)
+        void OnEnable()
         {
             fallStartTime = Time.fixedTime;
         }
 
-        public MovementStateBehaviour Update(MovementStateData movementStateData)
-        {
-            GroundCollisionInfo groundCollisionInfo = collisionState.groundCollisionInfo;
-            if (groundCollisionInfo != null && groundCollisionInfo.isGrounded)
+        void FixedUpdate()
+        {            
+            PlayerInput playerInput = _inputController.playerInput;
+
+            GroundStateInfo groundStateInfo = _collisionState.GetGroundStateInfo(_rigidbody, _maxSlopeAngle.value.count);
+            GroundCollisionInfo groundCollisionInfo = groundStateInfo.groundCollisionInfo;
+
+            if (groundCollisionInfo != null && groundCollisionInfo.isGrounded && !groundCollisionInfo.isTooSteep)
             {
-                return MovementStateBehaviour.Grounded;
+                _movementState.value.activeOption = _groundState;
+                return;
             }
-            
-            float playerSpeed = movementSettings.moveSpeed;
-            if (playerInput.crouch.isPressed)
-            {
-                playerSpeed *= movementSettings.crouchMultiplier;
-            }
-            else if (playerInput.sprint.isPressed)
-            {
-                playerSpeed *= movementSettings.sprintMultiplier;
-            }
-            
+
             Vector3 playerInputDirection = new Vector3(playerInput.move.x, 0f, playerInput.move.y);
-            float playerInputMagnitude = Mathf.Clamp(playerInputDirection.magnitude, 0f, 1f) * playerSpeed;
+            float playerInputMagnitude = Mathf.Clamp(playerInputDirection.magnitude, 0f, 1f) * _moveSpeed.value.count;
             Vector3 playerMove = playerInputDirection.normalized * playerInputMagnitude;
 
             float fallDuration = Time.fixedTime - fallStartTime;
             float physicsDuration = 1f;
             float fallProgress = Mathf.Clamp01(fallDuration / physicsDuration);
-            float fallAmount = Mathf.Pow(fallProgress, 2f) + 0.01f;
+            float fallAmount = Mathf.Pow(fallProgress, 2f);
             
-            Vector3 velocity = movementStateData.rotation * playerMove + movementSettings.fallSpeed * Physics.gravity * fallAmount;
-            movementStateData.velocity = velocity / Time.fixedDeltaTime;
+            Vector3 velocity = _rigidbody.rotation * playerMove + _fallSpeed.value.count * Physics.gravity * fallAmount;
+            _rigidbody.linearVelocity = velocity;
+
+            float cameraYaw = Camera.main.transform.rotation.eulerAngles.y;
+            _rigidbody.rotation = Quaternion.Euler(0f, cameraYaw, 0f);                                 
             
-            return MovementStateBehaviour.Falling;
+            _movementState.value.activeOption = _fallingState;
         }
 
-        public void End(MovementStateData movementStateData)
+        void OnDisable()
         {
+            
         }
     }
 }
