@@ -1,0 +1,19 @@
+{
+    "name": "Digital.Dream.GameDevForBeginners.Editor",
+    "rootNamespace": "",
+    "references": [
+        "Unity.InputSystem",
+        "Digital.Dream.GameDevForBeginners"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -5,6 +5,7 @@ namespace GameDevForBeginners
 {
     public class SphereCastDescriptor : MonoBehaviour
     {
+        public Vector2 offset = new Vector2(0.0f, -0.25f);
         public float radius = 0.5f;
         public float height = 1f;
         public bool isColliding = false;
@@ -12,16 +13,19 @@ namespace GameDevForBeginners
         [SerializeField] private Color _color = Color.white;
         [SerializeField] private Color _collidingColor = Color.red;
  
+        public Vector3 basePosition => transform.position;
+        public Quaternion baseRotation => transform.rotation;
+        public Vector3 rayOrigin => transform.TransformPoint(offset);
+        public Vector3 rayDirection => transform.up;
+
 #if UNITY_EDITOR
 
         private void OnDrawGizmos()
         {
             if(!drawDebug)
                 return;
-            
-            Vector3 position = transform.position;
-            Quaternion rotation = transform.rotation;
-            DrawWireCapsule(position + rotation * Vector3.up * height * 0.5f, rotation, radius, height,
+
+            DrawWireCapsule(rayOrigin + rayDirection * height * 0.5f, transform.rotation, radius, height,
                 isColliding ? _collidingColor : _color);
         }
 
