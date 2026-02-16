@@ -6,7 +6,7 @@ namespace GameDevForBeginners
     [AddComponentMenu("GMD/Counter/CounterListener")]
     public class CounterListener : MonoBehaviour
     {
-        [SerializedInterface(new [] {typeof(Counter), typeof(CounterBehaviour)}, true)]
+        [SerializedInterface(typeof(ICountable), true)]
         [SerializeField] private SerializedInterface<ICountable> _counter;
 
         [SerializeField] private bool _activateOnEnable = true;

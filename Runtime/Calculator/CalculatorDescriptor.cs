@@ -12,7 +12,7 @@ namespace GameDevForBeginners
     public class CalculatorVariable
     {
         [SerializeField] public string name = string.Empty;
-        [SerializedInterface(new [] {typeof(Counter), typeof(CounterBehaviour)}, true)]
+        [SerializedInterface(typeof(IScriptableValue), true)]
         public SerializedInterface<IScriptableValue> value = new SerializedInterface<IScriptableValue>{};
     }
 

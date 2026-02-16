@@ -6,7 +6,7 @@ namespace GameDevForBeginners
     [AddComponentMenu("GMD/Counter/ColliderCounter")]
     public class ColliderCounter : MonoBehaviour
     {
-        [SerializedInterface(new [] { typeof(Counter), typeof(CounterBehaviour)}, true)]
+        [SerializedInterface(typeof(ICountable), true)]
         public SerializedInterface<ICountable> counter;
         // Remember colliders inside the trigger
         private HashSet<int> _colliders = new HashSet<int>();

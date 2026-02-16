@@ -14,5 +14,7 @@ namespace GameDevForBeginners
             get => _value as T;
             set => _value = value as Object;
         }
+
+        public bool isValid => _value is T;
     }
 }

@@ -8,7 +8,7 @@ namespace GameDevForBeginners
     [AddComponentMenu("GMD/Timer/Timer")]
     public class Timer : MonoBehaviour
     {
-        [SerializedInterface(new []{typeof(Counter), typeof(CounterBehaviour)}, true)]
+        [SerializedInterface(typeof(ICountable), true)]
         public SerializedInterface<ICountable> elapsedTime;
         public bool resetOnEnable = true;
         public bool useUnscaledTime = false;

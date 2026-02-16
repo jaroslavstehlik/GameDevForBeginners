@@ -8,7 +8,7 @@ namespace GameDevForBeginners
     public class CalculatorListener : MonoBehaviour
     {
         [FormerlySerializedAs("calculator")]
-        [SerializedInterface(new [] {typeof(Calculator), typeof(CalculatorBehaviour)}, true)]
+        [SerializedInterface(typeof(ICalculable), true)]
         [SerializeField] private SerializedInterface<ICalculable> _calculator;
 
         [SerializeField] private bool _executeOnEnable = true;

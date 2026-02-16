@@ -7,12 +7,12 @@ namespace GameDevForBeginners
 {
     public class SerializedInterfaceAttribute : PropertyAttribute
     {
-        public Type[] baseTypes;
+        public Type interfaceType;
         public bool sceneObjects;
 
-        public SerializedInterfaceAttribute(Type[] baseTypes, bool sceneObjects)
-        {
-            this.baseTypes = baseTypes;
+        public SerializedInterfaceAttribute(Type interfaceType, bool sceneObjects)
+        {            
+            this.interfaceType = interfaceType;
             this.sceneObjects = sceneObjects;
         }
     }

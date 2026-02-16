@@ -7,7 +7,7 @@ namespace GameDevForBeginners
     [AddComponentMenu("GMD/Condition/ConditionListener")]
     public class ConditionListener : MonoBehaviour
     {
-        [SerializedInterface(new [] {typeof(Condition), typeof(ConditionBehaviour)}, true)]
+        [SerializedInterface(typeof(ICondition), true)]
         [SerializeField] private SerializedInterface<ICondition> _condition = new SerializedInterface<ICondition>();
 
         [SerializeField] private bool _executeOnEnable = true;

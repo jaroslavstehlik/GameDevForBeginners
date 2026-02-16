@@ -7,77 +7,63 @@ namespace GameDevForBeginners
     [CustomPropertyDrawer(typeof(SerializedInterfaceAttribute))]
     public class SerializedInterfacePropertyDrawer : PropertyDrawer
     {
-        static int GetTypeIndex(Type[] types, Type type)
+        static string GetErrorMessage(Type referenceType, Type interfaceType)
         {
-            for (int i = 0; i < types.Length; i++)
-            {
-                if (types[i] == type)
-                {
-                    return i;
-                }
-            }
-
-            return -1;
+            return $"Wrong type: {referenceType}, expected: {interfaceType}";
         }
 
-        static (UnityEngine.Object, int) GetObjectAndTypeIndex(UnityEngine.Object target, Type[] types)
+        static GUIContent GetErrorMessageGUIContent(Type referenceType, Type interfaceType)
         {
-            GameObject draggedGameObject = target as GameObject;
+            return new GUIContent(GetErrorMessage(referenceType, interfaceType));
+        }
 
-            if (draggedGameObject != null)
-            {
-                MonoBehaviour[] components = draggedGameObject.GetComponents<MonoBehaviour>();
-                foreach (var component in components)
-                {
-                    int index = GetTypeIndex(types, component.GetType());
-                    if (index != -1)
-                    {
-                        return (component, index);
-                    }
-                }
-            }
+        static float GetHelpBoxHeight(GUIContent guiContent)
+        {
+            return EditorStyles.helpBox.CalcHeight(guiContent, EditorGUIUtility.currentViewWidth - 40f);
+        }
 
-            return (target, GetTypeIndex(types, target.GetType()));
+        bool IsValueValid(UnityEngine.Object objectReferenceValue)
+        {
+            SerializedInterfaceAttribute serializedInterfaceAttribute = attribute as SerializedInterfaceAttribute;            
+            if(objectReferenceValue == null)
+                return true;
+            return serializedInterfaceAttribute.interfaceType.IsAssignableFrom(objectReferenceValue.GetType());
         }
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return 18 * 2;
+            SerializedProperty referenceProperty = property.FindPropertyRelative("_value"); 
+            if(!IsValueValid(referenceProperty.objectReferenceValue))
+            {
+                SerializedInterfaceAttribute serializedInterfaceAttribute = attribute as SerializedInterfaceAttribute;                
+                GUIContent guiContent = GetErrorMessageGUIContent(referenceProperty.objectReferenceValue.GetType(), serializedInterfaceAttribute.interfaceType);                                
+                return base.GetPropertyHeight(property, label) + GetHelpBoxHeight(guiContent) + 2f;
+            }
+            
+            return base.GetPropertyHeight(property, label);
         }
-        
+
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            float halfHeight = position.height * 0.5f;
-            Rect topRect = new Rect(position.x, position.y, position.width, halfHeight);
-            Rect bottomRect = new Rect(position.x, position.y + halfHeight, position.width, halfHeight);
-            
             SerializedInterfaceAttribute serializedInterfaceAttribute = attribute as SerializedInterfaceAttribute;
-            Type[] baseTypes = serializedInterfaceAttribute.baseTypes;
-            
-            string[] choices = new string[baseTypes.Length];
-            for(int i = 0; i < choices.Length; i++)
-            {
-                choices[i] = baseTypes[i].Name;
-            }
-            
-            SerializedProperty selectedTypeIndex = property.FindPropertyRelative("_selectedTypeIndex");
-            SerializedProperty referenceProperty = property.FindPropertyRelative("_value");
+            SerializedProperty referenceProperty = property.FindPropertyRelative("_value"); 
             UnityEngine.Object objectReferenceValue = referenceProperty.objectReferenceValue;
-            string labelText = label.text;
-            string labelPopup = $"{labelText} type";
+            float objectFieldHeight = base.GetPropertyHeight(property, label);
+            bool isValueValid = IsValueValid(referenceProperty.objectReferenceValue);
+            Rect objectFieldPosition = new Rect(position.x, position.y, position.width, objectFieldHeight);
             
-            EditorGUI.BeginChangeCheck();
-            EditorGUI.showMixedValue = selectedTypeIndex.hasMultipleDifferentValues;
-            int selectedTypeIndexIntValue = EditorGUI.Popup(topRect, labelPopup,
-                Math.Clamp(selectedTypeIndex.intValue, 0, baseTypes.Length), choices);
-            if (EditorGUI.EndChangeCheck())
-            {
-                selectedTypeIndex.intValue = selectedTypeIndexIntValue;
-            }
-            EditorGUI.BeginChangeCheck();
+            EditorGUI.BeginChangeCheck();            
             EditorGUI.showMixedValue = referenceProperty.hasMultipleDifferentValues;
-            UnityEngine.Object referencePropertyObjectReferenceValue = EditorGUI.ObjectField(bottomRect, $"{labelText} reference",
-                objectReferenceValue, baseTypes[selectedTypeIndex.intValue]);
+            UnityEngine.Object referencePropertyObjectReferenceValue = EditorGUI.ObjectField(objectFieldPosition, label,
+                objectReferenceValue, typeof(UnityEngine.Object), serializedInterfaceAttribute.sceneObjects);
+            
+            if(!isValueValid)
+            {
+                GUIContent guiContent = GetErrorMessageGUIContent(referenceProperty.objectReferenceValue.GetType(), serializedInterfaceAttribute.interfaceType);
+                float height = GetHelpBoxHeight(guiContent);
+                EditorGUI.HelpBox(new Rect(position.x, position.y + objectFieldPosition.height + 2, position.width, height), guiContent.text, MessageType.Error);
+            }
+
             if (EditorGUI.EndChangeCheck())
             {
                 referenceProperty.objectReferenceValue = referencePropertyObjectReferenceValue;

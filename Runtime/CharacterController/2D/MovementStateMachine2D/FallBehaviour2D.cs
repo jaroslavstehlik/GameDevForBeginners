@@ -12,7 +12,7 @@ namespace GameDevForBeginners
         [SerializeField] private InputController _inputController;
         
         [Header("State")]
-        [SerializedInterface(new [] {typeof(State), typeof(StateBehaviour)}, true)]
+        [SerializedInterface(typeof(IState), true)]
         [SerializeField] private SerializedInterface<IState> _movementState = new SerializedInterface<IState>{};
         
         [Header("State Options")]
@@ -20,13 +20,13 @@ namespace GameDevForBeginners
         [SerializeField] private Option _groundState;
 
         [Header("Variables")]
-        [SerializedInterface(new [] {typeof(Counter), typeof(CounterBehaviour)}, true)]
+        [SerializedInterface(typeof(IState), true)]
         [SerializeField] private SerializedInterface<ICountable> _moveSpeed = new SerializedInterface<ICountable>{};
 
-        [SerializedInterface(new [] {typeof(Counter), typeof(CounterBehaviour)}, true)]
+        [SerializedInterface(typeof(IState), true)]
         [SerializeField] private SerializedInterface<ICountable> _fallSpeed = new SerializedInterface<ICountable>{};
     
-        [SerializedInterface(new [] {typeof(Counter), typeof(CounterBehaviour)}, true)]
+        [SerializedInterface(typeof(IState), true)]
         [SerializeField] private SerializedInterface<ICountable> _maxSlopeAngle = new SerializedInterface<ICountable>{};
         
         private Vector2 fallVelocity = Vector2.zero;

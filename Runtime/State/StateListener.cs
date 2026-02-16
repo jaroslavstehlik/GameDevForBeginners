@@ -14,7 +14,7 @@ namespace GameDevForBeginners
             True = 1
         }
 
-        [SerializedInterface(new [] {typeof(State), typeof(StateBehaviour)}, true)]
+        [SerializedInterface(typeof(IState), true)]
         [SerializeField] private SerializedInterface<IState> _state = new SerializedInterface<IState>();
         
         [StateAttribute(nameof(_state))] [SerializeField] private Option _targetOption;

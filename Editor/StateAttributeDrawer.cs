@@ -31,6 +31,12 @@ namespace GameDevForBeginners
             }
             
             IState state = stateValueProperty.objectReferenceValue as IState;
+            if(state == null)
+            {
+                RenderProperty(position, property);
+                return;
+            }
+
             Options options = state.options;
             
             if (options == null || options.options.Length == 0)
